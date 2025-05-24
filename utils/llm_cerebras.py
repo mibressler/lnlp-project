@@ -1,4 +1,7 @@
 # Models and Limits: https://cloud.cerebras.ai/platform/org_9hewjr6yrdh8rjvm5x4fy8et/models 
+# Documentation: https://inference-docs.cerebras.ai/api-reference/chat-completions
+
+# For more free api resources, visit: https://github.com/cheahjs/free-llm-api-resources
 
 import os
 from cerebras.cloud.sdk import Cerebras
