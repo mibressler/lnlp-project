@@ -1,0 +1,670 @@
+[Init] Script started.
+[Init] ClaudetteDataset initialized.
+[Init] Loading constituency parser...
+[Init] Constituency parser loaded.
+[Init] iterations: 5, candidates_per_iteration: 2
+[Init] Preparing few-shot samples...
+[Init] Using 18 few-shot examples for scoring.
+[Init] Preparing evaluation data...
+[Init] Evaluation data prepared with 20 samples.
+[Main] Starting GRIPS search.
+[Main] Log file will be: paper_implementations/grips/grips_log_20250525_212008.csv
+[Main] Opened log file: paper_implementations/grips/grips_log_20250525_212008.csv
+[Main] Inferred task labels: ['FAIR', 'UNFAIR']
+[Main] Initialized empty deleted_phrases_history.
+[Main] Initializing search...
+    [Evaluate] Evaluating instruction: 'You are an expert system designed to analyze clauses found in online terms of service documents, foc...' on 20 items.
+      [Evaluate] Processing item 1/20: Input: 'if you have purchased a paid subscription using a ...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'You are an expert system designed to analyze claus...'
+      [LLM Call] Received scoring response: 'UNFAIR...'
+      [Evaluate] Processing item 2/20: Input: 'you acknowledge that the use of the service may re...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'You are an expert system designed to analyze claus...'
+      [LLM Call] Received scoring response: 'FAIR...'
+      [Evaluate] Processing item 3/20: Input: 'we are not responsible for the care or return of t...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'You are an expert system designed to analyze claus...'
+      [LLM Call] Received scoring response: 'UNFAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'You are an expert system designed to analyze claus...'
+      [LLM Call] Received scoring response: 'FAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'You are an expert system designed to analyze claus...'
+      [LLM Call] Received scoring response: 'FAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'You are an expert system designed to analyze claus...'
+      [LLM Call] Received scoring response: 'FAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'You are an expert system designed to analyze claus...'
+      [LLM Call] Received scoring response: 'FAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'You are an expert system designed to analyze claus...'
+      [LLM Call] Received scoring response: 'FAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'You are an expert system designed to analyze claus...'
+      [LLM Call] Received scoring response: 'FAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'You are an expert system designed to analyze claus...'
+      [LLM Call] Received scoring response: 'UNFAIR...'
+      [Evaluate] Processing item 11/20: Input: '12.2 no warranties : to the maximum extent permitt...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'You are an expert system designed to analyze claus...'
+      [LLM Call] Received scoring response: 'UNFAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'You are an expert system designed to analyze claus...'
+      [LLM Call] Received scoring response: 'UNFAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'You are an expert system designed to analyze claus...'
+      [LLM Call] Received scoring response: 'FAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'You are an expert system designed to analyze claus...'
+      [LLM Call] Received scoring response: 'FAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'You are an expert system designed to analyze claus...'
+      [LLM Call] Received scoring response: 'FAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'You are an expert system designed to analyze claus...'
+      [LLM Call] Received scoring response: 'FAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'You are an expert system designed to analyze claus...'
+      [LLM Call] Received scoring response: 'FAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'You are an expert system designed to analyze claus...'
+      [LLM Call] Received scoring response: 'UNFAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'You are an expert system designed to analyze claus...'
+      [LLM Call] Received scoring response: 'UNFAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'You are an expert system designed to analyze claus...'
+      [LLM Call] Received scoring response: 'FAIR...'
+    [Evaluate] Evaluation finished. Accuracy: 0.7000, F1: 0.5312
+\n[Main] Initial instruction: 'You are an expert system designed to analyze clauses found in online terms of service documents, focusing on identifying terms that may be significantly disadvantageous to the consumer.
+
+Your task is to perform a **binary classification** on the provided text, determining if it contains a clause that should be classified as **UNFAIR** or **FAIR**.
+
+**Input:** You will receive a single sentence or a short text snippet extracted from an online terms of service document.
+
+**Output:** You must provide **ONLY** one of the following two labels based on your analysis:
+*   **UNFAIR**: If the input text contains a clause that falls under the criteria for being potentially or clearly disadvantageous to the consumer.
+*   **FAIR**: If the input text contains a clause considered acceptable or beneficial to the consumer according to consumer protection principles, or if it does not contain a clause that meets the criteria for the UNFAIR category.
+
+**Your output must contain nothing other than the single word label FAIR or UNFAIR.**
+'
+[Main] Initial score (acc, f1): (0.7000, 0.5312)
+\n--- [Main] Iteration 1/5 ---
+  [Splitter] Attempting to split text into phrases: 'You are an expert system designed to analyze clauses found in online terms of service documents, focusing on identifying terms that may be significantly disadvantageous to the consumer.
+
+Your task is to perform a **binary classification** on the provided text, determining if it contains a clause that should be classified as **UNFAIR** or **FAIR**.
+
+**Input:** You will receive a single sentence or a short text snippet extracted from an online terms of service document.
+
+**Output:** You must provide **ONLY** one of the following two labels based on your analysis:
+*   **UNFAIR**: If the input text contains a clause that falls under the criteria for being potentially or clearly disadvantageous to the consumer.
+*   **FAIR**: If the input text contains a clause considered acceptable or beneficial to the consumer according to consumer protection principles, or if it does not contain a clause that meets the criteria for the UNFAIR category.
+
+**Your output must contain nothing other than the single word label FAIR or UNFAIR.**
+'
+    [Splitter] Using constituency parser...
+    [Splitter] Using naive punctuation-based splitting.
+  [Splitter] Final phrases: ['You are an expert system designed to analyze clauses found in online terms of service documents', 'focusing on identifying terms that may be significantly disadvantageous to the consumer', 'Your task is to perform a **binary classification** on the provided text', 'determining if it contains a clause that should be classified as **UNFAIR** or **FAIR**', '**Input', '** You will receive a single sentence or a short text snippet extracted from an online terms of service document', '**Output', '** You must provide **ONLY** one of the following two labels based on your analysis', '*   **UNFAIR**', 'If the input text contains a clause that falls under the criteria for being potentially or clearly disadvantageous to the consumer', '*   **FAIR**', 'If the input text contains a clause considered acceptable or beneficial to the consumer according to consumer protection principles', 'or if it does not contain a clause that meets the criteria for the UNFAIR category', '**Your output must contain nothing other than the single word label FAIR or UNFAIR', '**']
+  [Main] Current instruction split into phrases: ['You are an expert system designed to analyze clauses found in online terms of service documents', 'focusing on identifying terms that may be significantly disadvantageous to the consumer', 'Your task is to perform a **binary classification** on the provided text', 'determining if it contains a clause that should be classified as **UNFAIR** or **FAIR**', '**Input', '** You will receive a single sentence or a short text snippet extracted from an online terms of service document', '**Output', '** You must provide **ONLY** one of the following two labels based on your analysis', '*   **UNFAIR**', 'If the input text contains a clause that falls under the criteria for being potentially or clearly disadvantageous to the consumer', '*   **FAIR**', 'If the input text contains a clause considered acceptable or beneficial to the consumer according to consumer protection principles', 'or if it does not contain a clause that meets the criteria for the UNFAIR category', '**Your output must contain nothing other than the single word label FAIR or UNFAIR', '**']
+  [Main] Generating Candidate 1/2 for iteration 1
+    [Main] Initial chosen edit operation: swap
+    [Edit Op] Attempting to swap in: ['You are an expert system designed to analyze clauses found in online terms of service documents', 'focusing on identifying terms that may be significantly disadvantageous to the consumer', 'Your task is to perform a **binary classification** on the provided text', 'determining if it contains a clause that should be classified as **UNFAIR** or **FAIR**', '**Input', '** You will receive a single sentence or a short text snippet extracted from an online terms of service document', '**Output', '** You must provide **ONLY** one of the following two labels based on your analysis', '*   **UNFAIR**', 'If the input text contains a clause that falls under the criteria for being potentially or clearly disadvantageous to the consumer', '*   **FAIR**', 'If the input text contains a clause considered acceptable or beneficial to the consumer according to consumer protection principles', 'or if it does not contain a clause that meets the criteria for the UNFAIR category', '**Your output must contain nothing other than the single word label FAIR or UNFAIR', '**']
+    [Edit Op] Swapped phrases. Result: ['You are an expert system designed to analyze clauses found in online terms of service documents', 'focusing on identifying terms that may be significantly disadvantageous to the consumer', 'Your task is to perform a **binary classification** on the provided text', 'determining if it contains a clause that should be classified as **UNFAIR** or **FAIR**', '**Input', '** You will receive a single sentence or a short text snippet extracted from an online terms of service document', '*   **UNFAIR**', '** You must provide **ONLY** one of the following two labels based on your analysis', '**Output', 'If the input text contains a clause that falls under the criteria for being potentially or clearly disadvantageous to the consumer', '*   **FAIR**', 'If the input text contains a clause considered acceptable or beneficial to the consumer according to consumer protection principles', 'or if it does not contain a clause that meets the criteria for the UNFAIR category', '**Your output must contain nothing other than the single word label FAIR or UNFAIR', '**']
+    [Main] Candidate instruction after edit 'swap': 'You are an expert system designed to analyze clauses found in online terms of service documents focusing on identifying terms that may be significantly disadvantageous to the consumer Your task is to perform a **binary classification** on the provided text determining if it contains a clause that should be classified as **UNFAIR** or **FAIR** **Input ** You will receive a single sentence or a short text snippet extracted from an online terms of service document *   **UNFAIR** ** You must provide **ONLY** one of the following two labels based on your analysis **Output If the input text contains a clause that falls under the criteria for being potentially or clearly disadvantageous to the consumer *   **FAIR** If the input text contains a clause considered acceptable or beneficial to the consumer according to consumer protection principles or if it does not contain a clause that meets the criteria for the UNFAIR category **Your output must contain nothing other than the single word label FAIR or UNFAIR **'
+    [Main] Evaluating Candidate 1 (edit: swap): 'You are an expert system designed to analyze clauses found in online terms of service documents focusing on identifying terms that may be significantly disadvantageous to the consumer Your task is to perform a **binary classification** on the provided text determining if it contains a clause that should be classified as **UNFAIR** or **FAIR** **Input ** You will receive a single sentence or a short text snippet extracted from an online terms of service document *   **UNFAIR** ** You must provide **ONLY** one of the following two labels based on your analysis **Output If the input text contains a clause that falls under the criteria for being potentially or clearly disadvantageous to the consumer *   **FAIR** If the input text contains a clause considered acceptable or beneficial to the consumer according to consumer protection principles or if it does not contain a clause that meets the criteria for the UNFAIR category **Your output must contain nothing other than the single word label FAIR or UNFAIR **'
+    [Evaluate] Evaluating instruction: 'You are an expert system designed to analyze clauses found in online terms of service documents focu...' on 20 items.
+      [Evaluate] Processing item 1/20: Input: 'if you have purchased a paid subscription using a ...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'You are an expert system designed to analyze claus...'
+      [LLM Call] Received scoring response: 'UNFAIR...'
+      [Evaluate] Processing item 2/20: Input: 'you acknowledge that the use of the service may re...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'You are an expert system designed to analyze claus...'
+      [LLM Call] Received scoring response: 'FAIR...'
+      [Evaluate] Processing item 3/20: Input: 'we are not responsible for the care or return of t...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'You are an expert system designed to analyze claus...'
+      [LLM Call] Received scoring response: 'UNFAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'You are an expert system designed to analyze claus...'
+      [LLM Call] Received scoring response: 'FAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'You are an expert system designed to analyze claus...'
+      [LLM Call] Received scoring response: 'FAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'You are an expert system designed to analyze claus...'
+      [LLM Call] Received scoring response: 'FAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'You are an expert system designed to analyze claus...'
+      [LLM Call] Received scoring response: 'FAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'You are an expert system designed to analyze claus...'
+      [LLM Call] Received scoring response: 'FAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'You are an expert system designed to analyze claus...'
+      [LLM Call] Received scoring response: 'FAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'You are an expert system designed to analyze claus...'
+      [LLM Call] Received scoring response: 'UNFAIR...'
+      [Evaluate] Processing item 11/20: Input: '12.2 no warranties : to the maximum extent permitt...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'You are an expert system designed to analyze claus...'
+      [LLM Call] Received scoring response: 'UNFAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'You are an expert system designed to analyze claus...'
+      [LLM Call] Received scoring response: 'FAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'You are an expert system designed to analyze claus...'
+      [LLM Call] Received scoring response: 'FAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'You are an expert system designed to analyze claus...'
+      [LLM Call] Received scoring response: 'FAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'You are an expert system designed to analyze claus...'
+      [LLM Call] Received scoring response: 'FAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'You are an expert system designed to analyze claus...'
+      [LLM Call] Received scoring response: 'FAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'You are an expert system designed to analyze claus...'
+      [LLM Call] Received scoring response: 'FAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'You are an expert system designed to analyze claus...'
+      [LLM Call] Received scoring response: 'UNFAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'You are an expert system designed to analyze claus...'
+      [LLM Call] Received scoring response: 'UNFAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'You are an expert system designed to analyze claus...'
+      [LLM Call] Received scoring response: 'FAIR...'
+    [Evaluate] Evaluation finished. Accuracy: 0.7500, F1: 0.5671
+    [Main] Candidate Score (acc, f1): (0.7500, 0.5671)
+  [Main] Generating Candidate 2/2 for iteration 1
+    [Main] Initial chosen edit operation: delete
+    [Edit Op] Attempting to delete from: ['You are an expert system designed to analyze clauses found in online terms of service documents', 'focusing on identifying terms that may be significantly disadvantageous to the consumer', 'Your task is to perform a **binary classification** on the provided text', 'determining if it contains a clause that should be classified as **UNFAIR** or **FAIR**', '**Input', '** You will receive a single sentence or a short text snippet extracted from an online terms of service document', '**Output', '** You must provide **ONLY** one of the following two labels based on your analysis', '*   **UNFAIR**', 'If the input text contains a clause that falls under the criteria for being potentially or clearly disadvantageous to the consumer', '*   **FAIR**', 'If the input text contains a clause considered acceptable or beneficial to the consumer according to consumer protection principles', 'or if it does not contain a clause that meets the criteria for the UNFAIR category', '**Your output must contain nothing other than the single word label FAIR or UNFAIR', '**']
+    [Edit Op] Deleted phrase 'determining if it contains a clause that should be classified as **UNFAIR** or **FAIR**'. Remaining: ['You are an expert system designed to analyze clauses found in online terms of service documents', 'focusing on identifying terms that may be significantly disadvantageous to the consumer', 'Your task is to perform a **binary classification** on the provided text', '**Input', '** You will receive a single sentence or a short text snippet extracted from an online terms of service document', '**Output', '** You must provide **ONLY** one of the following two labels based on your analysis', '*   **UNFAIR**', 'If the input text contains a clause that falls under the criteria for being potentially or clearly disadvantageous to the consumer', '*   **FAIR**', 'If the input text contains a clause considered acceptable or beneficial to the consumer according to consumer protection principles', 'or if it does not contain a clause that meets the criteria for the UNFAIR category', '**Your output must contain nothing other than the single word label FAIR or UNFAIR', '**']. History: ['determining if it contains a clause that should be classified as **UNFAIR** or **FAIR**']
+    [Main] Candidate instruction after edit 'delete': 'You are an expert system designed to analyze clauses found in online terms of service documents focusing on identifying terms that may be significantly disadvantageous to the consumer Your task is to perform a **binary classification** on the provided text **Input ** You will receive a single sentence or a short text snippet extracted from an online terms of service document **Output ** You must provide **ONLY** one of the following two labels based on your analysis *   **UNFAIR** If the input text contains a clause that falls under the criteria for being potentially or clearly disadvantageous to the consumer *   **FAIR** If the input text contains a clause considered acceptable or beneficial to the consumer according to consumer protection principles or if it does not contain a clause that meets the criteria for the UNFAIR category **Your output must contain nothing other than the single word label FAIR or UNFAIR **'
+    [Main] Evaluating Candidate 2 (edit: delete): 'You are an expert system designed to analyze clauses found in online terms of service documents focusing on identifying terms that may be significantly disadvantageous to the consumer Your task is to perform a **binary classification** on the provided text **Input ** You will receive a single sentence or a short text snippet extracted from an online terms of service document **Output ** You must provide **ONLY** one of the following two labels based on your analysis *   **UNFAIR** If the input text contains a clause that falls under the criteria for being potentially or clearly disadvantageous to the consumer *   **FAIR** If the input text contains a clause considered acceptable or beneficial to the consumer according to consumer protection principles or if it does not contain a clause that meets the criteria for the UNFAIR category **Your output must contain nothing other than the single word label FAIR or UNFAIR **'
+    [Evaluate] Evaluating instruction: 'You are an expert system designed to analyze clauses found in online terms of service documents focu...' on 20 items.
+      [Evaluate] Processing item 1/20: Input: 'if you have purchased a paid subscription using a ...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'You are an expert system designed to analyze claus...'
+      [LLM Call] Received scoring response: 'UNFAIR...'
+      [Evaluate] Processing item 2/20: Input: 'you acknowledge that the use of the service may re...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'You are an expert system designed to analyze claus...'
+      [LLM Call] Received scoring response: 'FAIR...'
+      [Evaluate] Processing item 3/20: Input: 'we are not responsible for the care or return of t...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'You are an expert system designed to analyze claus...'
+      [LLM Call] Received scoring response: 'UNFAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'You are an expert system designed to analyze claus...'
+      [LLM Call] Received scoring response: 'FAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'You are an expert system designed to analyze claus...'
+      [LLM Call] Received scoring response: 'FAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'You are an expert system designed to analyze claus...'
+      [LLM Call] Received scoring response: 'FAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'You are an expert system designed to analyze claus...'
+      [LLM Call] Received scoring response: 'FAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'You are an expert system designed to analyze claus...'
+      [LLM Call] Received scoring response: 'FAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'You are an expert system designed to analyze claus...'
+      [LLM Call] Received scoring response: 'FAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'You are an expert system designed to analyze claus...'
+      [LLM Call] Received scoring response: 'UNFAIR...'
+      [Evaluate] Processing item 11/20: Input: '12.2 no warranties : to the maximum extent permitt...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'You are an expert system designed to analyze claus...'
+      [LLM Call] Received scoring response: 'UNFAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'You are an expert system designed to analyze claus...'
+      [LLM Call] Received scoring response: 'FAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'You are an expert system designed to analyze claus...'
+      [LLM Call] Received scoring response: 'FAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'You are an expert system designed to analyze claus...'
+      [LLM Call] Received scoring response: 'FAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'You are an expert system designed to analyze claus...'
+      [LLM Call] Received scoring response: 'FAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'You are an expert system designed to analyze claus...'
+      [LLM Call] Received scoring response: 'FAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'You are an expert system designed to analyze claus...'
+      [LLM Call] Received scoring response: 'FAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'You are an expert system designed to analyze claus...'
+      [LLM Call] Received scoring response: 'UNFAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'You are an expert system designed to analyze claus...'
+      [LLM Call] Received scoring response: 'UNFAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'You are an expert system designed to analyze claus...'
+      [LLM Call] Received scoring response: 'FAIR...'
+    [Evaluate] Evaluation finished. Accuracy: 0.7500, F1: 0.5671
+    [Main] Candidate Score (acc, f1): (0.7500, 0.5671)
+  [Main] New best instruction found in iteration 1: 'You are an expert system designed to analyze clauses found in online terms of service documents focusing on identifying terms that may be significantly disadvantageous to the consumer Your task is to perform a **binary classification** on the provided text determining if it contains a clause that should be classified as **UNFAIR** or **FAIR** **Input ** You will receive a single sentence or a short text snippet extracted from an online terms of service document *   **UNFAIR** ** You must provide **ONLY** one of the following two labels based on your analysis **Output If the input text contains a clause that falls under the criteria for being potentially or clearly disadvantageous to the consumer *   **FAIR** If the input text contains a clause considered acceptable or beneficial to the consumer according to consumer protection principles or if it does not contain a clause that meets the criteria for the UNFAIR category **Your output must contain nothing other than the single word label FAIR or UNFAIR **' (F1 Score: 0.5671)
+\n--- [Main] Iteration 2/5 ---
+  [Splitter] Attempting to split text into phrases: 'You are an expert system designed to analyze clauses found in online terms of service documents focusing on identifying terms that may be significantly disadvantageous to the consumer Your task is to perform a **binary classification** on the provided text determining if it contains a clause that should be classified as **UNFAIR** or **FAIR** **Input ** You will receive a single sentence or a short text snippet extracted from an online terms of service document *   **UNFAIR** ** You must provide **ONLY** one of the following two labels based on your analysis **Output If the input text contains a clause that falls under the criteria for being potentially or clearly disadvantageous to the consumer *   **FAIR** If the input text contains a clause considered acceptable or beneficial to the consumer according to consumer protection principles or if it does not contain a clause that meets the criteria for the UNFAIR category **Your output must contain nothing other than the single word label FAIR or UNFAIR **'
+    [Splitter] Using constituency parser...
+    [Splitter] Using naive punctuation-based splitting.
+  [Splitter] Final phrases: ['You are an expert system designed to analyze clauses found in online terms of service documents focusing on identifying terms that may be significantly disadvantageous to the consumer Your task is to perform a **binary classification** on the provided text determining if it contains a clause that should be classified as **UNFAIR** or **FAIR** **Input ** You will receive a single sentence or a short text snippet extracted from an online terms of service document *   **UNFAIR** ** You must provide **ONLY** one of the following two labels based on your analysis **Output If the input text contains a clause that falls under the criteria for being potentially or clearly disadvantageous to the consumer *   **FAIR** If the input text contains a clause considered acceptable or beneficial to the consumer according to consumer protection principles or if it does not contain a clause that meets the criteria for the UNFAIR category **Your output must contain nothing other than the single word label FAIR or UNFAIR **']
+  [Main] Current instruction split into phrases: ['You are an expert system designed to analyze clauses found in online terms of service documents focusing on identifying terms that may be significantly disadvantageous to the consumer Your task is to perform a **binary classification** on the provided text determining if it contains a clause that should be classified as **UNFAIR** or **FAIR** **Input ** You will receive a single sentence or a short text snippet extracted from an online terms of service document *   **UNFAIR** ** You must provide **ONLY** one of the following two labels based on your analysis **Output If the input text contains a clause that falls under the criteria for being potentially or clearly disadvantageous to the consumer *   **FAIR** If the input text contains a clause considered acceptable or beneficial to the consumer according to consumer protection principles or if it does not contain a clause that meets the criteria for the UNFAIR category **Your output must contain nothing other than the single word label FAIR or UNFAIR **']
+  [Main] Generating Candidate 1/2 for iteration 2
+    [Main] Initial chosen edit operation: delete
+    [Main] Chosen operation 'delete' (was initially 'delete') not applicable based on current state, or re-sampling led here. Attempting general fallback.
+      [Main Fallback] Trying paraphrase operation.
+      [Main Fallback] Paraphrasing phrase at index 0: 'You are an expert system designed to analyze clauses found in online terms of service documents focusing on identifying terms that may be significantly disadvantageous to the consumer Your task is to perform a **binary classification** on the provided text determining if it contains a clause that should be classified as **UNFAIR** or **FAIR** **Input ** You will receive a single sentence or a short text snippet extracted from an online terms of service document *   **UNFAIR** ** You must provide **ONLY** one of the following two labels based on your analysis **Output If the input text contains a clause that falls under the criteria for being potentially or clearly disadvantageous to the consumer *   **FAIR** If the input text contains a clause considered acceptable or beneficial to the consumer according to consumer protection principles or if it does not contain a clause that meets the criteria for the UNFAIR category **Your output must contain nothing other than the single word label FAIR or UNFAIR **'
+    [LLM Call] Calling LLM for paraphrasing phrase: 'You are an expert system designed to analyze clauses found in online terms of service documents focusing on identifying terms that may be significantly disadvantageous to the consumer Your task is to perform a **binary classification** on the provided text determining if it contains a clause that should be classified as **UNFAIR** or **FAIR** **Input ** You will receive a single sentence or a short text snippet extracted from an online terms of service document *   **UNFAIR** ** You must provide **ONLY** one of the following two labels based on your analysis **Output If the input text contains a clause that falls under the criteria for being potentially or clearly disadvantageous to the consumer *   **FAIR** If the input text contains a clause considered acceptable or beneficial to the consumer according to consumer protection principles or if it does not contain a clause that meets the criteria for the UNFAIR category **Your output must contain nothing other than the single word label FAIR or UNFAIR **'
+    [LLM Call] Received paraphrase response: '{
+  "paraphrased_text": "As a specialized expert system, your role is to scrutinize clauses within o...'
+    [LLM Call] Extracted paraphrased text: 'As a specialized expert system, your role is to scrutinize clauses within online terms of service agreements to pinpoint potentially detrimental terms affecting consumers. Your primary function involves conducting a binary classification assessment on given texts to categorize them as either UNFAIR or FAIR. You will be provided with a single sentence or a brief excerpt from an online terms of service document. The classification of UNFAIR is applied when the input text includes a clause that may be significantly disadvantageous to the consumer. Conversely, the classification of FAIR is used when the input text contains an acceptable or beneficial clause according to consumer protection principles, or lacks any clauses that meet the UNFAIR criteria. Your response should solely consist of one of the two labels: FAIR or UNFAIR.'
+    [Main] Candidate instruction after edit 'paraphrase (fallback)': 'As a specialized expert system, your role is to scrutinize clauses within online terms of service agreements to pinpoint potentially detrimental terms affecting consumers. Your primary function involves conducting a binary classification assessment on given texts to categorize them as either UNFAIR or FAIR. You will be provided with a single sentence or a brief excerpt from an online terms of service document. The classification of UNFAIR is applied when the input text includes a clause that may be significantly disadvantageous to the consumer. Conversely, the classification of FAIR is used when the input text contains an acceptable or beneficial clause according to consumer protection principles, or lacks any clauses that meet the UNFAIR criteria. Your response should solely consist of one of the two labels: FAIR or UNFAIR.'
+    [Main] Evaluating Candidate 1 (edit: paraphrase (fallback)): 'As a specialized expert system, your role is to scrutinize clauses within online terms of service agreements to pinpoint potentially detrimental terms affecting consumers. Your primary function involves conducting a binary classification assessment on given texts to categorize them as either UNFAIR or FAIR. You will be provided with a single sentence or a brief excerpt from an online terms of service document. The classification of UNFAIR is applied when the input text includes a clause that may be significantly disadvantageous to the consumer. Conversely, the classification of FAIR is used when the input text contains an acceptable or beneficial clause according to consumer protection principles, or lacks any clauses that meet the UNFAIR criteria. Your response should solely consist of one of the two labels: FAIR or UNFAIR.'
+    [Evaluate] Evaluating instruction: 'As a specialized expert system, your role is to scrutinize clauses within online terms of service ag...' on 20 items.
+      [Evaluate] Processing item 1/20: Input: 'if you have purchased a paid subscription using a ...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'As a specialized expert system, your role is to sc...'
+      [LLM Call] Received scoring response: 'UNFAIR...'
+      [Evaluate] Processing item 2/20: Input: 'you acknowledge that the use of the service may re...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'As a specialized expert system, your role is to sc...'
+      [LLM Call] Received scoring response: 'FAIR...'
+      [Evaluate] Processing item 3/20: Input: 'we are not responsible for the care or return of t...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'As a specialized expert system, your role is to sc...'
+      [LLM Call] Received scoring response: 'UNFAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'As a specialized expert system, your role is to sc...'
+      [LLM Call] Received scoring response: 'FAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'As a specialized expert system, your role is to sc...'
+      [LLM Call] Received scoring response: 'FAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'As a specialized expert system, your role is to sc...'
+      [LLM Call] Received scoring response: 'FAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'As a specialized expert system, your role is to sc...'
+      [LLM Call] Received scoring response: 'FAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'As a specialized expert system, your role is to sc...'
+      [LLM Call] Received scoring response: 'FAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'As a specialized expert system, your role is to sc...'
+      [LLM Call] Received scoring response: 'FAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'As a specialized expert system, your role is to sc...'
+      [LLM Call] Received scoring response: 'UNFAIR...'
+      [Evaluate] Processing item 11/20: Input: '12.2 no warranties : to the maximum extent permitt...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'As a specialized expert system, your role is to sc...'
+      [LLM Call] Received scoring response: 'UNFAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'As a specialized expert system, your role is to sc...'
+      [LLM Call] Received scoring response: 'FAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'As a specialized expert system, your role is to sc...'
+      [LLM Call] Received scoring response: 'FAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'As a specialized expert system, your role is to sc...'
+      [LLM Call] Received scoring response: 'FAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'As a specialized expert system, your role is to sc...'
+      [LLM Call] Received scoring response: 'FAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'As a specialized expert system, your role is to sc...'
+      [LLM Call] Received scoring response: 'FAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'As a specialized expert system, your role is to sc...'
+      [LLM Call] Received scoring response: 'FAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'As a specialized expert system, your role is to sc...'
+      [LLM Call] Received scoring response: 'UNFAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'As a specialized expert system, your role is to sc...'
+      [LLM Call] Received scoring response: 'FAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'As a specialized expert system, your role is to sc...'
+      [LLM Call] Received scoring response: 'FAIR...'
+    [Evaluate] Evaluation finished. Accuracy: 0.8000, F1: 0.6078
+    [Main] Candidate Score (acc, f1): (0.8000, 0.6078)
+  [Main] Generating Candidate 2/2 for iteration 2
+    [Main] Initial chosen edit operation: swap
+    [Main] Chosen operation 'swap' (was initially 'swap') not applicable based on current state, or re-sampling led here. Attempting general fallback.
+      [Main Fallback] Trying paraphrase operation.
+      [Main Fallback] Paraphrasing phrase at index 0: 'You are an expert system designed to analyze clauses found in online terms of service documents focusing on identifying terms that may be significantly disadvantageous to the consumer Your task is to perform a **binary classification** on the provided text determining if it contains a clause that should be classified as **UNFAIR** or **FAIR** **Input ** You will receive a single sentence or a short text snippet extracted from an online terms of service document *   **UNFAIR** ** You must provide **ONLY** one of the following two labels based on your analysis **Output If the input text contains a clause that falls under the criteria for being potentially or clearly disadvantageous to the consumer *   **FAIR** If the input text contains a clause considered acceptable or beneficial to the consumer according to consumer protection principles or if it does not contain a clause that meets the criteria for the UNFAIR category **Your output must contain nothing other than the single word label FAIR or UNFAIR **'
+    [LLM Call] Calling LLM for paraphrasing phrase: 'You are an expert system designed to analyze clauses found in online terms of service documents focusing on identifying terms that may be significantly disadvantageous to the consumer Your task is to perform a **binary classification** on the provided text determining if it contains a clause that should be classified as **UNFAIR** or **FAIR** **Input ** You will receive a single sentence or a short text snippet extracted from an online terms of service document *   **UNFAIR** ** You must provide **ONLY** one of the following two labels based on your analysis **Output If the input text contains a clause that falls under the criteria for being potentially or clearly disadvantageous to the consumer *   **FAIR** If the input text contains a clause considered acceptable or beneficial to the consumer according to consumer protection principles or if it does not contain a clause that meets the criteria for the UNFAIR category **Your output must contain nothing other than the single word label FAIR or UNFAIR **'
+    [LLM Call] Received paraphrase response: '{
+  "paraphrased_text": "As a specialized expert system, your role is to scrutinize clauses within o...'
+    [LLM Call] Extracted paraphrased text: 'As a specialized expert system, your role is to scrutinize clauses within online terms of service agreements, pinpointing those that may greatly disadvantage consumers. Your primary task involves performing binary classification on given texts to categorize them as either UNFAIR or FAIR. This classification is based on whether the contained clauses are detrimental or acceptable to consumers according to consumer protection standards. You will receive brief text extracts from these agreements for analysis, and your response must be one of two labels: UNFAIR if the clause is potentially or clearly harmful to the consumer, or FAIR if the clause is deemed acceptable, beneficial, or does not meet the UNFAIR criteria.'
+    [Main] Candidate instruction after edit 'paraphrase (fallback)': 'As a specialized expert system, your role is to scrutinize clauses within online terms of service agreements, pinpointing those that may greatly disadvantage consumers. Your primary task involves performing binary classification on given texts to categorize them as either UNFAIR or FAIR. This classification is based on whether the contained clauses are detrimental or acceptable to consumers according to consumer protection standards. You will receive brief text extracts from these agreements for analysis, and your response must be one of two labels: UNFAIR if the clause is potentially or clearly harmful to the consumer, or FAIR if the clause is deemed acceptable, beneficial, or does not meet the UNFAIR criteria.'
+    [Main] Evaluating Candidate 2 (edit: paraphrase (fallback)): 'As a specialized expert system, your role is to scrutinize clauses within online terms of service agreements, pinpointing those that may greatly disadvantage consumers. Your primary task involves performing binary classification on given texts to categorize them as either UNFAIR or FAIR. This classification is based on whether the contained clauses are detrimental or acceptable to consumers according to consumer protection standards. You will receive brief text extracts from these agreements for analysis, and your response must be one of two labels: UNFAIR if the clause is potentially or clearly harmful to the consumer, or FAIR if the clause is deemed acceptable, beneficial, or does not meet the UNFAIR criteria.'
+    [Evaluate] Evaluating instruction: 'As a specialized expert system, your role is to scrutinize clauses within online terms of service ag...' on 20 items.
+      [Evaluate] Processing item 1/20: Input: 'if you have purchased a paid subscription using a ...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'As a specialized expert system, your role is to sc...'
+      [LLM Call] Received scoring response: 'UNFAIR...'
+      [Evaluate] Processing item 2/20: Input: 'you acknowledge that the use of the service may re...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'As a specialized expert system, your role is to sc...'
+      [LLM Call] Received scoring response: 'FAIR...'
+      [Evaluate] Processing item 3/20: Input: 'we are not responsible for the care or return of t...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'As a specialized expert system, your role is to sc...'
+      [LLM Call] Received scoring response: 'UNFAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'As a specialized expert system, your role is to sc...'
+      [LLM Call] Received scoring response: 'FAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'As a specialized expert system, your role is to sc...'
+      [LLM Call] Received scoring response: 'FAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'As a specialized expert system, your role is to sc...'
+      [LLM Call] Received scoring response: 'FAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'As a specialized expert system, your role is to sc...'
+      [LLM Call] Received scoring response: 'FAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'As a specialized expert system, your role is to sc...'
+      [LLM Call] Received scoring response: 'FAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'As a specialized expert system, your role is to sc...'
+      [LLM Call] Received scoring response: 'FAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'As a specialized expert system, your role is to sc...'
+      [LLM Call] Received scoring response: 'UNFAIR...'
+      [Evaluate] Processing item 11/20: Input: '12.2 no warranties : to the maximum extent permitt...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'As a specialized expert system, your role is to sc...'
+      [LLM Call] Received scoring response: 'UNFAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'As a specialized expert system, your role is to sc...'
+      [LLM Call] Received scoring response: 'FAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'As a specialized expert system, your role is to sc...'
+      [LLM Call] Received scoring response: 'FAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'As a specialized expert system, your role is to sc...'
+      [LLM Call] Received scoring response: 'FAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'As a specialized expert system, your role is to sc...'
+      [LLM Call] Received scoring response: 'FAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'As a specialized expert system, your role is to sc...'
+      [LLM Call] Received scoring response: 'FAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'As a specialized expert system, your role is to sc...'
+      [LLM Call] Received scoring response: 'FAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'As a specialized expert system, your role is to sc...'
+      [LLM Call] Received scoring response: 'UNFAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'As a specialized expert system, your role is to sc...'
+      [LLM Call] Received scoring response: 'FAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'As a specialized expert system, your role is to sc...'
+      [LLM Call] Received scoring response: 'FAIR...'
+    [Evaluate] Evaluation finished. Accuracy: 0.8000, F1: 0.6078
+    [Main] Candidate Score (acc, f1): (0.8000, 0.6078)
+  [Main] New best instruction found in iteration 2: 'As a specialized expert system, your role is to scrutinize clauses within online terms of service agreements to pinpoint potentially detrimental terms affecting consumers. Your primary function involves conducting a binary classification assessment on given texts to categorize them as either UNFAIR or FAIR. You will be provided with a single sentence or a brief excerpt from an online terms of service document. The classification of UNFAIR is applied when the input text includes a clause that may be significantly disadvantageous to the consumer. Conversely, the classification of FAIR is used when the input text contains an acceptable or beneficial clause according to consumer protection principles, or lacks any clauses that meet the UNFAIR criteria. Your response should solely consist of one of the two labels: FAIR or UNFAIR.' (F1 Score: 0.6078)
+\n--- [Main] Iteration 3/5 ---
+  [Splitter] Attempting to split text into phrases: 'As a specialized expert system, your role is to scrutinize clauses within online terms of service agreements to pinpoint potentially detrimental terms affecting consumers. Your primary function involves conducting a binary classification assessment on given texts to categorize them as either UNFAIR or FAIR. You will be provided with a single sentence or a brief excerpt from an online terms of service document. The classification of UNFAIR is applied when the input text includes a clause that may be significantly disadvantageous to the consumer. Conversely, the classification of FAIR is used when the input text contains an acceptable or beneficial clause according to consumer protection principles, or lacks any clauses that meet the UNFAIR criteria. Your response should solely consist of one of the two labels: FAIR or UNFAIR.'
+    [Splitter] Using constituency parser...
+    [Splitter] Using naive punctuation-based splitting.
+  [Splitter] Final phrases: ['As a specialized expert system', 'your role is to scrutinize clauses within online terms of service agreements to pinpoint potentially detrimental terms affecting consumers', 'Your primary function involves conducting a binary classification assessment on given texts to categorize them as either UNFAIR or FAIR', 'You will be provided with a single sentence or a brief excerpt from an online terms of service document', 'The classification of UNFAIR is applied when the input text includes a clause that may be significantly disadvantageous to the consumer', 'Conversely', 'the classification of FAIR is used when the input text contains an acceptable or beneficial clause according to consumer protection principles', 'or lacks any clauses that meet the UNFAIR criteria', 'Your response should solely consist of one of the two labels', 'FAIR or UNFAIR']
+  [Main] Current instruction split into phrases: ['As a specialized expert system', 'your role is to scrutinize clauses within online terms of service agreements to pinpoint potentially detrimental terms affecting consumers', 'Your primary function involves conducting a binary classification assessment on given texts to categorize them as either UNFAIR or FAIR', 'You will be provided with a single sentence or a brief excerpt from an online terms of service document', 'The classification of UNFAIR is applied when the input text includes a clause that may be significantly disadvantageous to the consumer', 'Conversely', 'the classification of FAIR is used when the input text contains an acceptable or beneficial clause according to consumer protection principles', 'or lacks any clauses that meet the UNFAIR criteria', 'Your response should solely consist of one of the two labels', 'FAIR or UNFAIR']
+  [Main] Generating Candidate 1/2 for iteration 3
+    [Main] Initial chosen edit operation: add
+    [Edit Op] Attempting to add to: ['As a specialized expert system', 'your role is to scrutinize clauses within online terms of service agreements to pinpoint potentially detrimental terms affecting consumers', 'Your primary function involves conducting a binary classification assessment on given texts to categorize them as either UNFAIR or FAIR', 'You will be provided with a single sentence or a brief excerpt from an online terms of service document', 'The classification of UNFAIR is applied when the input text includes a clause that may be significantly disadvantageous to the consumer', 'Conversely', 'the classification of FAIR is used when the input text contains an acceptable or beneficial clause according to consumer protection principles', 'or lacks any clauses that meet the UNFAIR criteria', 'Your response should solely consist of one of the two labels', 'FAIR or UNFAIR'] from history: ['determining if it contains a clause that should be classified as **UNFAIR** or **FAIR**']
+    [Edit Op] Added phrase 'determining if it contains a clause that should be classified as **UNFAIR** or **FAIR**'. Result: ['As a specialized expert system', 'your role is to scrutinize clauses within online terms of service agreements to pinpoint potentially detrimental terms affecting consumers', 'Your primary function involves conducting a binary classification assessment on given texts to categorize them as either UNFAIR or FAIR', 'You will be provided with a single sentence or a brief excerpt from an online terms of service document', 'The classification of UNFAIR is applied when the input text includes a clause that may be significantly disadvantageous to the consumer', 'determining if it contains a clause that should be classified as **UNFAIR** or **FAIR**', 'Conversely', 'the classification of FAIR is used when the input text contains an acceptable or beneficial clause according to consumer protection principles', 'or lacks any clauses that meet the UNFAIR criteria', 'Your response should solely consist of one of the two labels', 'FAIR or UNFAIR']
+    [Main] Candidate instruction after edit 'add': 'As a specialized expert system your role is to scrutinize clauses within online terms of service agreements to pinpoint potentially detrimental terms affecting consumers Your primary function involves conducting a binary classification assessment on given texts to categorize them as either UNFAIR or FAIR You will be provided with a single sentence or a brief excerpt from an online terms of service document The classification of UNFAIR is applied when the input text includes a clause that may be significantly disadvantageous to the consumer determining if it contains a clause that should be classified as **UNFAIR** or **FAIR** Conversely the classification of FAIR is used when the input text contains an acceptable or beneficial clause according to consumer protection principles or lacks any clauses that meet the UNFAIR criteria Your response should solely consist of one of the two labels FAIR or UNFAIR'
+    [Main] Evaluating Candidate 1 (edit: add): 'As a specialized expert system your role is to scrutinize clauses within online terms of service agreements to pinpoint potentially detrimental terms affecting consumers Your primary function involves conducting a binary classification assessment on given texts to categorize them as either UNFAIR or FAIR You will be provided with a single sentence or a brief excerpt from an online terms of service document The classification of UNFAIR is applied when the input text includes a clause that may be significantly disadvantageous to the consumer determining if it contains a clause that should be classified as **UNFAIR** or **FAIR** Conversely the classification of FAIR is used when the input text contains an acceptable or beneficial clause according to consumer protection principles or lacks any clauses that meet the UNFAIR criteria Your response should solely consist of one of the two labels FAIR or UNFAIR'
+    [Evaluate] Evaluating instruction: 'As a specialized expert system your role is to scrutinize clauses within online terms of service agr...' on 20 items.
+      [Evaluate] Processing item 1/20: Input: 'if you have purchased a paid subscription using a ...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'As a specialized expert system your role is to scr...'
+      [LLM Call] Received scoring response: 'UNFAIR...'
+      [Evaluate] Processing item 2/20: Input: 'you acknowledge that the use of the service may re...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'As a specialized expert system your role is to scr...'
+      [LLM Call] Received scoring response: 'FAIR...'
+      [Evaluate] Processing item 3/20: Input: 'we are not responsible for the care or return of t...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'As a specialized expert system your role is to scr...'
+      [LLM Call] Received scoring response: 'UNFAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'As a specialized expert system your role is to scr...'
+      [LLM Call] Received scoring response: 'FAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'As a specialized expert system your role is to scr...'
+      [LLM Call] Received scoring response: 'FAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'As a specialized expert system your role is to scr...'
+      [LLM Call] Received scoring response: 'FAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'As a specialized expert system your role is to scr...'
+      [LLM Call] Received scoring response: 'FAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'As a specialized expert system your role is to scr...'
+      [LLM Call] Received scoring response: 'FAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'As a specialized expert system your role is to scr...'
+      [LLM Call] Received scoring response: 'FAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'As a specialized expert system your role is to scr...'
+      [LLM Call] Received scoring response: 'UNFAIR...'
+      [Evaluate] Processing item 11/20: Input: '12.2 no warranties : to the maximum extent permitt...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'As a specialized expert system your role is to scr...'
+      [LLM Call] Received scoring response: 'UNFAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'As a specialized expert system your role is to scr...'
+      [LLM Call] Received scoring response: 'FAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'As a specialized expert system your role is to scr...'
+      [LLM Call] Received scoring response: 'FAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'As a specialized expert system your role is to scr...'
+      [LLM Call] Received scoring response: 'FAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'As a specialized expert system your role is to scr...'
+      [LLM Call] Received scoring response: 'FAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'As a specialized expert system your role is to scr...'
+      [LLM Call] Received scoring response: 'FAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'As a specialized expert system your role is to scr...'
+      [LLM Call] Received scoring response: 'FAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'As a specialized expert system your role is to scr...'
+      [LLM Call] Received scoring response: 'UNFAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'As a specialized expert system your role is to scr...'
+      [LLM Call] Received scoring response: 'UNFAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'As a specialized expert system your role is to scr...'
+      [LLM Call] Received scoring response: 'FAIR...'
+    [Evaluate] Evaluation finished. Accuracy: 0.7500, F1: 0.5671
+    [Main] Candidate Score (acc, f1): (0.7500, 0.5671)
+  [Main] Generating Candidate 2/2 for iteration 3
+    [Main] Initial chosen edit operation: delete
+    [Edit Op] Attempting to delete from: ['As a specialized expert system', 'your role is to scrutinize clauses within online terms of service agreements to pinpoint potentially detrimental terms affecting consumers', 'Your primary function involves conducting a binary classification assessment on given texts to categorize them as either UNFAIR or FAIR', 'You will be provided with a single sentence or a brief excerpt from an online terms of service document', 'The classification of UNFAIR is applied when the input text includes a clause that may be significantly disadvantageous to the consumer', 'Conversely', 'the classification of FAIR is used when the input text contains an acceptable or beneficial clause according to consumer protection principles', 'or lacks any clauses that meet the UNFAIR criteria', 'Your response should solely consist of one of the two labels', 'FAIR or UNFAIR']
+    [Edit Op] Deleted phrase 'Your primary function involves conducting a binary classification assessment on given texts to categorize them as either UNFAIR or FAIR'. Remaining: ['As a specialized expert system', 'your role is to scrutinize clauses within online terms of service agreements to pinpoint potentially detrimental terms affecting consumers', 'You will be provided with a single sentence or a brief excerpt from an online terms of service document', 'The classification of UNFAIR is applied when the input text includes a clause that may be significantly disadvantageous to the consumer', 'Conversely', 'the classification of FAIR is used when the input text contains an acceptable or beneficial clause according to consumer protection principles', 'or lacks any clauses that meet the UNFAIR criteria', 'Your response should solely consist of one of the two labels', 'FAIR or UNFAIR']. History: ['determining if it contains a clause that should be classified as **UNFAIR** or **FAIR**', 'Your primary function involves conducting a binary classification assessment on given texts to categorize them as either UNFAIR or FAIR']
+    [Main] Candidate instruction after edit 'delete': 'As a specialized expert system your role is to scrutinize clauses within online terms of service agreements to pinpoint potentially detrimental terms affecting consumers You will be provided with a single sentence or a brief excerpt from an online terms of service document The classification of UNFAIR is applied when the input text includes a clause that may be significantly disadvantageous to the consumer Conversely the classification of FAIR is used when the input text contains an acceptable or beneficial clause according to consumer protection principles or lacks any clauses that meet the UNFAIR criteria Your response should solely consist of one of the two labels FAIR or UNFAIR'
+    [Main] Evaluating Candidate 2 (edit: delete): 'As a specialized expert system your role is to scrutinize clauses within online terms of service agreements to pinpoint potentially detrimental terms affecting consumers You will be provided with a single sentence or a brief excerpt from an online terms of service document The classification of UNFAIR is applied when the input text includes a clause that may be significantly disadvantageous to the consumer Conversely the classification of FAIR is used when the input text contains an acceptable or beneficial clause according to consumer protection principles or lacks any clauses that meet the UNFAIR criteria Your response should solely consist of one of the two labels FAIR or UNFAIR'
+    [Evaluate] Evaluating instruction: 'As a specialized expert system your role is to scrutinize clauses within online terms of service agr...' on 20 items.
+      [Evaluate] Processing item 1/20: Input: 'if you have purchased a paid subscription using a ...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'As a specialized expert system your role is to scr...'
+      [LLM Call] Received scoring response: 'UNFAIR...'
+      [Evaluate] Processing item 2/20: Input: 'you acknowledge that the use of the service may re...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'As a specialized expert system your role is to scr...'
+      [LLM Call] Received scoring response: 'FAIR...'
+      [Evaluate] Processing item 3/20: Input: 'we are not responsible for the care or return of t...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'As a specialized expert system your role is to scr...'
+      [LLM Call] Received scoring response: 'UNFAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'As a specialized expert system your role is to scr...'
+      [LLM Call] Received scoring response: 'FAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'As a specialized expert system your role is to scr...'
+      [LLM Call] Received scoring response: 'FAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'As a specialized expert system your role is to scr...'
+      [LLM Call] Received scoring response: 'FAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'As a specialized expert system your role is to scr...'
+      [LLM Call] Received scoring response: 'FAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'As a specialized expert system your role is to scr...'
+      [LLM Call] Received scoring response: 'FAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'As a specialized expert system your role is to scr...'
+      [LLM Call] Received scoring response: 'FAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'As a specialized expert system your role is to scr...'
+      [LLM Call] Received scoring response: 'UNFAIR...'
+      [Evaluate] Processing item 11/20: Input: '12.2 no warranties : to the maximum extent permitt...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'As a specialized expert system your role is to scr...'
+      [LLM Call] Received scoring response: 'UNFAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'As a specialized expert system your role is to scr...'
+      [LLM Call] Received scoring response: 'FAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'As a specialized expert system your role is to scr...'
+      [LLM Call] Received scoring response: 'FAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'As a specialized expert system your role is to scr...'
+      [LLM Call] Received scoring response: 'FAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'As a specialized expert system your role is to scr...'
+      [LLM Call] Received scoring response: 'FAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'As a specialized expert system your role is to scr...'
+      [LLM Call] Received scoring response: 'FAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'As a specialized expert system your role is to scr...'
+      [LLM Call] Received scoring response: 'FAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'As a specialized expert system your role is to scr...'
+      [LLM Call] Received scoring response: 'UNFAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'As a specialized expert system your role is to scr...'
+      [LLM Call] Received scoring response: 'UNFAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'As a specialized expert system your role is to scr...'
+      [LLM Call] Received scoring response: 'FAIR...'
+    [Evaluate] Evaluation finished. Accuracy: 0.7500, F1: 0.5671
+    [Main] Candidate Score (acc, f1): (0.7500, 0.5671)
+  [Main] No improvement in iteration 3. Best F1 score remains 0.6078 with instruction: 'As a specialized expert system, your role is to scrutinize clauses within online terms of service agreements to pinpoint potentially detrimental terms affecting consumers. Your primary function involves conducting a binary classification assessment on given texts to categorize them as either UNFAIR or FAIR. You will be provided with a single sentence or a brief excerpt from an online terms of service document. The classification of UNFAIR is applied when the input text includes a clause that may be significantly disadvantageous to the consumer. Conversely, the classification of FAIR is used when the input text contains an acceptable or beneficial clause according to consumer protection principles, or lacks any clauses that meet the UNFAIR criteria. Your response should solely consist of one of the two labels: FAIR or UNFAIR.'
+\n--- [Main] Iteration 4/5 ---
+  [Splitter] Attempting to split text into phrases: 'As a specialized expert system, your role is to scrutinize clauses within online terms of service agreements to pinpoint potentially detrimental terms affecting consumers. Your primary function involves conducting a binary classification assessment on given texts to categorize them as either UNFAIR or FAIR. You will be provided with a single sentence or a brief excerpt from an online terms of service document. The classification of UNFAIR is applied when the input text includes a clause that may be significantly disadvantageous to the consumer. Conversely, the classification of FAIR is used when the input text contains an acceptable or beneficial clause according to consumer protection principles, or lacks any clauses that meet the UNFAIR criteria. Your response should solely consist of one of the two labels: FAIR or UNFAIR.'
+    [Splitter] Using constituency parser...
+    [Splitter] Using naive punctuation-based splitting.
+  [Splitter] Final phrases: ['As a specialized expert system', 'your role is to scrutinize clauses within online terms of service agreements to pinpoint potentially detrimental terms affecting consumers', 'Your primary function involves conducting a binary classification assessment on given texts to categorize them as either UNFAIR or FAIR', 'You will be provided with a single sentence or a brief excerpt from an online terms of service document', 'The classification of UNFAIR is applied when the input text includes a clause that may be significantly disadvantageous to the consumer', 'Conversely', 'the classification of FAIR is used when the input text contains an acceptable or beneficial clause according to consumer protection principles', 'or lacks any clauses that meet the UNFAIR criteria', 'Your response should solely consist of one of the two labels', 'FAIR or UNFAIR']
+  [Main] Current instruction split into phrases: ['As a specialized expert system', 'your role is to scrutinize clauses within online terms of service agreements to pinpoint potentially detrimental terms affecting consumers', 'Your primary function involves conducting a binary classification assessment on given texts to categorize them as either UNFAIR or FAIR', 'You will be provided with a single sentence or a brief excerpt from an online terms of service document', 'The classification of UNFAIR is applied when the input text includes a clause that may be significantly disadvantageous to the consumer', 'Conversely', 'the classification of FAIR is used when the input text contains an acceptable or beneficial clause according to consumer protection principles', 'or lacks any clauses that meet the UNFAIR criteria', 'Your response should solely consist of one of the two labels', 'FAIR or UNFAIR']
+  [Main] Generating Candidate 1/2 for iteration 4
+    [Main] Initial chosen edit operation: add
+    [Edit Op] Attempting to add to: ['As a specialized expert system', 'your role is to scrutinize clauses within online terms of service agreements to pinpoint potentially detrimental terms affecting consumers', 'Your primary function involves conducting a binary classification assessment on given texts to categorize them as either UNFAIR or FAIR', 'You will be provided with a single sentence or a brief excerpt from an online terms of service document', 'The classification of UNFAIR is applied when the input text includes a clause that may be significantly disadvantageous to the consumer', 'Conversely', 'the classification of FAIR is used when the input text contains an acceptable or beneficial clause according to consumer protection principles', 'or lacks any clauses that meet the UNFAIR criteria', 'Your response should solely consist of one of the two labels', 'FAIR or UNFAIR'] from history: ['determining if it contains a clause that should be classified as **UNFAIR** or **FAIR**', 'Your primary function involves conducting a binary classification assessment on given texts to categorize them as either UNFAIR or FAIR']
+    [Edit Op] Added phrase 'determining if it contains a clause that should be classified as **UNFAIR** or **FAIR**'. Result: ['As a specialized expert system', 'your role is to scrutinize clauses within online terms of service agreements to pinpoint potentially detrimental terms affecting consumers', 'Your primary function involves conducting a binary classification assessment on given texts to categorize them as either UNFAIR or FAIR', 'You will be provided with a single sentence or a brief excerpt from an online terms of service document', 'The classification of UNFAIR is applied when the input text includes a clause that may be significantly disadvantageous to the consumer', 'Conversely', 'the classification of FAIR is used when the input text contains an acceptable or beneficial clause according to consumer protection principles', 'or lacks any clauses that meet the UNFAIR criteria', 'Your response should solely consist of one of the two labels', 'determining if it contains a clause that should be classified as **UNFAIR** or **FAIR**', 'FAIR or UNFAIR']
+    [Main] Candidate instruction after edit 'add': 'As a specialized expert system your role is to scrutinize clauses within online terms of service agreements to pinpoint potentially detrimental terms affecting consumers Your primary function involves conducting a binary classification assessment on given texts to categorize them as either UNFAIR or FAIR You will be provided with a single sentence or a brief excerpt from an online terms of service document The classification of UNFAIR is applied when the input text includes a clause that may be significantly disadvantageous to the consumer Conversely the classification of FAIR is used when the input text contains an acceptable or beneficial clause according to consumer protection principles or lacks any clauses that meet the UNFAIR criteria Your response should solely consist of one of the two labels determining if it contains a clause that should be classified as **UNFAIR** or **FAIR** FAIR or UNFAIR'
+    [Main] Evaluating Candidate 1 (edit: add): 'As a specialized expert system your role is to scrutinize clauses within online terms of service agreements to pinpoint potentially detrimental terms affecting consumers Your primary function involves conducting a binary classification assessment on given texts to categorize them as either UNFAIR or FAIR You will be provided with a single sentence or a brief excerpt from an online terms of service document The classification of UNFAIR is applied when the input text includes a clause that may be significantly disadvantageous to the consumer Conversely the classification of FAIR is used when the input text contains an acceptable or beneficial clause according to consumer protection principles or lacks any clauses that meet the UNFAIR criteria Your response should solely consist of one of the two labels determining if it contains a clause that should be classified as **UNFAIR** or **FAIR** FAIR or UNFAIR'
+    [Evaluate] Evaluating instruction: 'As a specialized expert system your role is to scrutinize clauses within online terms of service agr...' on 20 items.
+      [Evaluate] Processing item 1/20: Input: 'if you have purchased a paid subscription using a ...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'As a specialized expert system your role is to scr...'
+      [LLM Call] Received scoring response: 'UNFAIR...'
+      [Evaluate] Processing item 2/20: Input: 'you acknowledge that the use of the service may re...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'As a specialized expert system your role is to scr...'
+      [LLM Call] Received scoring response: 'FAIR...'
+      [Evaluate] Processing item 3/20: Input: 'we are not responsible for the care or return of t...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'As a specialized expert system your role is to scr...'
+      [LLM Call] Received scoring response: 'UNFAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'As a specialized expert system your role is to scr...'
+      [LLM Call] Received scoring response: 'FAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'As a specialized expert system your role is to scr...'
+      [LLM Call] Received scoring response: 'FAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'As a specialized expert system your role is to scr...'
+      [LLM Call] Received scoring response: 'FAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'As a specialized expert system your role is to scr...'
+      [LLM Call] Received scoring response: 'FAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'As a specialized expert system your role is to scr...'
+      [LLM Call] Received scoring response: 'FAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'As a specialized expert system your role is to scr...'
+      [LLM Call] Received scoring response: 'FAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'As a specialized expert system your role is to scr...'
+      [LLM Call] Received scoring response: 'UNFAIR...'
+      [Evaluate] Processing item 11/20: Input: '12.2 no warranties : to the maximum extent permitt...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'As a specialized expert system your role is to scr...'
+      [LLM Call] Received scoring response: 'UNFAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'As a specialized expert system your role is to scr...'
+      [LLM Call] Received scoring response: 'FAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'As a specialized expert system your role is to scr...'
+      [LLM Call] Received scoring response: 'FAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'As a specialized expert system your role is to scr...'
+      [LLM Call] Received scoring response: 'FAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'As a specialized expert system your role is to scr...'
+      [LLM Call] Received scoring response: 'FAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'As a specialized expert system your role is to scr...'
+      [LLM Call] Received scoring response: 'FAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'As a specialized expert system your role is to scr...'
+      [LLM Call] Received scoring response: 'FAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'As a specialized expert system your role is to scr...'
+      [LLM Call] Received scoring response: 'UNFAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'As a specialized expert system your role is to scr...'
+      [LLM Call] Received scoring response: 'UNFAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'As a specialized expert system your role is to scr...'
+      [LLM Call] Received scoring response: 'FAIR...'
+    [Evaluate] Evaluation finished. Accuracy: 0.7500, F1: 0.5671
+    [Main] Candidate Score (acc, f1): (0.7500, 0.5671)
+  [Main] Generating Candidate 2/2 for iteration 4
+    [Main] Initial chosen edit operation: add
+    [Edit Op] Attempting to add to: ['As a specialized expert system', 'your role is to scrutinize clauses within online terms of service agreements to pinpoint potentially detrimental terms affecting consumers', 'Your primary function involves conducting a binary classification assessment on given texts to categorize them as either UNFAIR or FAIR', 'You will be provided with a single sentence or a brief excerpt from an online terms of service document', 'The classification of UNFAIR is applied when the input text includes a clause that may be significantly disadvantageous to the consumer', 'Conversely', 'the classification of FAIR is used when the input text contains an acceptable or beneficial clause according to consumer protection principles', 'or lacks any clauses that meet the UNFAIR criteria', 'Your response should solely consist of one of the two labels', 'FAIR or UNFAIR'] from history: ['determining if it contains a clause that should be classified as **UNFAIR** or **FAIR**', 'Your primary function involves conducting a binary classification assessment on given texts to categorize them as either UNFAIR or FAIR']
+    [Edit Op] Added phrase 'determining if it contains a clause that should be classified as **UNFAIR** or **FAIR**'. Result: ['As a specialized expert system', 'your role is to scrutinize clauses within online terms of service agreements to pinpoint potentially detrimental terms affecting consumers', 'Your primary function involves conducting a binary classification assessment on given texts to categorize them as either UNFAIR or FAIR', 'You will be provided with a single sentence or a brief excerpt from an online terms of service document', 'determining if it contains a clause that should be classified as **UNFAIR** or **FAIR**', 'The classification of UNFAIR is applied when the input text includes a clause that may be significantly disadvantageous to the consumer', 'Conversely', 'the classification of FAIR is used when the input text contains an acceptable or beneficial clause according to consumer protection principles', 'or lacks any clauses that meet the UNFAIR criteria', 'Your response should solely consist of one of the two labels', 'FAIR or UNFAIR']
+    [Main] Candidate instruction after edit 'add': 'As a specialized expert system your role is to scrutinize clauses within online terms of service agreements to pinpoint potentially detrimental terms affecting consumers Your primary function involves conducting a binary classification assessment on given texts to categorize them as either UNFAIR or FAIR You will be provided with a single sentence or a brief excerpt from an online terms of service document determining if it contains a clause that should be classified as **UNFAIR** or **FAIR** The classification of UNFAIR is applied when the input text includes a clause that may be significantly disadvantageous to the consumer Conversely the classification of FAIR is used when the input text contains an acceptable or beneficial clause according to consumer protection principles or lacks any clauses that meet the UNFAIR criteria Your response should solely consist of one of the two labels FAIR or UNFAIR'
+    [Main] Evaluating Candidate 2 (edit: add): 'As a specialized expert system your role is to scrutinize clauses within online terms of service agreements to pinpoint potentially detrimental terms affecting consumers Your primary function involves conducting a binary classification assessment on given texts to categorize them as either UNFAIR or FAIR You will be provided with a single sentence or a brief excerpt from an online terms of service document determining if it contains a clause that should be classified as **UNFAIR** or **FAIR** The classification of UNFAIR is applied when the input text includes a clause that may be significantly disadvantageous to the consumer Conversely the classification of FAIR is used when the input text contains an acceptable or beneficial clause according to consumer protection principles or lacks any clauses that meet the UNFAIR criteria Your response should solely consist of one of the two labels FAIR or UNFAIR'
+    [Evaluate] Evaluating instruction: 'As a specialized expert system your role is to scrutinize clauses within online terms of service agr...' on 20 items.
+      [Evaluate] Processing item 1/20: Input: 'if you have purchased a paid subscription using a ...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'As a specialized expert system your role is to scr...'
+      [LLM Call] Received scoring response: 'UNFAIR...'
+      [Evaluate] Processing item 2/20: Input: 'you acknowledge that the use of the service may re...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'As a specialized expert system your role is to scr...'
+      [LLM Call] Received scoring response: 'FAIR...'
+      [Evaluate] Processing item 3/20: Input: 'we are not responsible for the care or return of t...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'As a specialized expert system your role is to scr...'
+      [LLM Call] Received scoring response: 'UNFAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'As a specialized expert system your role is to scr...'
+      [LLM Call] Received scoring response: 'FAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'As a specialized expert system your role is to scr...'
+      [LLM Call] Received scoring response: 'FAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'As a specialized expert system your role is to scr...'
+      [LLM Call] Received scoring response: 'FAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'As a specialized expert system your role is to scr...'
+      [LLM Call] Received scoring response: 'FAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'As a specialized expert system your role is to scr...'
+      [LLM Call] Received scoring response: 'FAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'As a specialized expert system your role is to scr...'
+      [LLM Call] Received scoring response: 'FAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'As a specialized expert system your role is to scr...'
+      [LLM Call] Received scoring response: 'UNFAIR...'
+      [Evaluate] Processing item 11/20: Input: '12.2 no warranties : to the maximum extent permitt...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'As a specialized expert system your role is to scr...'
+      [LLM Call] Received scoring response: 'UNFAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'As a specialized expert system your role is to scr...'
+      [LLM Call] Received scoring response: 'FAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'As a specialized expert system your role is to scr...'
+      [LLM Call] Received scoring response: 'FAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'As a specialized expert system your role is to scr...'
+      [LLM Call] Received scoring response: 'FAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'As a specialized expert system your role is to scr...'
+      [LLM Call] Received scoring response: 'FAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'As a specialized expert system your role is to scr...'
+      [LLM Call] Received scoring response: 'FAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'As a specialized expert system your role is to scr...'
+      [LLM Call] Received scoring response: 'FAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'As a specialized expert system your role is to scr...'
+      [LLM Call] Received scoring response: 'UNFAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'As a specialized expert system your role is to scr...'
+      [LLM Call] Received scoring response: 'FAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'As a specialized expert system your role is to scr...'
+      [LLM Call] Received scoring response: 'FAIR...'
+    [Evaluate] Evaluation finished. Accuracy: 0.8000, F1: 0.6078
+    [Main] Candidate Score (acc, f1): (0.8000, 0.6078)
+  [Main] No improvement in iteration 4. Best F1 score remains 0.6078 with instruction: 'As a specialized expert system, your role is to scrutinize clauses within online terms of service agreements to pinpoint potentially detrimental terms affecting consumers. Your primary function involves conducting a binary classification assessment on given texts to categorize them as either UNFAIR or FAIR. You will be provided with a single sentence or a brief excerpt from an online terms of service document. The classification of UNFAIR is applied when the input text includes a clause that may be significantly disadvantageous to the consumer. Conversely, the classification of FAIR is used when the input text contains an acceptable or beneficial clause according to consumer protection principles, or lacks any clauses that meet the UNFAIR criteria. Your response should solely consist of one of the two labels: FAIR or UNFAIR.'
+\n--- [Main] Iteration 5/5 ---
+  [Splitter] Attempting to split text into phrases: 'As a specialized expert system, your role is to scrutinize clauses within online terms of service agreements to pinpoint potentially detrimental terms affecting consumers. Your primary function involves conducting a binary classification assessment on given texts to categorize them as either UNFAIR or FAIR. You will be provided with a single sentence or a brief excerpt from an online terms of service document. The classification of UNFAIR is applied when the input text includes a clause that may be significantly disadvantageous to the consumer. Conversely, the classification of FAIR is used when the input text contains an acceptable or beneficial clause according to consumer protection principles, or lacks any clauses that meet the UNFAIR criteria. Your response should solely consist of one of the two labels: FAIR or UNFAIR.'
+    [Splitter] Using constituency parser...
+    [Splitter] Using naive punctuation-based splitting.
+  [Splitter] Final phrases: ['As a specialized expert system', 'your role is to scrutinize clauses within online terms of service agreements to pinpoint potentially detrimental terms affecting consumers', 'Your primary function involves conducting a binary classification assessment on given texts to categorize them as either UNFAIR or FAIR', 'You will be provided with a single sentence or a brief excerpt from an online terms of service document', 'The classification of UNFAIR is applied when the input text includes a clause that may be significantly disadvantageous to the consumer', 'Conversely', 'the classification of FAIR is used when the input text contains an acceptable or beneficial clause according to consumer protection principles', 'or lacks any clauses that meet the UNFAIR criteria', 'Your response should solely consist of one of the two labels', 'FAIR or UNFAIR']
+  [Main] Current instruction split into phrases: ['As a specialized expert system', 'your role is to scrutinize clauses within online terms of service agreements to pinpoint potentially detrimental terms affecting consumers', 'Your primary function involves conducting a binary classification assessment on given texts to categorize them as either UNFAIR or FAIR', 'You will be provided with a single sentence or a brief excerpt from an online terms of service document', 'The classification of UNFAIR is applied when the input text includes a clause that may be significantly disadvantageous to the consumer', 'Conversely', 'the classification of FAIR is used when the input text contains an acceptable or beneficial clause according to consumer protection principles', 'or lacks any clauses that meet the UNFAIR criteria', 'Your response should solely consist of one of the two labels', 'FAIR or UNFAIR']
+  [Main] Generating Candidate 1/2 for iteration 5
+    [Main] Initial chosen edit operation: swap
+    [Edit Op] Attempting to swap in: ['As a specialized expert system', 'your role is to scrutinize clauses within online terms of service agreements to pinpoint potentially detrimental terms affecting consumers', 'Your primary function involves conducting a binary classification assessment on given texts to categorize them as either UNFAIR or FAIR', 'You will be provided with a single sentence or a brief excerpt from an online terms of service document', 'The classification of UNFAIR is applied when the input text includes a clause that may be significantly disadvantageous to the consumer', 'Conversely', 'the classification of FAIR is used when the input text contains an acceptable or beneficial clause according to consumer protection principles', 'or lacks any clauses that meet the UNFAIR criteria', 'Your response should solely consist of one of the two labels', 'FAIR or UNFAIR']
+    [Edit Op] Swapped phrases. Result: ['The classification of UNFAIR is applied when the input text includes a clause that may be significantly disadvantageous to the consumer', 'your role is to scrutinize clauses within online terms of service agreements to pinpoint potentially detrimental terms affecting consumers', 'Your primary function involves conducting a binary classification assessment on given texts to categorize them as either UNFAIR or FAIR', 'You will be provided with a single sentence or a brief excerpt from an online terms of service document', 'As a specialized expert system', 'Conversely', 'the classification of FAIR is used when the input text contains an acceptable or beneficial clause according to consumer protection principles', 'or lacks any clauses that meet the UNFAIR criteria', 'Your response should solely consist of one of the two labels', 'FAIR or UNFAIR']
+    [Main] Candidate instruction after edit 'swap': 'The classification of UNFAIR is applied when the input text includes a clause that may be significantly disadvantageous to the consumer your role is to scrutinize clauses within online terms of service agreements to pinpoint potentially detrimental terms affecting consumers Your primary function involves conducting a binary classification assessment on given texts to categorize them as either UNFAIR or FAIR You will be provided with a single sentence or a brief excerpt from an online terms of service document As a specialized expert system Conversely the classification of FAIR is used when the input text contains an acceptable or beneficial clause according to consumer protection principles or lacks any clauses that meet the UNFAIR criteria Your response should solely consist of one of the two labels FAIR or UNFAIR'
+    [Main] Evaluating Candidate 1 (edit: swap): 'The classification of UNFAIR is applied when the input text includes a clause that may be significantly disadvantageous to the consumer your role is to scrutinize clauses within online terms of service agreements to pinpoint potentially detrimental terms affecting consumers Your primary function involves conducting a binary classification assessment on given texts to categorize them as either UNFAIR or FAIR You will be provided with a single sentence or a brief excerpt from an online terms of service document As a specialized expert system Conversely the classification of FAIR is used when the input text contains an acceptable or beneficial clause according to consumer protection principles or lacks any clauses that meet the UNFAIR criteria Your response should solely consist of one of the two labels FAIR or UNFAIR'
+    [Evaluate] Evaluating instruction: 'The classification of UNFAIR is applied when the input text includes a clause that may be significan...' on 20 items.
+      [Evaluate] Processing item 1/20: Input: 'if you have purchased a paid subscription using a ...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'The classification of UNFAIR is applied when the i...'
+      [LLM Call] Received scoring response: 'UNFAIR...'
+      [Evaluate] Processing item 2/20: Input: 'you acknowledge that the use of the service may re...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'The classification of UNFAIR is applied when the i...'
+      [LLM Call] Received scoring response: 'FAIR...'
+      [Evaluate] Processing item 3/20: Input: 'we are not responsible for the care or return of t...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'The classification of UNFAIR is applied when the i...'
+      [LLM Call] Received scoring response: 'UNFAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'The classification of UNFAIR is applied when the i...'
+      [LLM Call] Received scoring response: 'FAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'The classification of UNFAIR is applied when the i...'
+      [LLM Call] Received scoring response: 'FAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'The classification of UNFAIR is applied when the i...'
+      [LLM Call] Received scoring response: 'FAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'The classification of UNFAIR is applied when the i...'
+      [LLM Call] Received scoring response: 'FAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'The classification of UNFAIR is applied when the i...'
+      [LLM Call] Received scoring response: 'UNFAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'The classification of UNFAIR is applied when the i...'
+      [LLM Call] Received scoring response: 'FAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'The classification of UNFAIR is applied when the i...'
+      [LLM Call] Received scoring response: 'UNFAIR...'
+      [Evaluate] Processing item 11/20: Input: '12.2 no warranties : to the maximum extent permitt...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'The classification of UNFAIR is applied when the i...'
+      [LLM Call] Received scoring response: 'UNFAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'The classification of UNFAIR is applied when the i...'
+      [LLM Call] Received scoring response: 'FAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'The classification of UNFAIR is applied when the i...'
+      [LLM Call] Received scoring response: 'FAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'The classification of UNFAIR is applied when the i...'
+      [LLM Call] Received scoring response: 'FAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'The classification of UNFAIR is applied when the i...'
+      [LLM Call] Received scoring response: 'FAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'The classification of UNFAIR is applied when the i...'
+      [LLM Call] Received scoring response: 'FAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'The classification of UNFAIR is applied when the i...'
+      [LLM Call] Received scoring response: 'FAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'The classification of UNFAIR is applied when the i...'
+      [LLM Call] Received scoring response: 'UNFAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'The classification of UNFAIR is applied when the i...'
+      [LLM Call] Received scoring response: 'UNFAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'The classification of UNFAIR is applied when the i...'
+      [LLM Call] Received scoring response: 'FAIR...'
+    [Evaluate] Evaluation finished. Accuracy: 0.7000, F1: 0.5312
+    [Main] Candidate Score (acc, f1): (0.7000, 0.5312)
+  [Main] Generating Candidate 2/2 for iteration 5
+    [Main] Initial chosen edit operation: paraphrase
+    [Main] Paraphrasing phrase at index 5: 'Conversely'
+    [LLM Call] Calling LLM for paraphrasing phrase: 'Conversely'
+    [LLM Call] Received paraphrase response: '{
+  "paraphrased_text": "On the other hand"
+}...'
+    [LLM Call] Extracted paraphrased text: 'On the other hand'
+    [Main] Candidate instruction after edit 'paraphrase': 'As a specialized expert system your role is to scrutinize clauses within online terms of service agreements to pinpoint potentially detrimental terms affecting consumers Your primary function involves conducting a binary classification assessment on given texts to categorize them as either UNFAIR or FAIR You will be provided with a single sentence or a brief excerpt from an online terms of service document The classification of UNFAIR is applied when the input text includes a clause that may be significantly disadvantageous to the consumer On the other hand the classification of FAIR is used when the input text contains an acceptable or beneficial clause according to consumer protection principles or lacks any clauses that meet the UNFAIR criteria Your response should solely consist of one of the two labels FAIR or UNFAIR'
+    [Main] Evaluating Candidate 2 (edit: paraphrase): 'As a specialized expert system your role is to scrutinize clauses within online terms of service agreements to pinpoint potentially detrimental terms affecting consumers Your primary function involves conducting a binary classification assessment on given texts to categorize them as either UNFAIR or FAIR You will be provided with a single sentence or a brief excerpt from an online terms of service document The classification of UNFAIR is applied when the input text includes a clause that may be significantly disadvantageous to the consumer On the other hand the classification of FAIR is used when the input text contains an acceptable or beneficial clause according to consumer protection principles or lacks any clauses that meet the UNFAIR criteria Your response should solely consist of one of the two labels FAIR or UNFAIR'
+    [Evaluate] Evaluating instruction: 'As a specialized expert system your role is to scrutinize clauses within online terms of service agr...' on 20 items.
+      [Evaluate] Processing item 1/20: Input: 'if you have purchased a paid subscription using a ...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'As a specialized expert system your role is to scr...'
+      [LLM Call] Received scoring response: 'UNFAIR...'
+      [Evaluate] Processing item 2/20: Input: 'you acknowledge that the use of the service may re...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'As a specialized expert system your role is to scr...'
+      [LLM Call] Received scoring response: 'FAIR...'
+      [Evaluate] Processing item 3/20: Input: 'we are not responsible for the care or return of t...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'As a specialized expert system your role is to scr...'
+      [LLM Call] Received scoring response: 'UNFAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'As a specialized expert system your role is to scr...'
+      [LLM Call] Received scoring response: 'FAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'As a specialized expert system your role is to scr...'
+      [LLM Call] Received scoring response: 'FAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'As a specialized expert system your role is to scr...'
+      [LLM Call] Received scoring response: 'FAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'As a specialized expert system your role is to scr...'
+      [LLM Call] Received scoring response: 'FAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'As a specialized expert system your role is to scr...'
+      [LLM Call] Received scoring response: 'FAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'As a specialized expert system your role is to scr...'
+      [LLM Call] Received scoring response: 'FAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'As a specialized expert system your role is to scr...'
+      [LLM Call] Received scoring response: 'UNFAIR...'
+      [Evaluate] Processing item 11/20: Input: '12.2 no warranties : to the maximum extent permitt...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'As a specialized expert system your role is to scr...'
+      [LLM Call] Received scoring response: 'UNFAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'As a specialized expert system your role is to scr...'
+      [LLM Call] Received scoring response: 'FAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'As a specialized expert system your role is to scr...'
+      [LLM Call] Received scoring response: 'FAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'As a specialized expert system your role is to scr...'
+      [LLM Call] Received scoring response: 'FAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'As a specialized expert system your role is to scr...'
+      [LLM Call] Received scoring response: 'FAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'As a specialized expert system your role is to scr...'
+      [LLM Call] Received scoring response: 'FAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'As a specialized expert system your role is to scr...'
+      [LLM Call] Received scoring response: 'FAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'As a specialized expert system your role is to scr...'
+      [LLM Call] Received scoring response: 'UNFAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'As a specialized expert system your role is to scr...'
+      [LLM Call] Received scoring response: 'UNFAIR...'
+      [LLM Call] Calling LLM for scoring. Instruction: 'As a specialized expert system your role is to scr...'
+      [LLM Call] Received scoring response: 'FAIR...'
+    [Evaluate] Evaluation finished. Accuracy: 0.7500, F1: 0.5671
+    [Main] Candidate Score (acc, f1): (0.7500, 0.5671)
+  [Main] No improvement in iteration 5. Best F1 score remains 0.6078 with instruction: 'As a specialized expert system, your role is to scrutinize clauses within online terms of service agreements to pinpoint potentially detrimental terms affecting consumers. Your primary function involves conducting a binary classification assessment on given texts to categorize them as either UNFAIR or FAIR. You will be provided with a single sentence or a brief excerpt from an online terms of service document. The classification of UNFAIR is applied when the input text includes a clause that may be significantly disadvantageous to the consumer. Conversely, the classification of FAIR is used when the input text contains an acceptable or beneficial clause according to consumer protection principles, or lacks any clauses that meet the UNFAIR criteria. Your response should solely consist of one of the two labels: FAIR or UNFAIR.'
+\n--- [Main] Search Finished ---
+[Main] Best instruction found: 'As a specialized expert system, your role is to scrutinize clauses within online terms of service agreements to pinpoint potentially detrimental terms affecting consumers. Your primary function involves conducting a binary classification assessment on given texts to categorize them as either UNFAIR or FAIR. You will be provided with a single sentence or a brief excerpt from an online terms of service document. The classification of UNFAIR is applied when the input text includes a clause that may be significantly disadvantageous to the consumer. Conversely, the classification of FAIR is used when the input text contains an acceptable or beneficial clause according to consumer protection principles, or lacks any clauses that meet the UNFAIR criteria. Your response should solely consist of one of the two labels: FAIR or UNFAIR.'
+[Main] Best F1 score: 0.6078
+[Main] Log file created: paper_implementations/grips/grips_log_20250525_212008.csv
+[Main] GRIPS search ended.
+[Init] Script finished.
