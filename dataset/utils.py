@@ -33,6 +33,11 @@ CODE_TO_FULL = {
     "USE": "Contract by using"
 }
 
+def get_binary_labels(df: pd.DataFrame) -> pd.DataFrame:
+    df = df.copy()
+    df['output'] = df['label_indices'].apply(lambda indices: "FAIR" if indices == [0] else "UNFAIR")
+    return df[['text', 'output']]
+
 class ClaudetteDataset:
     def __init__(self):
         self.splits = ['train', 'val', 'test', 'all']
@@ -63,3 +68,16 @@ class ClaudetteDataset:
         df = self.get_dataset(split)
         filtered_df = df[df['label_indices'].apply(lambda indices: label in indices)]
         return filtered_df
+    
+    def sample_rows_from_all_unfair_labels(self, split: str, n: int = 2) -> pd.DataFrame:
+        # Example usage: dataset.sample_rows_by_all_labels('train', 10)
+        assert split in self.splits, "Invalid split"
+        df = self.get_dataset(split)
+        sampled_dfs = []
+        for label in range(1, 10):
+            filtered_df = self.fetch_rows_by_label(split, label).sample(n=min(n, len(df)))
+            if not filtered_df.empty:
+                sampled_df = filtered_df.sample(n=min(n, len(filtered_df)))
+                sampled_dfs.append(sampled_df)
+
+        return pd.concat(sampled_dfs, ignore_index=True) if sampled_dfs else pd.DataFrame()
