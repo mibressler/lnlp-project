@@ -11,9 +11,8 @@ def create_in_context_examples_prompt(input_output_pairs):
 
     return base
 
-def create_in_context_examples_prompt_auto(samples: pd.DataFrame): # use ClaudetteDataset.sample_rows_from_all_labels function's output
-    from dataset.utils import ClaudetteDataset, INT_TO_CODE
-    dataset = ClaudetteDataset()
+def create_in_context_examples_prompt_auto(samples: pd.DataFrame):  # use ClaudetteDataset.sample_rows_from_all_labels function's output
+    from utils.dataset import INT_TO_CODE
     input_output_pairs = []
     for _, row in samples.iterrows():
         input_text = row['text']
