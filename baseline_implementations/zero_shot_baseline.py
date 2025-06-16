@@ -60,8 +60,8 @@ def classify_text(text: str, label_type_options):
     return int(binary_label), multilabels
 
 
-def run(dataset: Optional[ClaudetteDataset] = None, *, sample_size: int = 200) -> None:
-    """Run zero-shot LLM baseline using OpenRouter and print metrics."""
+def run(dataset: Optional[ClaudetteDataset] = None, *, sample_size: int = 200):
+    """Run zero-shot LLM baseline using OpenRouter and return metrics."""
 
     dataset = dataset or ClaudetteDataset()
     df = dataset.get_dataset("test").sample(sample_size, random_state=42)
@@ -84,3 +84,11 @@ def run(dataset: Optional[ClaudetteDataset] = None, *, sample_size: int = 200) -
     multi_metrics = compute_multilabel_metrics(y_true_multi, y_pred_multi, label_type_options)
 
     display_metrics("LLM zero-shot - Test", binary_metrics, multi_metrics)
+    params = f"model=openrouter sample_size={sample_size}"
+    sample_size_val = len(df)
+    return {
+        "binary_test": binary_metrics,
+        "multi_test": multi_metrics,
+        "params": params,
+        "sample_size": sample_size_val,
+    }

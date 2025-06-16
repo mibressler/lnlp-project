@@ -17,12 +17,19 @@ def _split_labels(s: str):
     return [x.strip().lower() for x in s.split(',') if x.strip()]
 
 
-def run_logistic(dataset: Optional[ClaudetteDataset] = None, *, max_features: int = 10000) -> None:
-    """Run TF-IDF + Logistic Regression baseline and print metrics."""
+def run_logistic(
+    dataset: Optional[ClaudetteDataset] = None,
+    *,
+    max_features: int = 10000,
+    sample_size: Optional[int] = None,
+):
+    """Run TF-IDF + Logistic Regression baseline and return metrics."""
     dataset = dataset or ClaudetteDataset()
     train = dataset.get_dataset('train')
     val = dataset.get_dataset('val')
     test = dataset.get_dataset('test')
+    if sample_size:
+        test = test.sample(sample_size, random_state=42)
 
     vectorizer = TfidfVectorizer(max_features=max_features)
     X_train = vectorizer.fit_transform(train['text'])
@@ -56,13 +63,31 @@ def run_logistic(dataset: Optional[ClaudetteDataset] = None, *, max_features: in
     display_metrics('TF-IDF Logistic - Validation', binary_val_metrics, multi_val_metrics)
     display_metrics('TF-IDF Logistic - Test', binary_test_metrics, multi_test_metrics)
 
+    params = f"model=logistic max_features={max_features}"
+    sample_n = len(test)
+    return {
+        "binary_val": binary_val_metrics,
+        "binary_test": binary_test_metrics,
+        "multi_val": multi_val_metrics,
+        "multi_test": multi_test_metrics,
+        "params": params,
+        "sample_size": sample_n,
+    }
 
-def run_svm(dataset: Optional[ClaudetteDataset] = None, *, max_features: int = 10000) -> None:
-    """Run TF-IDF + Linear SVM baseline and print metrics."""
+
+def run_svm(
+    dataset: Optional[ClaudetteDataset] = None,
+    *,
+    max_features: int = 10000,
+    sample_size: Optional[int] = None,
+):
+    """Run TF-IDF + Linear SVM baseline and return metrics."""
     dataset = dataset or ClaudetteDataset()
     train = dataset.get_dataset('train')
     val = dataset.get_dataset('val')
     test = dataset.get_dataset('test')
+    if sample_size:
+        test = test.sample(sample_size, random_state=42)
 
     vectorizer = TfidfVectorizer(max_features=max_features)
     X_train = vectorizer.fit_transform(train['text'])
@@ -95,3 +120,14 @@ def run_svm(dataset: Optional[ClaudetteDataset] = None, *, max_features: int = 1
 
     display_metrics('TF-IDF SVM - Validation', binary_val_metrics, multi_val_metrics)
     display_metrics('TF-IDF SVM - Test', binary_test_metrics, multi_test_metrics)
+
+    params = f"model=svm max_features={max_features}"
+    sample_n = len(test)
+    return {
+        "binary_val": binary_val_metrics,
+        "binary_test": binary_test_metrics,
+        "multi_val": multi_val_metrics,
+        "multi_test": multi_test_metrics,
+        "params": params,
+        "sample_size": sample_n,
+    }

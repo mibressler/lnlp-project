@@ -5,6 +5,7 @@ import re
 import csv # Added for logging
 from pathlib import Path
 from datetime import datetime # Added for timestamping
+import torch # Add this import
 
 from utils.llm import get_llm_task_response
 from utils.prompts import create_in_context_examples_prompt_auto, BINARY_TASK_INSTRUCTION
@@ -12,6 +13,15 @@ from utils.dataset import ClaudetteDataset, get_binary_labels
 from utils.text import extract_json_from_text
 from supar import Parser
 from sklearn.metrics import f1_score
+
+# Add this monkey patch to fix the torch.load issue
+original_torch_load = torch.load
+def patched_torch_load(*args, **kwargs):
+    if 'weights_only' not in kwargs:
+        kwargs['weights_only'] = False
+    return original_torch_load(*args, **kwargs)
+torch.load = patched_torch_load
+
 PARAPHRASE_SYSTEM_PROMPT = """You are a paraphrasing assistant. Your task is to rewrite the provided input text using different words and sentence structures while preserving the original meaning. Return the result in the following JSON format, and include nothing else in the output:
 {
   "paraphrased_text": "..."
@@ -164,7 +174,7 @@ def evaluate_instruction(instruction_text, eval_data, task_labels):
     return accuracy, f1
 
 # --- 5. Main Search Loop ---
-def main():
+def main(num_iterations=5, num_candidates_per_iteration=2):
     print("[Main] Starting GRIPS search.")
     # --- Log File Setup ---
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
@@ -210,8 +220,8 @@ def main():
         })
 
         # --- Search Loop ---
-        for i in range(iterations):
-            print(f"\\n--- [Main] Iteration {i+1}/{iterations} ---")
+        for i in range(num_iterations):
+            print(f"\\n--- [Main] Iteration {i+1}/{num_iterations} ---")
             
             current_instruction_phrases = simple_phrase_splitter(current_best_instruction_text)
             print(f"  [Main] Current instruction split into phrases: {current_instruction_phrases}")
@@ -221,8 +231,8 @@ def main():
 
             candidates_this_iteration = {} # Store as {instruction_text: score}
 
-            for cand_num in range(candidates_per_iteration):
-                print(f"  [Main] Generating Candidate {cand_num+1}/{candidates_per_iteration} for iteration {i+1}")
+            for cand_num in range(num_candidates_per_iteration):
+                print(f"  [Main] Generating Candidate {cand_num+1}/{num_candidates_per_iteration} for iteration {i+1}")
                 
                 _initial_operation_choice = random.choice(["delete", "add", "paraphrase", "swap"])
                 operation_choice = _initial_operation_choice # operation_choice can be modified by re-sampling
@@ -349,19 +359,23 @@ def main():
 
 
 
-def run(iterations: int = 5, candidates_per_iteration: int = 2) -> None:
+def run(
+    ds: Optional[ClaudetteDataset] = None,
+    *,
+    iterations: int = 5,
+    candidates_per_iteration: int = 2,
+    sample_size: int = 20,
+) -> None:
     """Execute the GRIPS baseline search with minimal setup."""
     global dataset, constituency_parser, eval_data, few_shot_samples
     Path("paper_implementations/grips").mkdir(parents=True, exist_ok=True)
-    dataset = ClaudetteDataset()
+    dataset = ds or ClaudetteDataset()
     constituency_parser = Parser.load("crf-con-en")
     few_shot_samples = pd.concat([
         dataset.sample_rows_from_all_unfair_labels("train", 1),
         dataset.fetch_rows_by_label("train", 0).sample(9),
     ])
-    eval_df = get_binary_labels(dataset.get_dataset("test")).sample(20)
+    eval_df = get_binary_labels(dataset.get_dataset("test")).sample(sample_size, random_state=42)
     eval_data = list(eval_df.itertuples(index=False, name=None))
-    globals()["iterations"] = iterations
-    globals()["candidates_per_iteration"] = candidates_per_iteration
-    main()
+    main(iterations, candidates_per_iteration)
 
