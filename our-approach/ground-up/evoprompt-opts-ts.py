@@ -12,7 +12,6 @@ from tqdm import tqdm
 # Load API key
 load_dotenv()
 api_key = os.getenv("OPENROUTER_API_KEY")
-openai.api_key = api_key
 
 # ========== Strategy List from APET Paper ============
 
@@ -74,7 +73,10 @@ class OpenRouterLLM:
         for prompt in prompts:
             while True:
                 try:
-                    client = openai.OpenAI()
+                    client = openai.OpenAI(
+                        base_url="https://openrouter.ai/api/v1",
+                        api_key=api_key,
+                    )
                     response = client.chat.completions.create(
                         model=self.model_name,
                         messages=[{"role": "user", "content": prompt}],
@@ -82,6 +84,7 @@ class OpenRouterLLM:
                         max_tokens=max_tokens,
                     )
                     outputs.append(response.choices[0].message.content.strip())
+                    print("Response:", outputs[-1])
                     break
                 except Exception as e:
                     print("Retrying due to error:", e)
@@ -115,14 +118,14 @@ def extract_answer(output):
 
 def mutate_prompt_ga(parent, strategy, llm):
     prompt = (
-        f"You are an expert prompt engineer applying the following transformation strategy to improve a prompt:\n"
+        f"You are an expert prompt engineer applying the following transformation strategy to improve a prompt for a classification task. It is important that responses at all times only consist '0' for fair or '1' for unfair.\n"
         f"Strategy: {strategy}\n"
         f"Original Prompt: {parent.instr}\n"
         f"New Prompt:"
     )
     new_instr = llm.query([prompt])[0]
     template_prompt = (
-        f"Generate a prompt template using placeholders <q> for the input question and <prompt> for the instruction.\n"
+        f"Generate a prompt template using placeholders <q> for the input question and <prompt> for the instruction. It is important that responses at all times only consist '0' for fair or '1' for unfair.\n"
         f"Instruction: {new_instr}\n"
         f"Prompt Template:"
     )
@@ -131,8 +134,8 @@ def mutate_prompt_ga(parent, strategy, llm):
 
 
 def optimize_prompt(train_x, train_y, llm, generations=5, pop_size=6):
-    base_instr = "Classify the following sentence as fair (0) or unfair (1). Respond with 'the answer is 0' or 'the answer is 1'."
-    base_template = "Q: <q>\nA: <prompt>\n"
+    base_instr = "Classify the following clause from a Terms of Service contract as fair (0) or unfair (1). Respond only with '0' or '1'."
+    base_template = "Clause: <q>\nA: <prompt>\n"
     population = [Prompt(base_instr, base_template)]
 
     for _ in range(pop_size - 1):
