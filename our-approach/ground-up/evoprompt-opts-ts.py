@@ -83,8 +83,9 @@ class OpenRouterLLM:
                         temperature=temperature,
                         max_tokens=max_tokens,
                     )
-                    time.sleep(0.1)  # To avoid hitting rate limits
+                    time.sleep(0.5)  
                     outputs.append(response.choices[0].message.content.strip())
+                    print("Prompt:", prompt)
                     print("Response:", outputs[-1])
                     break
                 except Exception as e:
@@ -193,6 +194,7 @@ def main():
     print("\nRunning on test set...")
     test_accuracy = evaluate(best_prompt, test_data.get_x(), test_data.get_y(), llm)
     print(f"Test Accuracy: {test_accuracy:.4f}")
+    
 
 
 if __name__ == "__main__":
