@@ -63,7 +63,7 @@ class Data:
         return [line[1] for line in self.dataset]
 
 
-# ========== LLM Interface ============
+# ========== LLM Interface (OpenAI 1.x API) ============
 
 class OpenRouterLLM:
     def __init__(self, model_name):
@@ -74,13 +74,14 @@ class OpenRouterLLM:
         for prompt in prompts:
             while True:
                 try:
-                    response = openai.ChatCompletion.create(
+                    client = openai.OpenAI()
+                    response = client.chat.completions.create(
                         model=self.model_name,
                         messages=[{"role": "user", "content": prompt}],
                         temperature=temperature,
                         max_tokens=max_tokens,
                     )
-                    outputs.append(response["choices"][0]["message"]["content"].strip())
+                    outputs.append(response.choices[0].message.content.strip())
                     break
                 except Exception as e:
                     print("Retrying due to error:", e)
@@ -163,8 +164,12 @@ def optimize_prompt(train_x, train_y, llm, generations=5, pop_size=6):
 # ========== Main Pipeline ============
 
 def main():
-    train_data = Data.load("train.tsv")
-    test_data = Data.load("test.tsv")
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    train_path = os.path.join(base_dir, "train.tsv")
+    test_path = os.path.join(base_dir, "test.tsv")
+
+    train_data = Data.load(train_path)
+    test_data = Data.load(test_path)
 
     sample_indices = random.sample(range(len(train_data.dataset)), 20)
     sampled_dataset = [train_data.dataset[i] for i in sample_indices]
