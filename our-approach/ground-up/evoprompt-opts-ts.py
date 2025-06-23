@@ -83,6 +83,7 @@ class OpenRouterLLM:
                         temperature=temperature,
                         max_tokens=max_tokens,
                     )
+                    time.sleep(0.1)  # To avoid hitting rate limits
                     outputs.append(response.choices[0].message.content.strip())
                     print("Response:", outputs[-1])
                     break
@@ -108,7 +109,8 @@ def evaluate(prompt_obj, data_x, data_y, llm, batch_size=5):
 
 
 def extract_answer(output):
-    match = re.search(r"(?<=the answer is )(\d)", output)
+    # Extract the first occurrence of '0' or '1' as a standalone digit
+    match = re.search(r"\b([01])\b", output)
     if match:
         return match.group(1)
     return output.strip()
@@ -178,7 +180,7 @@ def main():
     sampled_dataset = [train_data.dataset[i] for i in sample_indices]
     sampled_train = Data(sampled_dataset)
 
-    llm = OpenRouterLLM("mistralai/mistral-7b-instruct")
+    llm = OpenRouterLLM("meta-llama/llama-3.3-8b-instruct:free")
 
     best_prompt = optimize_prompt(
         sampled_train.get_x(),
