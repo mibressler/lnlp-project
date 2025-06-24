@@ -56,10 +56,10 @@ class Data:
         return Data(lines)
 
     def get_x(self):
-        return [line[0] for line in self.dataset]
+        return [line[4] for line in self.dataset]  # 'text' column (index 4)
 
     def get_y(self):
-        return [line[1] for line in self.dataset]
+        return [line[2] for line in self.dataset]  # 'label' column (index 2)
 
 
 # ========== LLM Interface (OpenAI 1.x API) ============
@@ -83,7 +83,7 @@ class OpenRouterLLM:
                         temperature=temperature,
                         max_tokens=max_tokens,
                     )
-                    time.sleep(0.5)  
+                    # time.sleep(0.5)  
                     outputs.append(response.choices[0].message.content.strip())
                     print("Prompt:", prompt)
                     print("Response:", outputs[-1])
@@ -96,9 +96,10 @@ class OpenRouterLLM:
 
 # ========== Evaluator ============
 
-def evaluate(prompt_obj, data_x, data_y, llm, batch_size=5):
+def evaluate(prompt_obj, data_x, data_y, llm, batch_size=5): #5
     outputs = []
     for i in range(0, len(data_x), batch_size):
+        print("Processing batch:", i // batch_size + 1)
         batch = data_x[i:i+batch_size]
         formatted = [prompt_obj.join_input(x) for x in batch]
         batch_outputs = llm.query(formatted, temperature=0.0)
@@ -110,7 +111,6 @@ def evaluate(prompt_obj, data_x, data_y, llm, batch_size=5):
 
 
 def extract_answer(output):
-    # Extract the first occurrence of '0' or '1' as a standalone digit
     match = re.search(r"\b([01])\b", output)
     if match:
         return match.group(1)
@@ -177,24 +177,26 @@ def main():
     train_data = Data.load(train_path)
     test_data = Data.load(test_path)
 
-    sample_indices = random.sample(range(len(train_data.dataset)), 20)
+    sample_indices = random.sample(range(len(train_data.dataset)), 5) #5
     sampled_dataset = [train_data.dataset[i] for i in sample_indices]
     sampled_train = Data(sampled_dataset)
 
-    llm = OpenRouterLLM("meta-llama/llama-3.3-8b-instruct:free")
+    llm = OpenRouterLLM("google/gemini-2.0-flash-001")
 
     best_prompt = optimize_prompt(
         sampled_train.get_x(),
         sampled_train.get_y(),
         llm=llm,
-        generations=5,
-        pop_size=6,
+        generations=5, #5
+        pop_size=6, #6
     )
 
     print("\nRunning on test set...")
-    test_accuracy = evaluate(best_prompt, test_data.get_x(), test_data.get_y(), llm)
+    sample_size = 10
+    test_indices = random.sample(range(len(test_data.dataset)), min(sample_size, len(test_data.dataset)))
+    sampled_test = Data([test_data.dataset[i] for i in test_indices])
+    test_accuracy = evaluate(best_prompt, sampled_test.get_x(), sampled_test.get_y(), llm)
     print(f"Test Accuracy: {test_accuracy:.4f}")
-    
 
 
 if __name__ == "__main__":

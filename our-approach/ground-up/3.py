@@ -165,7 +165,7 @@ def main():
     sampled_dataset = [train_data.dataset[i] for i in sample_indices]
     sampled_train = Data(sampled_dataset)
 
-    llm = OpenRouterLLM("mistralai/mistral-7b-instruct")
+    llm = OpenRouterLLM("google/gemini-2.0-flash-001")
 
     best_prompt = optimize_prompt(
         sampled_train.get_x(),
