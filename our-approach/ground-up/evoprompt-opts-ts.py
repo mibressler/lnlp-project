@@ -215,12 +215,12 @@ def main():
         sampled_train.get_x(),
         sampled_train.get_y(),
         llm=llm,
-        generations=3, #5
-        pop_size=3, #6
+        generations=5, #5
+        pop_size=6, #6
     )
 
     print("\nRunning on test set...")
-    sample_size = 100
+    sample_size = 200
     test_indices = random.sample(range(len(test_data.dataset)), min(sample_size, len(test_data.dataset)))
     sampled_test = Data([test_data.dataset[i] for i in test_indices])
     test_accuracy = evaluate(best_prompt, sampled_test.get_x(), sampled_test.get_y(), llm)
