@@ -188,8 +188,8 @@ def main():
         sampled_train.get_x(),
         sampled_train.get_y(),
         llm=llm,
-        generations=5, #5
-        pop_size=6, #6
+        generations=3, #5
+        pop_size=3, #6
     )
 
     print("\nRunning on test set...")
