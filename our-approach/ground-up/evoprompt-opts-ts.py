@@ -205,7 +205,7 @@ def main():
     train_data = Data.load(train_path)
     test_data = Data.load(test_path)
 
-    sample_indices = random.sample(range(len(train_data.dataset)), 5) #5
+    sample_indices = random.sample(range(len(train_data.dataset)), 10) #5 originally
     sampled_dataset = [train_data.dataset[i] for i in sample_indices]
     sampled_train = Data(sampled_dataset)
 
@@ -216,7 +216,7 @@ def main():
         sampled_train.get_y(),
         llm=llm,
         generations=5, #5
-        pop_size=6, #6
+        pop_size=15, #6
     )
 
     print("\nRunning on test set...")
