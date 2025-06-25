@@ -143,9 +143,9 @@ def evaluate(prompt_obj, data_x, data_y, llm, batch_size=5, sample_size=10):
     print(classification_report(y_true, y_pred, digits=4, zero_division=0))
     print("Unique y_true:", set(y_true))
     print("Unique y_pred:", set(y_pred))
-    print("Sampled indices:", eval_x[:5], "...")  # Show first 5 samples for debugging
+    print("Sampled indices:", eval_x[:2], "...")  # Show first 2 samples for debugging
 
-    return accuracy
+    return f1_macro
 
 
 def extract_answer(output):
