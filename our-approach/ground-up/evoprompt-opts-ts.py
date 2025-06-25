@@ -98,21 +98,29 @@ class OpenRouterLLM:
 
 # ========== Evaluator ============
 
-def evaluate(prompt_obj, data_x, data_y, llm, batch_size=5):
+def evaluate(prompt_obj, data_x, data_y, llm, batch_size=5, sample_size=20):
+    # Randomly sample new indices for each evaluation
+    if sample_size < len(data_x):
+        indices = random.sample(range(len(data_x)), sample_size)
+        eval_x = [data_x[i] for i in indices]
+        eval_y = [data_y[i] for i in indices]
+    else:
+        eval_x = data_x
+        eval_y = data_y
+
     outputs = []
-    for i in range(0, len(data_x), batch_size):
+    for i in range(0, len(eval_x), batch_size):
         print("Processing batch:", i // batch_size + 1)
-        batch = data_x[i:i+batch_size]
+        batch = eval_x[i:i+batch_size]
         formatted = [prompt_obj.join_input(x) for x in batch]
         batch_outputs = llm.query(formatted, temperature=0.0)
         outputs.extend(batch_outputs)
 
     def clean_pred(pred):
-        # Accept only '0' or '1', else default to '0'
         return '1' if str(pred).strip() == '1' else '0'
 
     cleaned_outputs = [extract_answer(o) for o in outputs]
-    y_true = [str(label).strip() for label in data_y]
+    y_true = [str(label).strip() for label in eval_y]
     y_pred = [clean_pred(pred) for pred in cleaned_outputs]
 
     accuracy = accuracy_score(y_true, y_pred)
@@ -175,7 +183,7 @@ def optimize_prompt(train_x, train_y, llm, generations=5, pop_size=6):
 
     for gen in range(generations):
         print(f"Generation {gen + 1}")
-        scores = [evaluate(p, train_x, train_y, llm) for p in population]
+        scores = [evaluate(p, train_x, train_y, llm, sample_size=20) for p in population]
         for i, p in enumerate(population):
             p.score = scores[i]
         population = sorted(population, key=lambda p: p.score, reverse=True)
@@ -205,7 +213,7 @@ def main():
     train_data = Data.load(train_path)
     test_data = Data.load(test_path)
 
-    sample_indices = random.sample(range(len(train_data.dataset)), 10) #5 originally
+    sample_indices = random.sample(range(len(train_data.dataset)), 20) #5 originally
     sampled_dataset = [train_data.dataset[i] for i in sample_indices]
     sampled_train = Data(sampled_dataset)
 
@@ -219,11 +227,12 @@ def main():
         pop_size=15, #6
     )
 
+    print(f"Best Instruction: {best_prompt.instr}")
+    print(f"Best Template: {best_prompt.template}")
     print("\nRunning on test set...")
-    sample_size = 200
-    test_indices = random.sample(range(len(test_data.dataset)), min(sample_size, len(test_data.dataset)))
-    sampled_test = Data([test_data.dataset[i] for i in test_indices])
-    test_accuracy = evaluate(best_prompt, sampled_test.get_x(), sampled_test.get_y(), llm)
+
+    test_accuracy = evaluate(best_prompt, test_data.get_x(), test_data.get_y(), llm, sample_size=200)
+
     print(f"Test Accuracy: {test_accuracy:.4f}")
 
 
