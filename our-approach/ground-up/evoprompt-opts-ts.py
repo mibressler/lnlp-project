@@ -124,10 +124,6 @@ def evaluate(prompt_obj, data_x, data_y, llm, batch_size=20, sample_size=10):
     y_true = [str(label).strip() for label in eval_y]
     y_pred = [clean_pred(pred) for pred in cleaned_outputs]
 
-    # if y_true and y_pred dont have only the digits '0' and '1', strip everything except '0' and '1'
-    y_true = [label for label in y_true if label in ['0', '1']]
-    y_pred = [pred for pred in y_pred if pred in ['0', '1']]
-
     accuracy = accuracy_score(y_true, y_pred)
     precision = precision_score(y_true, y_pred, average='binary', pos_label='1', zero_division=0)
     recall = recall_score(y_true, y_pred, average='binary', pos_label='1', zero_division=0)
