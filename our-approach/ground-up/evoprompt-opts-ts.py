@@ -8,6 +8,7 @@ from dotenv import load_dotenv
 import numpy as np
 import openai
 from tqdm import tqdm
+from sklearn.metrics import classification_report, accuracy_score, precision_score, recall_score, f1_score
 
 # Load API key
 load_dotenv()
@@ -97,7 +98,7 @@ class OpenRouterLLM:
 
 # ========== Evaluator ============
 
-def evaluate(prompt_obj, data_x, data_y, llm, batch_size=5): #5
+def evaluate(prompt_obj, data_x, data_y, llm, batch_size=5):
     outputs = []
     for i in range(0, len(data_x), batch_size):
         print("Processing batch:", i // batch_size + 1)
@@ -107,7 +108,28 @@ def evaluate(prompt_obj, data_x, data_y, llm, batch_size=5): #5
         outputs.extend(batch_outputs)
 
     cleaned_outputs = [extract_answer(o) for o in outputs]
-    accuracy = np.mean([pred == label for pred, label in zip(cleaned_outputs, data_y)])
+    # Ensure both predictions and labels are strings for comparison
+    y_true = [str(label) for label in data_y]
+    y_pred = [str(pred) for pred in cleaned_outputs]
+
+    accuracy = accuracy_score(y_true, y_pred)
+    precision = precision_score(y_true, y_pred, average='binary', pos_label='1', zero_division=0)
+    recall = recall_score(y_true, y_pred, average='binary', pos_label='1', zero_division=0)
+    f1_micro = f1_score(y_true, y_pred, average='micro', zero_division=0)
+    f1_macro = f1_score(y_true, y_pred, average='macro', zero_division=0)
+    report = classification_report(y_true, y_pred, digits=4, zero_division=0, output_dict=True)
+    support = {k: v['support'] for k, v in report.items() if k in ['0', '1']}
+
+    print(f"Sample size: {len(y_true)}")
+    print(f"Accuracy: {accuracy:.4f}")
+    print(f"Precision: {precision:.4f}")
+    print(f"Recall: {recall:.4f}")
+    print(f"Micro F1: {f1_micro:.4f}")
+    print(f"Macro F1: {f1_macro:.4f}")
+    print(f"Support: {support}")
+    print("Detailed classification report:")
+    print(classification_report(y_true, y_pred, digits=4, zero_division=0))
+
     return accuracy
 
 
