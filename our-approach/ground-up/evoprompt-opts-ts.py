@@ -98,7 +98,7 @@ class OpenRouterLLM:
 
 # ========== Evaluator ============
 
-def evaluate(prompt_obj, data_x, data_y, llm, batch_size=5, sample_size=10):
+def evaluate(prompt_obj, data_x, data_y, llm, batch_size=20, sample_size=10):
     # Randomly sample new indices for each evaluation
     if sample_size < len(data_x):
         indices = random.sample(range(len(data_x)), sample_size)
@@ -185,7 +185,7 @@ def optimize_prompt(train_x, train_y, llm, generations=5, pop_size=6):
 
     for gen in range(generations):
         print(f"Generation {gen + 1}")
-        scores = [evaluate(p, train_x, train_y, llm, sample_size=20) for p in population]
+        scores = [evaluate(p, train_x, train_y, llm, sample_size=40) for p in population]
         for i, p in enumerate(population):
             p.score = scores[i]
         population = sorted(population, key=lambda p: p.score, reverse=True)
@@ -223,7 +223,7 @@ def main():
         sampled_train.get_x(),
         sampled_train.get_y(),
         llm=llm,
-        generations=5, #5
+        generations=15, #5
         pop_size=10, #6
     )
 
