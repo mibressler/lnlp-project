@@ -27,7 +27,7 @@ strategies_list = [
     "Add a phrase that instructs the model to rephrase the question before responding.",
     "Make the prompt more specific.",
     "Add phrases that instruct the model to remove opinionated content.",
-    "Shorten long prompts to essential parts.",
+    "Shorten long prompts to essential parts. Never remove the instruction to strictly respond with '0' for fair or '1' for unfair.",
     "Edit the prompt instruction to invoke legal reasoning for problem solving: 1) State the goal of determining the unfairness of a clause. 2) Give a detailed definition of what could be considered an unfair clause. 3) compare the given sentence with the definition to estimate which parts of the sentence falls under that definition. 4) make a final determination based on the comparison."
 ]
 
