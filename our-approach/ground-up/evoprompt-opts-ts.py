@@ -227,11 +227,12 @@ def main():
         pop_size=15, #6
     )
 
-    print(f"Best Instruction: {best_prompt.instr}")
-    print(f"Best Template: {best_prompt.template}")
+
     print("\nRunning on test set...")
 
     test_accuracy = evaluate(best_prompt, test_data.get_x(), test_data.get_y(), llm, sample_size=200)
+    print(f"Best Instruction: {best_prompt.instr}")
+    print(f"Best Template: {best_prompt.template}")
 
     print(f"Test Accuracy: {test_accuracy:.4f}")
 
