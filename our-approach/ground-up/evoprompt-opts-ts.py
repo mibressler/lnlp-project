@@ -220,7 +220,7 @@ def main():
     )
 
     print("\nRunning on test set...")
-    sample_size = 10
+    sample_size = 100
     test_indices = random.sample(range(len(test_data.dataset)), min(sample_size, len(test_data.dataset)))
     sampled_test = Data([test_data.dataset[i] for i in test_indices])
     test_accuracy = evaluate(best_prompt, sampled_test.get_x(), sampled_test.get_y(), llm)
