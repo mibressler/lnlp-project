@@ -98,7 +98,7 @@ class OpenRouterLLM:
 
 # ========== Evaluator ============
 
-def evaluate(prompt_obj, data_x, data_y, llm, batch_size=5, sample_size=20):
+def evaluate(prompt_obj, data_x, data_y, llm, batch_size=5, sample_size=10):
     # Randomly sample new indices for each evaluation
     if sample_size < len(data_x):
         indices = random.sample(range(len(data_x)), sample_size)
@@ -107,6 +107,7 @@ def evaluate(prompt_obj, data_x, data_y, llm, batch_size=5, sample_size=20):
     else:
         eval_x = data_x
         eval_y = data_y
+        print(f"Sample size {sample_size} is larger than dataset size {len(data_x)}. Using full dataset.")
 
     outputs = []
     for i in range(0, len(eval_x), batch_size):
@@ -214,9 +215,7 @@ def main():
     train_data = Data.load(train_path)
     test_data = Data.load(test_path)
 
-    sample_indices = random.sample(range(len(train_data.dataset)), 20) #5 originally
-    sampled_dataset = [train_data.dataset[i] for i in sample_indices]
-    sampled_train = Data(sampled_dataset)
+    sampled_train = train_data  # Use the full training set
 
     llm = OpenRouterLLM("google/gemini-2.0-flash-001")
 
