@@ -107,10 +107,13 @@ def evaluate(prompt_obj, data_x, data_y, llm, batch_size=5):
         batch_outputs = llm.query(formatted, temperature=0.0)
         outputs.extend(batch_outputs)
 
+    def clean_pred(pred):
+        # Accept only '0' or '1', else default to '0'
+        return '1' if str(pred).strip() == '1' else '0'
+
     cleaned_outputs = [extract_answer(o) for o in outputs]
-    # Ensure both predictions and labels are strings for comparison
-    y_true = [str(label) for label in data_y]
-    y_pred = [str(pred) for pred in cleaned_outputs]
+    y_true = [str(label).strip() for label in data_y]
+    y_pred = [clean_pred(pred) for pred in cleaned_outputs]
 
     accuracy = accuracy_score(y_true, y_pred)
     precision = precision_score(y_true, y_pred, average='binary', pos_label='1', zero_division=0)
@@ -129,6 +132,8 @@ def evaluate(prompt_obj, data_x, data_y, llm, batch_size=5):
     print(f"Support: {support}")
     print("Detailed classification report:")
     print(classification_report(y_true, y_pred, digits=4, zero_division=0))
+    print("Unique y_true:", set(y_true))
+    print("Unique y_pred:", set(y_pred))
 
     return accuracy
 
