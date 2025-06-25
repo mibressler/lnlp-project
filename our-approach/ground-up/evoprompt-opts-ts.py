@@ -20,13 +20,14 @@ strategies_list = [
     "Explaining step-by-step how the problem should be tackled, and making sure the model explains step-by-step how it came to the answer. You can do this by adding \"Let's think step-by-step\".",
     "Imagining three different experts who are discussing the problem at hand. All experts will write down 1 step of their thinking, then share it with the group. Then all experts will go on to the next step, etc. If any expert realises they're wrong at any point then they leave.",
     "Making sure all information needed is in the prompt, adding where necessary but making sure the question remains having the same objective.",
-    "At the end of the prompt, add a phrase that evokes a strong emotion...",
+    "At the end of the prompt, add a phrase that evokes a strong emotion.",
     "For a given prompt, add a phrase such as \"Read the question again\" that instructs the Large Language Models to reread the question before generating an answer.",
-    "Clearly define the desired style in the given prompt...",
-    "Add a phrase that instructs the model to rephrase the question before responding...",
-    "Make the prompt more specific...",
-    "Add phrases that instruct the model to remove opinionated content...",
-    "Shorten long prompts to essential parts..."
+    "Clearly define the desired style in the given prompt.",
+    "Add a phrase that instructs the model to rephrase the question before responding.",
+    "Make the prompt more specific.",
+    "Add phrases that instruct the model to remove opinionated content.",
+    "Shorten long prompts to essential parts.",
+    "Edit the prompt instruction to invoke legal reasoning for problem solving: 1) State the goal of determining the unfairness of a clause. 2) Give a detailed definition of what could be considered an unfair clause. 3) compare the given sentence with the definition to estimate which parts of the sentence falls under that definition. 4) make a final determination based on the comparison."
 ]
 
 # ========== Utility Classes ============
