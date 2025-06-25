@@ -185,7 +185,7 @@ def optimize_prompt(train_x, train_y, llm, generations=5, pop_size=6):
 
     for gen in range(generations):
         print(f"Generation {gen + 1}")
-        scores = [evaluate(p, train_x, train_y, llm, sample_size=40) for p in population]
+        scores = [evaluate(p, train_x, train_y, llm, sample_size=60) for p in population]
         for i, p in enumerate(population):
             p.score = scores[i]
         population = sorted(population, key=lambda p: p.score, reverse=True)
@@ -230,7 +230,7 @@ def main():
 
     print("\nRunning on test set...")
 
-    test_accuracy = evaluate(best_prompt, test_data.get_x(), test_data.get_y(), llm, sample_size=200)
+    test_accuracy = evaluate(best_prompt, test_data.get_x(), test_data.get_y(), llm, sample_size=400)
     print(f"Best Instruction: {best_prompt.instr}")
     print(f"Best Template: {best_prompt.template}")
 
