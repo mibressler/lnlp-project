@@ -185,7 +185,7 @@ def optimize_prompt(train_x, train_y, llm, generations=5, pop_size=6):
 
     for gen in range(generations):
         print(f"Generation {gen + 1}")
-        scores = [evaluate(p, train_x, train_y, llm, sample_size=140) for p in population]
+        scores = [evaluate(p, train_x, train_y, llm, sample_size=200) for p in population]
         for i, p in enumerate(population):
             p.score = scores[i]
         population = sorted(population, key=lambda p: p.score, reverse=True)
