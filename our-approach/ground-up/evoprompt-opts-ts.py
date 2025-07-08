@@ -152,7 +152,7 @@ def extract_answer(output):
     match = re.search(r"\b([01])\b", output)
     if match:
         return match.group(1)
-    return output.strip()
+    return '0'  # Default to '0' if no match
 
 
 # ========== OPTS-TS with GA (EvoPromptGA-OPTS-TS) ============
