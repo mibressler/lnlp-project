@@ -149,10 +149,26 @@ def evaluate(prompt_obj, data_x, data_y, llm, batch_size=20, sample_size=10):
 
 
 def extract_answer(output):
-    match = re.search(r"\b([01])\b", output)
-    if match:
-        return match.group(1)
-    return '0'  # Default to '0' if no match
+    """
+    Extracts a single digit 0 or 1 from the output. Ensures it's the only relevant digit.
+    Defaults to '0' if no clean extraction is possible.
+    """
+    # Clean up output
+    output = output.strip()
+
+    # Check if it's exactly 0 or 1
+    if output == '0' or output == '1':
+        return output
+
+    # Try to find isolated 0 or 1
+    matches = re.findall(r'\b[01]\b', output)
+
+    # If multiple matches like "0 or 1", return '0' to stay conservative
+    if len(matches) == 1:
+        return matches[0]
+
+    print(f"⚠️ Unexpected model output: '{output}'. Defaulting to '0'")
+    return '0'
 
 
 # ========== OPTS-TS with GA (EvoPromptGA-OPTS-TS) ============
