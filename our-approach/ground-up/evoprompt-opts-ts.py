@@ -118,7 +118,9 @@ def evaluate(prompt_obj, data_x, data_y, llm, batch_size=20, sample_size=10):
         outputs.extend(batch_outputs)
 
     def clean_pred(pred):
-        return '1' if str(pred).strip() == '1' else '0'
+    # Return '1' only if the output is exactly '1'; otherwise return '0'
+        return '1' if pred.strip() == '1' else '0'
+
 
     cleaned_outputs = [extract_answer(o) for o in outputs]
     y_true = [str(label).strip() for label in eval_y]
@@ -149,26 +151,24 @@ def evaluate(prompt_obj, data_x, data_y, llm, batch_size=20, sample_size=10):
 
 
 def extract_answer(output):
-    """
-    Extracts a single digit 0 or 1 from the output. Ensures it's the only relevant digit.
-    Defaults to '0' if no clean extraction is possible.
-    """
-    # Clean up output
     output = output.strip()
-
-    # Check if it's exactly 0 or 1
-    if output == '0' or output == '1':
+    
+    # If the model replies exactly with 0 or 1
+    if output in ['0', '1']:
         return output
 
-    # Try to find isolated 0 or 1
-    matches = re.findall(r'\b[01]\b', output)
+    # Otherwise, extract isolated number 0 or 1
+    matches = re.findall(r'(?<!\d)[01](?!\d)', output)
 
-    # If multiple matches like "0 or 1", return '0' to stay conservative
+    # Filter duplicates like "0 or 1"
+    matches = [m for m in matches if m in ['0', '1']]
+
     if len(matches) == 1:
         return matches[0]
 
-    print(f"⚠️ Unexpected model output: '{output}'. Defaulting to '0'")
+    print(f"⚠️ Could not extract valid answer from: '{output}'")
     return '0'
+
 
 
 # ========== OPTS-TS with GA (EvoPromptGA-OPTS-TS) ============
