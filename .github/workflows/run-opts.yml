@@ -23,6 +23,6 @@ jobs:
 
       - name: Run evoprompt-opts-ts.py with secret
         env:
-          MY_SECRET_KEY: ${{ secrets.MY_SECRET_KEY }}  # Inject repository secret as environment variable
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}  
         run: |
           python our-approach/ground-up/evoprompt-opts-ts.py
