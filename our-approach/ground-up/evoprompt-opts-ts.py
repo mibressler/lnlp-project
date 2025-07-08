@@ -99,7 +99,7 @@ class OpenRouterLLM:
 # ========== Evaluator ============
 
 def evaluate(prompt_obj, data_x, data_y, llm, batch_size=20, sample_size=10):
-    # Randomly sample new indices for each evaluation
+    # Sample subset of the dataset
     if sample_size < len(data_x):
         indices = random.sample(range(len(data_x)), sample_size)
         eval_x = [data_x[i] for i in indices]
@@ -117,57 +117,69 @@ def evaluate(prompt_obj, data_x, data_y, llm, batch_size=20, sample_size=10):
         batch_outputs = llm.query(formatted, temperature=0.0)
         outputs.extend(batch_outputs)
 
-    def clean_pred(pred):
-    # Return '1' only if the output is exactly '1'; otherwise return '0'
-        return '1' if pred.strip() == '1' else '0'
-
-
+    # Extract and clean predictions
     cleaned_outputs = [extract_answer(o) for o in outputs]
-    y_true = [str(label).strip() for label in eval_y]
-    y_pred = [clean_pred(pred) for pred in cleaned_outputs]
 
-    accuracy = accuracy_score(y_true, y_pred)
-    precision = precision_score(y_true, y_pred, average='binary', pos_label='1', zero_division=0)
-    recall = recall_score(y_true, y_pred, average='binary', pos_label='1', zero_division=0)
-    f1_micro = f1_score(y_true, y_pred, average='micro', zero_division=0)
-    f1_macro = f1_score(y_true, y_pred, average='macro', zero_division=0)
-    report = classification_report(y_true, y_pred, digits=4, zero_division=0, output_dict=True)
-    support = {k: v['support'] for k, v in report.items() if k in ['0', '1']}
+    y_true_all = [str(label).strip() for label in eval_y]
+    y_pred_all = [o if o in ['0', '1'] else 'invalid' for o in cleaned_outputs]
 
-    print(f"Sample size: {len(y_true)}")
-    print(f"Accuracy: {accuracy:.4f}")
-    print(f"Precision: {precision:.4f}")
-    print(f"Recall: {recall:.4f}")
-    print(f"Micro F1: {f1_micro:.4f}")
-    print(f"Macro F1: {f1_macro:.4f}")
-    print(f"Support: {support}")
-    print("Detailed classification report:")
-    print(classification_report(y_true, y_pred, digits=4, zero_division=0))
+    # Filter out invalids
+    valid_indices = [i for i, pred in enumerate(y_pred_all) if pred in ['0', '1'] and y_true_all[i] in ['0', '1']]
+    y_true = [y_true_all[i] for i in valid_indices]
+    y_pred = [y_pred_all[i] for i in valid_indices]
+
+    print(f"✅ Valid predictions: {len(y_pred)} / {len(y_pred_all)}")
     print("Unique y_true:", set(y_true))
     print("Unique y_pred:", set(y_pred))
-    print("Sampled indices:", eval_x[:2], "...")  # Show first 2 samples for debugging
 
-    return f1_macro
+    if not y_pred:
+        print("❌ No valid predictions to evaluate. Returning score of 0.")
+        return 0.0
+
+    try:
+        accuracy = accuracy_score(y_true, y_pred)
+        precision = precision_score(y_true, y_pred, average='binary', pos_label='1', zero_division=0)
+        recall = recall_score(y_true, y_pred, average='binary', pos_label='1', zero_division=0)
+        f1_micro = f1_score(y_true, y_pred, average='micro', zero_division=0)
+        f1_macro = f1_score(y_true, y_pred, average='macro', zero_division=0)
+        report = classification_report(y_true, y_pred, digits=4, zero_division=0, output_dict=True)
+        support = {k: v['support'] for k, v in report.items() if k in ['0', '1']}
+
+        print(f"Sample size: {len(y_true)}")
+        print(f"Accuracy: {accuracy:.4f}")
+        print(f"Precision: {precision:.4f}")
+        print(f"Recall: {recall:.4f}")
+        print(f"Micro F1: {f1_micro:.4f}")
+        print(f"Macro F1: {f1_macro:.4f}")
+        print(f"Support: {support}")
+        print("Detailed classification report:")
+        print(classification_report(y_true, y_pred, digits=4, zero_division=0))
+
+        return f1_macro
+    except ValueError as e:
+        print(f"‼️ Skipping metrics due to error: {e}")
+        return 0.0
+
 
 
 def extract_answer(output):
     output = output.strip()
-    
+
     # If the model replies exactly with 0 or 1
     if output in ['0', '1']:
         return output
 
-    # Otherwise, extract isolated number 0 or 1
+    # Try to extract all standalone 0 or 1 values
     matches = re.findall(r'(?<!\d)[01](?!\d)', output)
-
-    # Filter duplicates like "0 or 1"
-    matches = [m for m in matches if m in ['0', '1']]
 
     if len(matches) == 1:
         return matches[0]
+    elif len(matches) > 1:
+        print(f"⚠️ Multiple digits found in response, taking last: '{output}'")
+        return matches[-1]
 
     print(f"⚠️ Could not extract valid answer from: '{output}'")
-    return '0'
+    return 'invalid'
 
 
 
