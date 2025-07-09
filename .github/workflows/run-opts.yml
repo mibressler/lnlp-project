@@ -1,10 +1,10 @@
-name: Run EvoPrompt Manually
+name: Run evoprompt-OPTS-TS w legal reasoning strategy
 
 on:
   workflow_dispatch:  # Manual trigger only
 
 jobs:
-  run-evoprompt:
+  run-opts:
     runs-on: ubuntu-latest
 
     steps:
