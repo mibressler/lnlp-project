@@ -87,8 +87,8 @@ class OpenRouterLLM:
                     )
                     # time.sleep(0.5)  
                     outputs.append(response.choices[0].message.content.strip())
-                    print("Prompt:", prompt)
-                    print("Response:", outputs[-1])
+                    #print("Prompt:", prompt)
+                    #print("Response:", outputs[-1])
                     break
                 except Exception as e:
                     print("Retrying due to error:", e)
@@ -251,8 +251,8 @@ def main():
         sampled_train.get_x(),
         sampled_train.get_y(),
         llm=llm,
-        generations=10, #5
-        pop_size=8, #6
+        generations=35, #5
+        pop_size=10, #6
     )
 
 
