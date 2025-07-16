@@ -133,7 +133,7 @@ def evaluate(prompt_obj, data_x, data_y, llm, batch_size=20, sample_size=10):
     print("Unique y_pred:", set(y_pred))
 
     if not y_pred:
-        print("❌ No valid predictions to evaluate. Returning score of 0.")
+        #print("❌ No valid predictions to evaluate. Returning score of 0.")
         return 0.0
 
     try:
@@ -177,10 +177,10 @@ def extract_answer(output):
     if len(matches) == 1:
         return matches[0]
     elif len(matches) > 1:
-        print(f"⚠️ Multiple digits found in response, taking last: '{output}'")
+        #print(f"⚠️ Multiple digits found in response, taking last: '{output}'")
         return matches[-1]
 
-    print(f"⚠️ Could not extract valid answer from: '{output}'")
+    #print(f"⚠️ Could not extract valid answer from: '{output}'")
     return 'invalid'
 
 
