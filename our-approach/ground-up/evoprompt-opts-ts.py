@@ -111,7 +111,7 @@ def evaluate(prompt_obj, data_x, data_y, llm, batch_size=20, sample_size=10):
 
     outputs = []
     for i in range(0, len(eval_x), batch_size):
-        print("Processing batch:", i // batch_size + 1)
+        #print("Processing batch:", i // batch_size + 1)
         batch = eval_x[i:i+batch_size]
         formatted = [prompt_obj.join_input(x) for x in batch]
         batch_outputs = llm.query(formatted, temperature=0.0)
@@ -145,6 +145,7 @@ def evaluate(prompt_obj, data_x, data_y, llm, batch_size=20, sample_size=10):
         report = classification_report(y_true, y_pred, digits=4, zero_division=0, output_dict=True)
         support = {k: v['support'] for k, v in report.items() if k in ['0', '1']}
 
+        print(f"Prompt: {prompt_obj.instr}")
         print(f"Sample size: {len(y_true)}")
         print(f"Accuracy: {accuracy:.4f}")
         print(f"Precision: {precision:.4f}")
@@ -154,6 +155,7 @@ def evaluate(prompt_obj, data_x, data_y, llm, batch_size=20, sample_size=10):
         print(f"Support: {support}")
         print("Detailed classification report:")
         print(classification_report(y_true, y_pred, digits=4, zero_division=0))
+    
 
         return f1_macro
     except ValueError as e:
