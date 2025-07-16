@@ -92,8 +92,8 @@ class OpenRouterLLM:
                     )
                     # time.sleep(0.5)  
                     outputs.append(response.choices[0].message.content.strip())
-                    #print("Prompt:", prompt)
-                    #print("Response:", outputs[-1])
+                    print("Prompt:", prompt)
+                    print("Response:", outputs[-1])
                     break
                 except Exception as e:
                     print("Retrying due to error:", e)
@@ -267,11 +267,11 @@ def main():
 
     print("\nRunning on test set...")
 
-    test_accuracy = evaluate(best_prompt, test_data.get_x(), test_data.get_context(), test_data.get_y(), llm, sample_size=50)
+    test_macro_f1 = evaluate(best_prompt, test_data.get_x(), test_data.get_context(), test_data.get_y(), llm, sample_size=50)
     print(f"Best Instruction: {best_prompt.instr}")
     print(f"Best Template: {best_prompt.template}")
 
-    print(f"Test Accuracy: {test_accuracy:.4f}")
+    print(f"Test Macro_F1: {test_macro_f1:.4f}")
 
 
 if __name__ == "__main__":
