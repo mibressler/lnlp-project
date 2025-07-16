@@ -35,29 +35,37 @@ if API_KEY:
 else:
     raise ValueError("OPENROUTER_API_KEY not found in environment or .env file.")
 
-def normalize(text):
-    """Normalize text by removing extra spaces around punctuation and reducing multiple spaces."""
-    # Remove spaces before punctuation
-    text = re.sub(r'\s+([.,;:!?])', r'\1', text)
-    # Reduce multiple spaces to single space
-    text = re.sub(r'\s+', ' ', text)
-    return text.strip()
+def extract_words(text):
+    """Extract lowercase words, ignoring punctuation and extra spaces."""
+    return [word.lower() for word in re.findall(r'\b\w+\b', text) if word]
 
-def find_context_chunk(sentence, lines):
-    """Find the first line containing the normalized sentence and return 20 lines before/after as a chunk."""
+def find_context_chunk(sentence, lines, words_with_lines):
+    """Find the first occurrence of the sentence's word sequence in the document and return 20 lines before/after as a chunk."""
     if not sentence.strip():
         return None  # Empty sentence, no context
     
-    sentence_norm = normalize(sentence)
+    sentence_words = extract_words(sentence)
+    if not sentence_words:
+        return None
     
-    for i, line in enumerate(lines):
-        line_norm = normalize(line)
-        if sentence_norm in line_norm:
-            # Found: grab 20 before and 20 after (inclusive of current line)
-            start = max(0, i - 20)
-            end = min(len(lines), i + 21)  # i + 20 + 1 for inclusive
-            chunk = ''.join(lines[start:end])
+    len_s = len(sentence_words)
+    total_words = len(words_with_lines)
+    
+    for start in range(total_words - len_s + 1):
+        candidate_words = [w for _, w in words_with_lines[start:start + len_s]]
+        if candidate_words == sentence_words:
+            # Found match! Get the line indices spanned by this match
+            line_idxs = [line_idx for line_idx, _ in words_with_lines[start:start + len_s]]
+            min_line = min(line_idxs)
+            max_line = max(line_idxs)
+            
+            # Grab 20 lines before min_line and 20 after max_line (inclusive)
+            chunk_start = max(0, min_line - 20)
+            chunk_end = min(len(lines), max_line + 21)  # +21 to include max_line + 20 after
+            chunk = ''.join(lines[chunk_start:chunk_end])
+            print(f"[DEBUG]   Match found spanning lines {min_line}-{max_line}.")
             return chunk
+    
     return None  # Not found
 
 def get_llm_trimmed_context(chunk, sentence):
@@ -93,7 +101,7 @@ Please trim this chunk to the meaningful semantic section (such as a paragraph, 
         print(f"[DEBUG] API error: {e}. Returning empty context.")
         return ""
 
-def process_tsv(file_name, lines):
+def process_tsv(file_name, lines, words_with_lines):
     """Process a TSV file, add 'context' column at index 6 (appended as the 7th column)."""
     file_path = os.path.join(SCRIPT_DIR, file_name)
     print(f"[DEBUG] Processing TSV: {file_path}")
@@ -131,7 +139,7 @@ def process_tsv(file_name, lines):
         sent_preview = sentence[:100] + '...' if len(sentence) > 100 else sentence
         print(f"[DEBUG] Row {idx}/{total_rows}: Processing sentence: '{sent_preview}'")
         
-        chunk = find_context_chunk(sentence, lines)
+        chunk = find_context_chunk(sentence, lines, words_with_lines)
         
         if chunk is None:
             print("[DEBUG]   No chunk found (sentence not matched).")
@@ -162,9 +170,17 @@ def main():
         lines = f.readlines()
     print(f"[DEBUG] Loaded {len(lines)} lines from all_tos_documents.txt.")
     
+    # Precompute words_with_lines for robust matching
+    words_with_lines = []
+    for line_idx, line in enumerate(lines):
+        line_words = extract_words(line)
+        for word in line_words:
+            words_with_lines.append((line_idx, word))
+    print(f"[DEBUG] Precomputed {len(words_with_lines)} words for matching.")
+    
     # Process each file
     for file_name in ['test.tsv', 'train.tsv', 'val.tsv']:
-        process_tsv(file_name, lines)
+        process_tsv(file_name, lines, words_with_lines)
 
 if __name__ == "__main__":
     main()
