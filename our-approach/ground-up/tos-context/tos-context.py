@@ -43,8 +43,8 @@ class Prompt:
     def get_user(self):
         return self.instr
 
-    def join_input(self, text):
-        return self.template.replace("<prompt>", self.instr).replace("<q>", text)
+    def join_input(self, text, context):
+        return self.template.replace("<prompt>", self.instr).replace("<clause>", text).replace("<context>", context)
 
 
 class Data:
@@ -59,6 +59,9 @@ class Data:
 
     def get_x(self):
         return [line[4] for line in self.dataset]  # 'text' column (index 4)
+
+    def get_context(self):
+        return [line[6] if len(line) > 6 else '' for line in self.dataset]  # 'context' column (index 6), default to empty if missing
 
     def get_y(self):
         return [line[2] for line in self.dataset]  # 'label' column (index 2)
@@ -98,22 +101,25 @@ class OpenRouterLLM:
 
 # ========== Evaluator ============
 
-def evaluate(prompt_obj, data_x, data_y, llm, batch_size=20, sample_size=10):
+def evaluate(prompt_obj, data_x, data_context, data_y, llm, batch_size=20, sample_size=10):
     # Sample subset of the dataset
     if sample_size < len(data_x):
         indices = random.sample(range(len(data_x)), sample_size)
         eval_x = [data_x[i] for i in indices]
+        eval_context = [data_context[i] for i in indices]
         eval_y = [data_y[i] for i in indices]
     else:
         eval_x = data_x
+        eval_context = data_context
         eval_y = data_y
         print(f"Sample size {sample_size} is larger than dataset size {len(data_x)}. Using full dataset.")
 
     outputs = []
     for i in range(0, len(eval_x), batch_size):
         print("Processing batch:", i // batch_size + 1)
-        batch = eval_x[i:i+batch_size]
-        formatted = [prompt_obj.join_input(x) for x in batch]
+        batch_x = eval_x[i:i+batch_size]
+        batch_context = eval_context[i:i+batch_size]
+        formatted = [prompt_obj.join_input(x, c) for x, c in zip(batch_x, batch_context)]
         batch_outputs = llm.query(formatted, temperature=0.0)
         outputs.extend(batch_outputs)
 
@@ -194,7 +200,7 @@ def mutate_prompt_ga(parent, strategy, llm):
     )
     new_instr = llm.query([prompt])[0]
     template_prompt = (
-        f"Generate a prompt template using placeholders <q> for the input question and <prompt> for the instruction. It is important that responses at all times only consist '0' for fair or '1' for unfair.\n"
+        f"Generate a prompt template using placeholders <clause> for the individual clause to be classified, <prompt> for the instruction, and <context> for the context from the contract. It is important that responses at all times only consist '0' for fair or '1' for unfair.\n"
         f"Instruction: {new_instr}\n"
         f"Prompt Template:"
     )
@@ -202,9 +208,9 @@ def mutate_prompt_ga(parent, strategy, llm):
     return Prompt(new_instr, template)
 
 
-def optimize_prompt(train_x, train_y, llm, generations=5, pop_size=6):
+def optimize_prompt(train_x, train_context, train_y, llm, generations=5, pop_size=6):
     base_instr = "Classify the following clause from a Terms of Service contract as fair (0) or unfair (1). Respond only with '0' or '1'."
-    base_template = "Clause: <q>\nA: <prompt>\n"
+    base_template = "Context: <context>\nClause: <clause>\nA: <prompt>\n"
     population = [Prompt(base_instr, base_template)]
 
     for _ in range(pop_size - 1):
@@ -213,7 +219,7 @@ def optimize_prompt(train_x, train_y, llm, generations=5, pop_size=6):
 
     for gen in range(generations):
         print(f"Generation {gen + 1}")
-        scores = [evaluate(p, train_x, train_y, llm, sample_size=200) for p in population]
+        scores = [evaluate(p, train_x, train_context, train_y, llm, sample_size=5) for p in population]
         for i, p in enumerate(population):
             p.score = scores[i]
         population = sorted(population, key=lambda p: p.score, reverse=True)
@@ -245,20 +251,21 @@ def main():
 
     sampled_train = train_data  # Use the full training set
 
-    llm = OpenRouterLLM("google/gemini-2.0-flash-001")
+    llm = OpenRouterLLM("google/gemini-2.5-flash-lite-preview-06-17")
 
     best_prompt = optimize_prompt(
         sampled_train.get_x(),
+        sampled_train.get_context(),
         sampled_train.get_y(),
         llm=llm,
-        generations=20, #5
-        pop_size=8, #6
+        generations=3, #5
+        pop_size=2, #6
     )
 
 
     print("\nRunning on test set...")
 
-    test_accuracy = evaluate(best_prompt, test_data.get_x(), test_data.get_y(), llm, sample_size=1000)
+    test_accuracy = evaluate(best_prompt, test_data.get_x(), test_data.get_context(), test_data.get_y(), llm, sample_size=50)
     print(f"Best Instruction: {best_prompt.instr}")
     print(f"Best Template: {best_prompt.template}")
 
