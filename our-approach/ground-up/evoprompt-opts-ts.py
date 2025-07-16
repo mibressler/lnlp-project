@@ -245,7 +245,7 @@ def main():
 
     sampled_train = train_data  # Use the full training set
 
-    llm = OpenRouterLLM("google/gemini-2.0-flash-001")
+    llm = OpenRouterLLM("google/gemini-2.5-flash-lite-preview-06-17")
 
     best_prompt = optimize_prompt(
         sampled_train.get_x(),
