@@ -2,6 +2,7 @@ import csv
 import os
 import re
 import requests
+import difflib
 from dotenv import load_dotenv  # Ensure python-dotenv is installed: pip install python-dotenv
 
 # Dynamically find the repo root by walking up until we find .env
@@ -36,11 +37,15 @@ else:
     raise ValueError("OPENROUTER_API_KEY not found in environment or .env file.")
 
 def extract_words(text):
-    """Extract lowercase words, ignoring punctuation and extra spaces."""
-    return [word.lower() for word in re.findall(r'\b\w+\b', text) if word]
+    """Extract lowercase words, ignoring punctuation, extra spaces, and handling contractions."""
+    # Remove punctuation except apostrophes in contractions
+    text = re.sub(r"[^\w\s']", '', text)
+    # Split into words
+    words = re.findall(r"\b\w+(?:'\w+)?\b", text.lower())
+    return [word for word in words if word]
 
 def find_context_chunk(sentence, lines, words_with_lines):
-    """Find the first occurrence of the sentence's word sequence in the document and return 20 lines before/after as a chunk."""
+    """Find the first fuzzy occurrence of the sentence's word sequence in the document and return 20 lines before/after as a chunk."""
     if not sentence.strip():
         return None  # Empty sentence, no context
     
@@ -50,20 +55,23 @@ def find_context_chunk(sentence, lines, words_with_lines):
     
     len_s = len(sentence_words)
     total_words = len(words_with_lines)
+    threshold = 0.85  # Adjustable similarity threshold (1.0 = exact match)
     
     for start in range(total_words - len_s + 1):
         candidate_words = [w for _, w in words_with_lines[start:start + len_s]]
-        if candidate_words == sentence_words:
+        matcher = difflib.SequenceMatcher(None, sentence_words, candidate_words)
+        ratio = matcher.ratio()
+        if ratio >= threshold:
             # Found match! Get the line indices spanned by this match
             line_idxs = [line_idx for line_idx, _ in words_with_lines[start:start + len_s]]
             min_line = min(line_idxs)
             max_line = max(line_idxs)
             
             # Grab 20 lines before min_line and 20 after max_line (inclusive)
-            chunk_start = max(0, min_line - 20)
-            chunk_end = min(len(lines), max_line + 21)  # +21 to include max_line + 20 after
+            chunk_start = max(0, min_line - 10)
+            chunk_end = min(len(lines), max_line + 11)  # +21 to include max_line + 20 after
             chunk = ''.join(lines[chunk_start:chunk_end])
-            print(f"[DEBUG]   Match found spanning lines {min_line}-{max_line}.")
+            print(f"[DEBUG]   Fuzzy match found with ratio {ratio:.2f} spanning lines {min_line}-{max_line}.")
             return chunk
     
     return None  # Not found
