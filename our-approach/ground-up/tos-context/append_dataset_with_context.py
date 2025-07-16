@@ -98,12 +98,12 @@ Please trim this chunk to the meaningful semantic section (such as a paragraph, 
     }
     
     try:
-        print("[DEBUG] Calling OpenRouter API for trimming...")
+        #print("[DEBUG] Calling OpenRouter API for trimming...")
         response = requests.post(OPENROUTER_API_URL, headers=headers, json=data)
         response.raise_for_status()
         result = response.json()
         trimmed = result['choices'][0]['message']['content'].strip()
-        print(f"[DEBUG] LLM response received (trimmed length: {len(trimmed)}).")
+        #print(f"[DEBUG] LLM response received (trimmed length: {len(trimmed)}).")
         return trimmed
     except Exception as e:
         print(f"[DEBUG] API error: {e}. Returning empty context.")
@@ -154,12 +154,12 @@ def process_tsv(file_name, lines, words_with_lines):
             context = ''
             empties += 1
         else:
-            chunk_preview = chunk[:200] + '...' if len(chunk) > 200 else chunk
-            print(f"[DEBUG]   Chunk found (preview): '{chunk_preview}'")
+            #chunk_preview = chunk[:200] + '...' if len(chunk) > 200 else chunk
+            #print(f"[DEBUG]   Chunk found (preview): '{chunk_preview}'")
             context = get_llm_trimmed_context(chunk, sentence)
             contexts_added += 1
         
-        context_preview = context[:100] + '...' if len(context) > 100 else context
+        context_preview = context[:100] + '...' if len(context) > 1000 else context
         print(f"[DEBUG]   Final context: '{context_preview}'")
         row.append(context)  # Append to end
     
