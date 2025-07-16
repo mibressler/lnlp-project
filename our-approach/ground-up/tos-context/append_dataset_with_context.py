@@ -3,6 +3,7 @@ import os
 import re
 import requests
 import difflib
+import multiprocessing
 from dotenv import load_dotenv  # Ensure python-dotenv is installed: pip install python-dotenv
 
 # Dynamically find the repo root by walking up until we find .env
@@ -55,7 +56,7 @@ def find_context_chunk(sentence, lines, words_with_lines):
     
     len_s = len(sentence_words)
     total_words = len(words_with_lines)
-    threshold = 0.85  # Adjustable similarity threshold (1.0 = exact match)
+    threshold = 0.8  # Adjustable similarity threshold (lowered for more matches; 1.0 = exact)
     
     for start in range(total_words - len_s + 1):
         candidate_words = [w for _, w in words_with_lines[start:start + len_s]]
@@ -68,8 +69,8 @@ def find_context_chunk(sentence, lines, words_with_lines):
             max_line = max(line_idxs)
             
             # Grab 20 lines before min_line and 20 after max_line (inclusive)
-            chunk_start = max(0, min_line - 10)
-            chunk_end = min(len(lines), max_line + 11)  # +21 to include max_line + 20 after
+            chunk_start = max(0, min_line - 20)
+            chunk_end = min(len(lines), max_line + 21)  # +21 to include max_line + 20 after
             chunk = ''.join(lines[chunk_start:chunk_end])
             print(f"[DEBUG]   Fuzzy match found with ratio {ratio:.2f} spanning lines {min_line}-{max_line}.")
             return chunk
@@ -97,19 +98,45 @@ Please trim this chunk to the meaningful semantic section (such as a paragraph, 
         "messages": [{"role": "user", "content": prompt}]
     }
     
-    try:
-        #print("[DEBUG] Calling OpenRouter API for trimming...")
-        response = requests.post(OPENROUTER_API_URL, headers=headers, json=data)
-        response.raise_for_status()
-        result = response.json()
-        trimmed = result['choices'][0]['message']['content'].strip()
-        #print(f"[DEBUG] LLM response received (trimmed length: {len(trimmed)}).")
-        return trimmed
-    except Exception as e:
-        print(f"[DEBUG] API error: {e}. Returning empty context.")
-        return ""
+    for attempt in range(2):  # Retry once on failure
+        try:
+            print("[DEBUG] Calling OpenRouter API for trimming... (attempt {attempt + 1})")
+            response = requests.post(OPENROUTER_API_URL, headers=headers, json=data)
+            response.raise_for_status()
+            result = response.json()
+            trimmed = result['choices'][0]['message']['content'].strip()
+            print(f"[DEBUG] LLM response received (trimmed length: {len(trimmed)}).")
+            return trimmed
+        except Exception as e:
+            print(f"[DEBUG] API error on attempt {attempt + 1}: {e}")
+    print("[DEBUG] All API attempts failed. Returning empty context.")
+    return ""
 
-def process_tsv(file_name, lines, words_with_lines):
+def process_row(row_data):
+    """Process a single row (for parallel execution)."""
+    idx, row, lines, words_with_lines, sentence_col, total_rows = row_data
+    if len(row) < sentence_col + 1:
+        print(f"[DEBUG] Row {idx}: Skipping invalid row (too few columns).")
+        return row, ''
+    
+    sentence = row[sentence_col]
+    sent_preview = sentence[:100] + '...' if len(sentence) > 100 else sentence
+    print(f"[DEBUG] Row {idx}/{total_rows}: Processing sentence: '{sent_preview}'")
+    
+    chunk = find_context_chunk(sentence, lines, words_with_lines)
+    
+    if chunk is None:
+        print("[DEBUG]   No chunk found (sentence not matched).")
+        return row, ''
+    else:
+        chunk_preview = chunk[:200] + '...' if len(chunk) > 200 else chunk
+        print(f"[DEBUG]   Chunk found (preview): '{chunk_preview}'")
+        context = get_llm_trimmed_context(chunk, sentence)
+        context_preview = context[:100] + '...' if len(context) > 100 else context
+        print(f"[DEBUG]   Final context: '{context_preview}'")
+        return row, context
+
+def process_tsv(file_name, lines, words_with_lines, max_workers=None):
     """Process a TSV file, add 'context' column at index 6 (appended as the 7th column)."""
     file_path = os.path.join(SCRIPT_DIR, file_name)
     print(f"[DEBUG] Processing TSV: {file_path}")
@@ -126,8 +153,15 @@ def process_tsv(file_name, lines, words_with_lines):
     # Assume first row is header; append 'context' to it
     header = rows[0]
     print(f"[DEBUG] Header: {header} (columns: {len(header)})")
-    if len(header) < 5:  # Need at least column 4
-        raise ValueError(f"File {file_path} has fewer than 5 columns.")
+    sentence_col = 4  # Column index for sentence
+    if len(header) < sentence_col + 1:
+        raise ValueError(f"File {file_path} has fewer than {sentence_col + 1} columns.")
+    
+    # Caching: Skip if 'context' already exists
+    if 'context' in header:
+        print(f"[DEBUG] 'context' column already exists in {file_path}. Skipping processing.")
+        return
+    
     header.append('context')  # Append to end (becomes index len(header)-1, assumed to be 6)
     
     # Counters for summary
@@ -135,33 +169,25 @@ def process_tsv(file_name, lines, words_with_lines):
     contexts_added = 0
     empties = 0
     
-    # Process data rows
-    for idx, row in enumerate(rows[1:], start=1):
-        if len(row) < 5:
-            print(f"[DEBUG] Row {idx}: Skipping invalid row (too few columns): {row}")
-            row.append('')  # Append empty context
-            empties += 1
-            continue
-        
-        sentence = row[4]  # Column index 4
-        sent_preview = sentence[:100] + '...' if len(sentence) > 100 else sentence
-        print(f"[DEBUG] Row {idx}/{total_rows}: Processing sentence: '{sent_preview}'")
-        
-        chunk = find_context_chunk(sentence, lines, words_with_lines)
-        
-        if chunk is None:
-            print("[DEBUG]   No chunk found (sentence not matched).")
-            context = ''
-            empties += 1
-        else:
-            #chunk_preview = chunk[:200] + '...' if len(chunk) > 200 else chunk
-            #print(f"[DEBUG]   Chunk found (preview): '{chunk_preview}'")
-            context = get_llm_trimmed_context(chunk, sentence)
+    # Prepare data for parallel processing
+    pool_data = [(idx + 1, row, lines, words_with_lines, sentence_col, total_rows) for idx, row in enumerate(rows[1:])]
+    
+    # Set max_workers conservatively to avoid API rate limits
+    if max_workers is None:
+        max_workers = min(multiprocessing.cpu_count() // 2, 4)  # e.g., 4 on an 8-core machine
+    
+    print(f"[DEBUG] Starting parallel processing with {max_workers} workers.")
+    with multiprocessing.Pool(processes=max_workers) as pool:
+        results = pool.map(process_row, pool_data)
+    
+    # Update rows with results
+    for i, (updated_row, context) in enumerate(results):
+        rows[i + 1] = updated_row  # Update the row (though it might not change)
+        rows[i + 1].append(context)
+        if context:
             contexts_added += 1
-        
-        context_preview = context[:100] + '...' if len(context) > 1000 else context
-        print(f"[DEBUG]   Final context: '{context_preview}'")
-        row.append(context)  # Append to end
+        else:
+            empties += 1
     
     # Write back to the same file
     with open(file_path, 'w', encoding='utf-8', newline='') as f:
@@ -186,9 +212,9 @@ def main():
             words_with_lines.append((line_idx, word))
     print(f"[DEBUG] Precomputed {len(words_with_lines)} words for matching.")
     
-    # Process each file
+    # Process each file with parallelism (adjust max_workers if needed)
     for file_name in ['test.tsv', 'train.tsv', 'val.tsv']:
-        process_tsv(file_name, lines, words_with_lines)
+        process_tsv(file_name, lines, words_with_lines, max_workers=4)
 
 if __name__ == "__main__":
     main()
