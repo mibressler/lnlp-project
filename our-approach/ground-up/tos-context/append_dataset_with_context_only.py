@@ -168,7 +168,7 @@ def process_tsv(file_name, lines, words_with_lines, max_workers=None):
     
     # Counters for summary
     total_rows = len(rows) - 1  # Exclude header
-    processed_count = min(10, total_rows)  # Process only first 10 or fewer
+    processed_count = max(10, total_rows)  # Process only first 10 or fewer
     contexts_added = 0
     empties = 0
     
