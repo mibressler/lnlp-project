@@ -29,7 +29,7 @@ else:
 
 # OpenRouter API details
 OPENROUTER_API_URL = "https://openrouter.ai/api/v1/chat/completions"
-MODEL = "google/gemini-2.0-flash-001"  # You can change this to another model available on OpenRouter
+MODEL = "google/gemini-2.5-flash-lite-preview-06-17"  # You can change this to another model available on OpenRouter
 API_KEY = os.getenv('OPENROUTER_API_KEY')
 if API_KEY:
     print("[DEBUG] OPENROUTER_API_KEY loaded successfully (length: {len(API_KEY)}).")
