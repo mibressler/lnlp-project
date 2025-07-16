@@ -69,8 +69,8 @@ def find_context_chunk(sentence, lines, words_with_lines):
             max_line = max(line_idxs)
             
             # Grab 20 lines before min_line and 20 after max_line (inclusive)
-            chunk_start = max(0, min_line - 20)
-            chunk_end = min(len(lines), max_line + 21)  # +21 to include max_line + 20 after
+            chunk_start = max(0, min_line - 10)
+            chunk_end = min(len(lines), max_line + 11)  # +21 to include max_line + 20 after
             chunk = ''.join(lines[chunk_start:chunk_end])
             print(f"[DEBUG]   Fuzzy match found with ratio {ratio:.2f} spanning lines {min_line}-{max_line}.")
             return chunk
@@ -129,10 +129,10 @@ def process_row(row_data):
         print("[DEBUG]   No chunk found (sentence not matched).")
         return row, ''
     else:
-        chunk_preview = chunk[:200] + '...' if len(chunk) > 200 else chunk
-        print(f"[DEBUG]   Chunk found (preview): '{chunk_preview}'")
+        #chunk_preview = chunk[:200] + '...' if len(chunk) > 200 else chunk
+        #print(f"[DEBUG]   Chunk found (preview): '{chunk_preview}'")
         context = get_llm_trimmed_context(chunk, sentence)
-        context_preview = context[:100] + '...' if len(context) > 100 else context
+        context_preview = context[:100] + '...' if len(context) > 1000 else context
         print(f"[DEBUG]   Final context: '{context_preview}'")
         return row, context
 
