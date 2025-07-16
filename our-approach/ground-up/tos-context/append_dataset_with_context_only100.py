@@ -132,6 +132,8 @@ def process_row(row_data):
         #chunk_preview = chunk[:200] + '...' if len(chunk) > 200 else chunk
         #print(f"[DEBUG]   Chunk found (preview): '{chunk_preview}'")
         context = get_llm_trimmed_context(chunk, sentence)
+        # Clean context to remove tabs and newlines, replacing with spaces to ensure TSV safety
+        context = re.sub(r'[\t\n]+', ' ', context).strip()
         context_preview = context[:100] + '...' if len(context) > 1000 else context
         print(f"[DEBUG]   Final context: '{context_preview}'")
         return row, context
@@ -143,7 +145,7 @@ def process_tsv(file_name, lines, words_with_lines, max_workers=None):
     
     rows = []
     with open(file_path, 'r', encoding='utf-8', newline='') as f:
-        reader = csv.reader(f, delimiter='\t')
+        reader = csv.reader(f, delimiter='\t', quoting=csv.QUOTE_MINIMAL)
         rows = list(reader)
     
     if not rows:
@@ -166,11 +168,11 @@ def process_tsv(file_name, lines, words_with_lines, max_workers=None):
     
     # Counters for summary
     total_rows = len(rows) - 1  # Exclude header
-    processed_count = min(100, total_rows)  # Process only first 100 or fewer
+    processed_count = min(10, total_rows)  # Process only first 10 or fewer
     contexts_added = 0
     empties = 0
     
-    # Prepare data for parallel processing (only first 100 rows)
+    # Prepare data for parallel processing (only first 10 rows)
     pool_data = [(idx + 1, row, lines, words_with_lines, sentence_col, total_rows) for idx, row in enumerate(rows[1:1 + processed_count])]
     
     # Set max_workers conservatively to avoid API rate limits
@@ -181,29 +183,30 @@ def process_tsv(file_name, lines, words_with_lines, max_workers=None):
     with multiprocessing.Pool(processes=max_workers) as pool:
         results = pool.map(process_row, pool_data)
     
-    # Update the first processed_count rows with results
-    for i, (updated_row, context) in enumerate(results):
-        rows[i + 1] = updated_row  # Update the row (though it might not change)
-        rows[i + 1].append(context)
-        if context:
-            contexts_added += 1
+    # Create a new list for updated rows to avoid modifying while processing
+    updated_rows = [header]
+    for i in range(total_rows):
+        if i < processed_count:
+            original_row, context = results[i]
+            updated_row = original_row + [context]  # Append context to a copy
+            if context:
+                contexts_added += 1
+            else:
+                empties += 1
         else:
+            updated_row = rows[i + 1] + ['']  # Append empty for remaining
             empties += 1
+        updated_rows.append(updated_row)
     
-    # For remaining rows (if any), append empty context
+    # Update counters for remaining
     remaining_rows = total_rows - processed_count
-    if remaining_rows > 0:
-        print(f"[DEBUG] Appending empty context to remaining {remaining_rows} rows.")
-        for i in range(processed_count, total_rows):
-            rows[i + 1].append('')  # Append empty string
-        empties += remaining_rows
     
-    # Write back to the same file
+    # Write back to the same file with proper quoting and lineterminator
     with open(file_path, 'w', encoding='utf-8', newline='') as f:
-        writer = csv.writer(f, delimiter='\t', quoting=csv.QUOTE_MINIMAL)  # Handle quoting for tabs/multilines
-        writer.writerows(rows)
+        writer = csv.writer(f, delimiter='\t', quoting=csv.QUOTE_ALL, lineterminator='\n')
+        writer.writerows(updated_rows)
     
-    print(f"[DEBUG] Processed {file_path} successfully. Summary: Processed {processed_count} rows ({contexts_added} with context, {empties - remaining_rows} empty from processing). Appended empty to {remaining_rows} remaining rows. Total empties: {empties} (out of {total_rows} data rows).")
+    print(f"[DEBUG] Processed {file_path} successfully. Summary: Processed {processed_count} rows ({contexts_added} with context, {processed_count - contexts_added} empty from processing). Appended empty to {remaining_rows} remaining rows. Total empties: {empties} (out of {total_rows} data rows).")
 
 def main():
     # Load the full documents once (using script dir)

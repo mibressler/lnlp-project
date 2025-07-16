@@ -9,6 +9,7 @@ import numpy as np
 import openai
 from tqdm import tqdm
 from sklearn.metrics import classification_report, accuracy_score, precision_score, recall_score, f1_score
+import csv  # Import csv for proper reading
 
 # Load API key
 load_dotenv()
@@ -53,8 +54,9 @@ class Data:
 
     @staticmethod
     def load(path, delimiter="\t"):
-        with open(path, "r", encoding="utf-8") as f:
-            lines = [line.strip().split(delimiter) for line in f.readlines() if line.strip()]
+        with open(path, "r", encoding="utf-8", newline='') as f:
+            reader = csv.reader(f, delimiter=delimiter, quoting=csv.QUOTE_ALL)
+            lines = [row for row in reader if row]  # Skip empty rows
         return Data(lines)
 
     def get_x(self):
