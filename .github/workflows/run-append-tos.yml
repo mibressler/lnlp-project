@@ -26,7 +26,7 @@ jobs:
       - name: Run the script
         env:
           OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}  # Inject the repo secret as env var
-        run: python our-approach\ground-up\tos-context\append_dataset_with_context.py # Run the script
+        run: python our-approach/ground-up/tos-context/append_dataset_with_context.py # Run the script
 
       - name: Commit and push changes
         run: |
