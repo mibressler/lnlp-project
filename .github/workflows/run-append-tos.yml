@@ -1,0 +1,39 @@
+name: Run TOS Context Append Script
+
+on:
+  workflow_dispatch:  # Allows manual triggering from GitHub UI
+  # Optional: Add other triggers if needed, e.g.,
+  # push:
+  #   branches: [ main ]
+  # schedule:
+  #   - cron: '0 0 * * *'  # Daily at midnight UTC
+
+jobs:
+  process:
+    runs-on: ubuntu-latest  # Use Linux for faster execution; change to windows-latest if needed
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4  # Checks out the repo code
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'  # Adjust to your Python version if different
+
+      - name: Install dependencies
+        run: pip install requests python-dotenv  # Install required packages
+
+      - name: Run the script
+        env:
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}  # Inject the repo secret as env var
+        run: python our-approach/tos-context/append_dataset_with_context.py  # Run the script
+
+      - name: Commit and push changes
+        run: |
+          git config --global user.name 'GitHub Action'
+          git config --global user.email 'action@github.com'
+          git add our-approach/tos-context/*.tsv  # Add updated TSV files (adjust path if TSVs are elsewhere)
+          git commit -m "Updated TSV files with context from script run" || echo "No changes to commit"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Use built-in token for push
