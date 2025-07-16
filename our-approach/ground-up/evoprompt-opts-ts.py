@@ -251,8 +251,8 @@ def main():
         sampled_train.get_x(),
         sampled_train.get_y(),
         llm=llm,
-        generations=20, #5
-        pop_size=8, #6
+        generations=10, #5
+        pop_size=6, #6
     )
 
 
