@@ -34,6 +34,10 @@ strategies_list = [
     "Edit the prompt instruction to invoke legal reasoning for problem solving: 1) State the goal of determining the unfairness of a clause. 2) Give a detailed definition of what could be considered an unfair clause. 3) compare the given sentence with the definition to estimate which parts of the sentence falls under that definition. 4) make a final determination based on the comparison."
 ]
 
+template_strategies_list = [
+    "",
+]
+
 # ========== Utility Classes ============
 
 class Prompt:
@@ -197,14 +201,14 @@ def extract_answer(output):
 
 def mutate_prompt_ga(parent, strategy, llm):
     prompt = (
-        f"You are an expert prompt engineer applying the following transformation strategy to improve a prompt for a classification task. It is important that responses at all times only consist '0' for fair or '1' for unfair.\n"
+        f"You are an expert prompt engineer applying the following transformation strategy to improve an instruction for a classification task. It is important that responses at all times only consist '0' for fair or '1' for unfair.\n"
         f"Strategy: {strategy}\n"
-        f"Original Prompt: {parent.instr}\n"
-        f"New Prompt:"
+        f"Original Instruction: {parent.instr}\n"
+        f"New Instruction:"
     )
     new_instr = llm.query([prompt])[0]
     template_prompt = (
-        f"Generate a prompt template using placeholders <clause> for the individual clause to be classified, <prompt> for the instruction, and <context> for the context from the contract (e.g. the section of the contract where the clause is from). It is important that responses at all times only consist '0' for fair or '1' for unfair.\n"
+        f"Generate a prompt template using placeholders <clause> for the individual clause to be classified, <instruction> for the instruction guiding the classification, and <context> for the context from the contract (e.g. the section of the contract where the clause is from). It is important that responses at all times only consist '0' for fair or '1' for unfair.\n"
         f"Instruction: {new_instr}\n"
         f"Prompt Template:"
     )
@@ -213,8 +217,8 @@ def mutate_prompt_ga(parent, strategy, llm):
 
 
 def optimize_prompt(train_x, train_context, train_y, llm, generations=5, pop_size=6):
-    base_instr = "Classify the following clause from a Terms of Service contract as fair (0) or unfair (1). Respond only with '0' or '1'."
-    base_template = "Context: <context>\nClause: <clause>\nInstruction: <instruction>\n"
+    base_instr = "Classify the following clause from a Terms of Service contract as fair (0) or unfair (1) using the context for better understanding. Respond only with '0' or '1'."
+    base_template = "Instruction: <instruction>\nContext: <context>\nClause: <clause>\n"
     population = [Prompt(base_instr, base_template)]
 
     for _ in range(pop_size - 1):
@@ -262,8 +266,8 @@ def main():
         sampled_train.get_context(),
         sampled_train.get_y(),
         llm=llm,
-        generations=10, #5
-        pop_size=6, #6
+        generations=5, #5
+        pop_size=4, #6
     )
 
 
