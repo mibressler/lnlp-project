@@ -89,12 +89,12 @@ class OpenRouterLLM:
                     output = response.choices[0].message.content.strip()
                     outputs.append(output)
                     
-                    # Nicely formatted print
-                    print("\n=== SENT ===")
-                    print(prompt)
-                    print("\n=== RECEIVED ===")
-                    print(output)
-                    print("\n=============\n")
+                   
+                    #print("\n=== SENT ===")
+                    #print(prompt)
+                    #print("\n=== RECEIVED ===")
+                    #print(output)
+                    #print("\n=============\n")
                     
                     break
                 except openai.OpenAIError as e:  # More specific exception handling
