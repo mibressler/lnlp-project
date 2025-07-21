@@ -269,12 +269,18 @@ def mutate_template(parent_template, strategy, llm):
     prompt = META_PROMPT_TEMPLATE.format(strategy=strategy, parent_template=parent_template)
     return llm.query([prompt])[0]
 
-def mutate_prompt_ga(parent, instr_selector, template_selector, llm):
-    instr_arm = instr_selector.select_arm()
+def mutate_prompt_ga(parent, instr_selector, template_selector, llm, use_bandit_instr, use_bandit_template):
+    if use_bandit_instr:
+        instr_arm = instr_selector.select_arm()
+    else:
+        instr_arm = random.randint(0, instr_selector.num_arms - 1)
     instr_strategy = instr_selector.strategies[instr_arm]
     new_instr = mutate_instruction(parent.instr, instr_strategy, llm)
     
-    template_arm = template_selector.select_arm()
+    if use_bandit_template:
+        template_arm = template_selector.select_arm()
+    else:
+        template_arm = random.randint(0, template_selector.num_arms - 1)
     template_strategy = template_selector.strategies[template_arm]
     new_template = mutate_template(parent.template, template_strategy, llm)
     
@@ -283,7 +289,7 @@ def mutate_prompt_ga(parent, instr_selector, template_selector, llm):
     child.template_arm = template_arm
     return child
 
-def optimize_prompt(train_x, train_context, train_y, llm, generations=50, pop_size=10, train_sample_size=50):
+def optimize_prompt(train_x, train_context, train_y, llm, generations=50, pop_size=10, train_sample_size=50, use_bandit_instr=True, use_bandit_template=True):
     base_instr = "Classify the following clause from a Terms of Service contract as fair (0) or unfair (1) using the context for better understanding. Respond only with '0' or '1'."
     base_template = "Instruction: <instruction>\nClause: <clause>\nStatutory Context: <statutory_context>\nContract Context: <contract_context>"
     
@@ -319,7 +325,7 @@ def optimize_prompt(train_x, train_context, train_y, llm, generations=50, pop_si
         children = []
         for _ in range(pop_size - len(top_k)):
             parent = random.choice(top_k)
-            child = mutate_prompt_ga(parent, instr_selector, template_selector, llm)
+            child = mutate_prompt_ga(parent, instr_selector, template_selector, llm, use_bandit_instr, use_bandit_template)
             child.score = evaluate(child, train_x, train_context, train_y, llm, sample_size=train_sample_size)
             
             parent_max = max(p.score for p in top_k)
@@ -343,13 +349,13 @@ def optimize_prompt(train_x, train_context, train_y, llm, generations=50, pop_si
     return best_prompt
 
 # ========== Main ============
-def main(generations=20, pop_size=8, train_sample_size=10, test_sample_size=100):
+def main(generations=20, pop_size=8, train_sample_size=10, test_sample_size=100, model_name="google/gemini-2.5-flash-lite-preview-06-17", use_bandit_instr=True, use_bandit_template=True):
     base_dir = os.path.dirname(os.path.abspath(__file__))
     train_data = Data.load(os.path.join(base_dir, "train_unskewed.tsv"))
     test_data = Data.load(os.path.join(base_dir, "test.tsv"))
     
-    llm = OpenRouterLLM("google/gemini-2.5-flash")
-    best_prompt = optimize_prompt(train_data.get_x(), train_data.get_context(), train_data.get_y(), llm, generations, pop_size, train_sample_size)
+    llm = OpenRouterLLM(model_name)
+    best_prompt = optimize_prompt(train_data.get_x(), train_data.get_context(), train_data.get_y(), llm, generations, pop_size, train_sample_size, use_bandit_instr, use_bandit_template)
     
     print("\nRunning on test set...")
     test_f1 = evaluate(best_prompt, test_data.get_x(), test_data.get_context(), test_data.get_y(), llm, sample_size=test_sample_size)
