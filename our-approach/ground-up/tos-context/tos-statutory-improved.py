@@ -10,11 +10,20 @@ from tqdm import tqdm
 from sklearn.metrics import classification_report, accuracy_score, precision_score, recall_score, f1_score
 import csv
 import scipy.stats as stats
+import logging  
+import json  
 
 csv.field_size_limit(10_000_000)
 
+# Set up logging
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+
 load_dotenv()
 api_key = os.getenv("OPENROUTER_API_KEY")
+
+# Set random seed for reproducibility
+random.seed(42)
+np.random.seed(42)
 
 # ========== Constants ============
 INSTRUCTION_STRATEGIES = [
@@ -66,7 +75,8 @@ New Template:
 
 # ========== Classes ============
 class BanditSelector:
-    def __init__(self, strategies):
+    def __init__(self, strategies, name=""):
+        self.name = name  # For logging distinction
         self.strategies = strategies + ["INACTION"]
         self.num_arms = len(self.strategies)
         self.alphas = np.ones(self.num_arms)
@@ -77,6 +87,7 @@ class BanditSelector:
         return np.argmax(samples)
     
     def update(self, arm, reward):
+        logging.info(f"Updating {self.name} bandit arm {arm} ({self.strategies[arm]}): reward={reward}")
         if reward == 1:
             self.alphas[arm] += 1
         else:
@@ -87,7 +98,8 @@ class Prompt:
         self.instr = instr
         self.template = template
         self.score = np.nan
-        self.select_arm = None
+        self.instr_arm = None
+        self.template_arm = None  # Track both arms
     
     def join_input(self, text, context):
         return self.template.replace("<instruction>", self.instr).replace("<clause>", text).replace("<contract_context>", context).replace("<statutory_context>", PLACEHOLDER_STATUTORY_CONTEXT)
@@ -137,12 +149,20 @@ class OpenRouterLLM:
                     print(prompt)
                     print("\n=== RECEIVED ===")
                     print(output)
+                    print("\n=============\n")
                     
                     break
-                except Exception as e:
-                    print(f"Retrying due to error: {e}")
+                except openai.OpenAIError as e:  # More specific exception handling
+                    logging.error(f"OpenAI API error: {e}")
                     time.sleep(2 ** retries)
                     retries += 1
+                except Exception as e:
+                    logging.error(f"Unexpected error: {e}")
+                    time.sleep(2 ** retries)
+                    retries += 1
+            else:
+                logging.warning("Max retries exceeded for prompt.")
+                outputs.append("")  # Fallback empty response
         return outputs
 
 # ========== Functions ============
@@ -150,24 +170,30 @@ def extract_answer(output):
     output = output.strip()
     if output in ['0', '1']:
         return output
-    matches = re.findall(r'(?<!\d)[01](?!\d)', output)
-    if len(matches) == 1:
-        return matches[0]
-    elif len(matches) > 1:
-        print(f"⚠️ Multiple digits found, taking last: '{output}'")
-        return matches[-1]
-    print(f"⚠️ Invalid answer: '{output}'")
+    # Improved regex for better robustness (e.g., handles boxed answers)
+    patterns = [r'(?<!\d)[01](?!\d)', r'\boxed{([01])}', r'Answer: ([01])']
+    for pattern in patterns:
+        matches = re.findall(pattern, output)
+        if matches:
+            return matches[-1]  # Take last match
+    logging.warning(f"Invalid answer: '{output}'")
     return 'invalid'
 
 def evaluate(prompt_obj, data_x, data_context, data_y, llm, batch_size=20, sample_size=50):
     n = len(data_x)
-    indices = random.sample(range(n), min(sample_size, n))
+    if sample_size >= n:
+        logging.info(f"Sample size {sample_size} >= dataset {n}. Using full dataset.")
+        indices = list(range(n))
+    else:
+        indices = random.sample(range(n), sample_size)
+    
     eval_x = [data_x[i] for i in indices]
     eval_context = [data_context[i] for i in indices]
     eval_y = [data_y[i] for i in indices]
 
     outputs = []
     for i in range(0, len(eval_x), batch_size):
+        logging.info(f"Processing batch {i // batch_size + 1}")
         batch_x = eval_x[i:i+batch_size]
         batch_context = eval_context[i:i+batch_size]
         formatted = [prompt_obj.join_input(x, c) for x, c in zip(batch_x, batch_context)]
@@ -181,11 +207,13 @@ def evaluate(prompt_obj, data_x, data_context, data_y, llm, batch_size=20, sampl
     y_true = [y_true_all[i] for i in valid_indices]
     y_pred = [y_pred_all[i] for i in valid_indices]
 
+    logging.info(f"Valid predictions: {len(y_pred)} / {len(y_pred_all)}")
     print(f"✅ Valid predictions: {len(y_pred)} / {len(y_pred_all)}")
     print("Unique y_true:", set(y_true))
     print("Unique y_pred:", set(y_pred))
 
     if not y_pred:
+        logging.warning("No valid predictions. Returning score of 0.")
         print("❌ No valid predictions to evaluate. Returning score of 0.")
         return 0.0
 
@@ -210,6 +238,7 @@ def evaluate(prompt_obj, data_x, data_context, data_y, llm, batch_size=20, sampl
 
         return f1_macro
     except ValueError as e:
+        logging.error(f"Metrics error: {e}")
         print(f"‼️ Skipping metrics due to error: {e}")
         return 0.0
 
@@ -219,72 +248,98 @@ def mutate_instruction(parent_instr, strategy, llm):
     prompt = META_PROMPT_INSTR.format(strategy=strategy, parent_instr=parent_instr)
     return llm.query([prompt])[0]
 
-def mutate_template(parent_template, template_strategy, llm):
-    prompt = META_PROMPT_TEMPLATE.format(strategy=template_strategy, parent_template=parent_template)
+def mutate_template(parent_template, strategy, llm):
+    if strategy == "INACTION":
+        return parent_template
+    prompt = META_PROMPT_TEMPLATE.format(strategy=strategy, parent_template=parent_template)
     return llm.query([prompt])[0]
 
-def mutate_prompt_ga(parent, bandit_selector, llm):
-    arm = bandit_selector.select_arm()
-    instr_strategy = bandit_selector.strategies[arm]
+def mutate_prompt_ga(parent, instr_selector, template_selector, llm):
+    instr_arm = instr_selector.select_arm()
+    instr_strategy = instr_selector.strategies[instr_arm]
     new_instr = mutate_instruction(parent.instr, instr_strategy, llm)
     
-    template_strategy = random.choice(TEMPLATE_STRATEGIES)
+    template_arm = template_selector.select_arm()
+    template_strategy = template_selector.strategies[template_arm]
     new_template = mutate_template(parent.template, template_strategy, llm)
     
     child = Prompt(new_instr, new_template)
-    child.select_arm = arm
+    child.instr_arm = instr_arm
+    child.template_arm = template_arm
     return child
 
-def optimize_prompt(train_x, train_context, train_y, llm, generations=50, pop_size=10):
+def optimize_prompt(train_x, train_context, train_y, llm, generations=50, pop_size=10, train_sample_size=50):
     base_instr = "Classify the following clause from a Terms of Service contract as fair (0) or unfair (1) using the context for better understanding. Respond only with '0' or '1'."
     base_template = "Instruction: <instruction>\nClause: <clause>\nStatutory Context: <statutory_context>\nContract Context: <contract_context>"
     
-    population = [Prompt(base_instr, base_template)]
-    bandit_selector = BanditSelector(INSTRUCTION_STRATEGIES)
+    population = [Prompt(base_instr, base_template) for _ in range(pop_size)]  # Start with identical bases
+    instr_selector = BanditSelector(INSTRUCTION_STRATEGIES, name="Instruction")
+    template_selector = BanditSelector(TEMPLATE_STRATEGIES, name="Template")
     
-    for _ in range(pop_size - 1):
-        child = mutate_prompt_ga(population[0], bandit_selector, llm)
-        population.append(child)
+    best_score = 0.0
+    no_improve_gens = 0
+    max_no_improve = 5  # Early stopping if no improvement for 5 gens
     
     for gen in range(generations):
+        logging.info(f"Starting generation {gen + 1}")
         print(f"Generation {gen + 1}")
-        scores = [evaluate(p, train_x, train_context, train_y, llm) for p in tqdm(population)]
+        
+        scores = [evaluate(p, train_x, train_context, train_y, llm, sample_size=train_sample_size) for p in tqdm(population, desc="Evaluating population")]
         for p, score in zip(population, scores):
-            p.score = score
+            p.score = score if not np.isnan(score) else 0.0  # Handle NaN
         population.sort(key=lambda p: p.score, reverse=True)
         print("Scores:", [p.score for p in population])
+        
+        current_best = population[0].score
+        if current_best > best_score:
+            best_score = current_best
+            no_improve_gens = 0
+        else:
+            no_improve_gens += 1
+            if no_improve_gens >= max_no_improve:
+                logging.info(f"Early stopping at generation {gen + 1} due to no improvement.")
+                break
         
         top_k = population[:pop_size // 2]
         children = []
         for _ in range(pop_size - len(top_k)):
             parent = random.choice(top_k)
-            child = mutate_prompt_ga(parent, bandit_selector, llm)
-            child.score = evaluate(child, train_x, train_context, train_y, llm)
+            child = mutate_prompt_ga(parent, instr_selector, template_selector, llm)
+            child.score = evaluate(child, train_x, train_context, train_y, llm, sample_size=train_sample_size)
             
             parent_max = max(p.score for p in top_k)
             reward = 1 if child.score > parent_max else 0
-            bandit_selector.update(child.select_arm, reward)
+            instr_selector.update(child.instr_arm, reward)
+            template_selector.update(child.template_arm, reward)  # Same reward for both
             children.append(child)
         
         population = top_k + children
     
     best_prompt = max(population, key=lambda p: p.score)
+    # Save best prompt to file
+    with open("best_prompt.json", "w") as f:
+        json.dump({"instr": best_prompt.instr, "template": best_prompt.template}, f)
+    logging.info("Best prompt saved to best_prompt.json")
+    
+    logging.info(f"Best Instruction: {best_prompt.instr}")
+    logging.info(f"Best Template: {best_prompt.template}")
     print("Best Instruction:", best_prompt.instr)
     print("Best Template:", best_prompt.template)
     return best_prompt
 
 # ========== Main ============
-def main():
+def main(generations=20, pop_size=8, train_sample_size=10, test_sample_size=100):
     base_dir = os.path.dirname(os.path.abspath(__file__))
     train_data = Data.load(os.path.join(base_dir, "train_unskewed.tsv"))
     test_data = Data.load(os.path.join(base_dir, "test.tsv"))
     
     llm = OpenRouterLLM("google/gemini-2.5-flash-lite-preview-06-17")
-    best_prompt = optimize_prompt(train_data.get_x(), train_data.get_context(), train_data.get_y(), llm)
+    best_prompt = optimize_prompt(train_data.get_x(), train_data.get_context(), train_data.get_y(), llm, generations, pop_size, train_sample_size)
     
     print("\nRunning on test set...")
-    test_f1 = evaluate(best_prompt, test_data.get_x(), test_data.get_context(), test_data.get_y(), llm, sample_size=100)
+    test_f1 = evaluate(best_prompt, test_data.get_x(), test_data.get_context(), test_data.get_y(), llm, sample_size=test_sample_size)
     print(f"Test Macro F1: {test_f1:.4f}")
+    logging.info(f"Test Macro F1: {test_f1:.4f}")
 
 if __name__ == "__main__":
     main()
