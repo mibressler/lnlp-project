@@ -35,16 +35,10 @@ instruction_strategies = [
 ]
 
 template_strategies = [
-    "Describe the relationship of the template elements better, such as explaining how the statutory context informs the classification, how the contract context provides background, and how the clause relates to both.",
-    "Omit certain template elements that are redundant or unnecessary, while ensuring all placeholders (<instruction>, <clause>, <context>, <statutory_context>) are retained if essential.",
-    "Reorder the template elements to improve logical flow, for example, placing the statutory context first to set legal foundations, followed by contract context, instruction, and clause.",
-    "Add separators or delimiters (e.g., --- or new sections) between template elements to enhance readability and structure.",
-    "Emphasize key template elements using formatting like bold, italics, or uppercase to draw attention to important parts, such as the clause or instruction.",
-    "Combine or merge template elements to make the overall prompt more concise without losing critical information.",
-    "Expand the descriptions around template elements to provide more guidance on their purpose and interconnection.",
-    "Introduce conditional phrasing in the template to handle cases where certain elements like context might be empty.",
-    "Add placeholders for examples within the template structure to illustrate the task without adding actual content.",
-    "Simplify the language in the template to make it more straightforward and easier for the model to parse."
+    "Enhance the description of relationships between template elements, for example explaining how the statutory context provides legal foundations, the contract context offers specific background, the instruction guides the process, and the clause is the target for classification.",
+    "Reorder the template elements to optimize logical flow, for example presenting the statutory context first, followed by contract context, instruction, and clause or another arrangement that could be better.",
+    "Incorporate separators, delimiters, or formatting emphasis (e.g., bold, italics) to improve readability and highlight key sections of the template.",
+    "Experimentally completely omit or re-add one or more placeholders (<instruction>, <clause>, <statutory_context>, <contract_context>) to refine the template, potentially simplifying or enriching it while maintaining the classification task's integrity."
 ]
 
 placeholder_statutory_context = (
@@ -64,7 +58,7 @@ class Prompt:
         return self.instr
 
     def join_input(self, text, context):
-        return self.template.replace("<instruction>", self.instr).replace("<clause>", text).replace("<context>", context).replace("<statutory_context>", placeholder_statutory_context)
+        return self.template.replace("<instruction>", self.instr).replace("<clause>", text).replace("<contract_context>", context).replace("<statutory_context>", placeholder_statutory_context)
 
 
 class Data:
@@ -242,7 +236,7 @@ def mutate_prompt_ga(parent, instr_strategy, llm):
 
 def optimize_prompt(train_x, train_context, train_y, llm, generations=5, pop_size=6):
     base_instr = "Classify the following clause from a Terms of Service contract as fair (0) or unfair (1) using the context for better understanding. Respond only with '0' or '1'."
-    base_template = "Statutory Context: <statutory_context>\nInstruction: <instruction>\nContract Context: <context>\nClause: <clause>\n"
+    base_template = "Instruction: <instruction>\nClause: <clause>\nStatutory Context: <statutory_context>\nContract Context: <contract_context>"
     population = [Prompt(base_instr, base_template)]
 
     for _ in range(pop_size - 1):
@@ -251,7 +245,7 @@ def optimize_prompt(train_x, train_context, train_y, llm, generations=5, pop_siz
 
     for gen in range(generations):
         print(f"Generation {gen + 1}")
-        scores = [evaluate(p, train_x, train_context, train_y, llm, sample_size=50) for p in population]
+        scores = [evaluate(p, train_x, train_context, train_y, llm, sample_size=10) for p in population]
         for i, p in enumerate(population):
             p.score = scores[i]
         population = sorted(population, key=lambda p: p.score, reverse=True)
@@ -290,13 +284,13 @@ def main():
         sampled_train.get_context(),
         sampled_train.get_y(),
         llm=llm,
-        generations=5, #5
+        generations=10, #5
         pop_size=4, #6
     )
 
     print("\nRunning on test set...")
 
-    test_macro_f1 = evaluate(best_prompt, test_data.get_x(), test_data.get_context(), test_data.get_y(), llm, sample_size=50)
+    test_macro_f1 = evaluate(best_prompt, test_data.get_x(), test_data.get_context(), test_data.get_y(), llm, sample_size=200)
     print(f"Best Instruction: {best_prompt.instr}")
     print(f"Best Template: {best_prompt.template}")
 
