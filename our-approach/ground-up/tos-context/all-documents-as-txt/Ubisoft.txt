@@ -1,0 +1,665 @@
+TERMS OF USE OF UBISOFT SERVICES
+UBISOFT
+TERMS OF USE OF UBISOFT SERVICES
+Last revised: May 28th, 2018
+
+Table of contents:
+
+DESCRIPTION OF SERVICES
+
+ACCOUNT
+
+USE OF SERVICES AND RULES OF CONDUCT
+
+ACCESS AND TERMS SPECIFIC TO MINORS
+
+INTELLECTUAL PROPERTY RIGHTS
+
+USER GENERATED CONTENT
+
+REPORTING OF UNLAWFUL CONTENT
+
+TECHNICAL PROTECTIVE MEASURES – DIGITAL RIGHTS MANAGEMENT
+
+CREDITS, SUBSCRIPTIONS AND UBISOFT POINTS
+
+MERCHANT SERVICES (UBISHOP)
+
+FORUMS AND DISCUSSION AREAS PROVIDED BY THE SERVICES
+
+COMPETITIONS,LOTTERIES AND LOYALTY PROGRAMS
+
+ADVERTISING AND PROMOTION OF PRODUCTS
+
+BETA TESTS
+
+LIABILITY, INDEMNITY AND COMPENSATION
+
+TERMINATION
+
+UPDATING OF SERVICES AND TERMS
+
+CONFIDENTIALITY AND COLLECTION OF PERSONAL DATA
+
+HEALTH OF VIDEO GAME USERS
+
+SOFTWARE, UTILITIES AND TOOLS
+
+SPECIFIC TERMS FOR COMPATIBLE MOBILE TERMINALS
+
+MISCELLANEOUS
+
+WELCOME TO UBISOFT SERVICES.
+
+PLEASE READ THESE GENERAL TERMS OF USE CAREFULLY
+
+1. DESCRIPTION OF SERVICES
+1.1 These general terms of use (the "Terms") govern your use of the online games, applications and services, including the online functions of multimedia products, the websites, servers, software and the framework through which these items are provided (collectively the "Services") currently provided or which will be provided by UBISOFT ENTERTAINMENT S.A., or any one of its subsidiaries or affiliated companies, including UBISOFT EMEA SAS AND UBISOFT LTD. (hereinafter collectively referred to as "UBISOFT" or "We").
+
+1.2 You should read these Terms carefully as they set out the basis on which we make the Services available. As a user ("User"), your use of any or all of the Services and Content (as defined in Article 1.3 below), indicate that you accept these Terms, our Privacy Policy and other applicable terms depending on the Service You use including without limitation the terms of sale ("Terms of Sale"), the End User License Agreement ("EULA") and other "game rules") and that you agree to comply with them fully. If you do not agree with these, please do not continue to use our Services.
+
+1.3 Content includes all text, graphics, music or sounds, all messages or items of information, fictional characters, names, themes, objects, scenery, costumes, effects, dialogues, slogans, places, characters, diagrams, concepts, choreographies, videos, audio-visual effects, domain names and any other elements which are part of the Services, individually or in combination, together with all related Intellectual Property Rights in the above, (collectively, the "Content").
+
+For the avoidance of doubt, Content includes:
+
+content created by other Users;
+
+Additional Content; and
+
+Test Contents (as defined in Article 12 below).
+
+1.4 UBISOFT’s Privacy Policy can be found on https://legal.ubi.com and is an integral part of these Terms. Please read it carefully to understand our views and practices regarding your personal data and how we will treat it.
+
+1.5 UBISOFT reserves the right to change, modify, add or delete Articles in these Terms at any time, in accordance with the procedures described below in Article 17.
+
+2. ACCOUNT
+2.1 Creation of Your Account.
+
+Access to and use of certain additional functions and/or benefits of the Services are subject to the creation of an account with UBISOFT (an "Account"). If you do not have an Account, you can create one on http://www.ubi.com or on http://www.uplay.com.
+
+To create an Account, you must have an e-mail address and supply accurate complete and up-to-date information. You must be authorised to use the Services for which you register, and in particular meet the age criteria.
+
+Certain Services may require the creation of a username or an avatar and they will be linked to your Account and that will be publicly displayed. We therefore advise you not to include your surname in your username. For other information that may be publicly displayed, please refer to our Privacy Policy.
+
+You may not:
+
+select or use a username or an avatar which is already used by someone else or associated with another Account; or
+
+select or use a username or avatar which does not meet the requirements of these Terms, in particular the rules of conduct set out in Article 3.2 and the Content standards set out in Article 3.3.
+
+create multiple accounts, except if this is specifically allowed with the Service by UBISOFT. In such case, you acknowledge that you will close your additional Account upon UBISOFT’s request. UBISOFT advises you not to include your surname in your User name.
+
+If you choose, or you are provided with, a username, password or any other piece of information as part of our security procedures, you must treat such information as confidential, and you must not disclose it to any third party. We will never ask you to reveal your password and will never initiate contact with you to ask you for the memory joggers associated with your password. Any use, in particular any purchase of Services, using your Account with your password will be deemed to be carried out by you. We have the right to disable any username or password if in our sole opinion you have failed to comply with any of the provisions of these Terms.
+
+2.2 Accuracy and Use of Your Account Data.
+
+You agree to supply and keep the personal information relating to your Account accurate, complete and up-to-date (including in the event of a transfer of data from a pre-existing Account).
+
+You shall not claim to be any other person or entity and shall not represent your identity or an affiliation with any other person or entity in an inaccurate way, including by using the username, password or any other information relating to someone else’s Account or the name, likeness, voice, image or photograph of another person or by providing false information concerning a parent or legal guardian when the registration process asks you to give this information.
+
+We may take action to check the accuracy of the information you give, including by checking landline or mobile telephone numbers and/or e-mail address you have given for you or a parent or legal guardian when applicable. In order to protect minors, other Users and prevent risks of fraud, you agree to send the necessary authorisations and supporting documents to UBISOFT on request by e-mail, fax or post. The documents requested may include a copy of your national identity card or your passport.
+
+You also agree to inform UBISOFT as quickly as possible at emea-email-support@ubisoft.com of any unauthorised use of your username, password or other information concerning your Account or of any other security violation concerning or involving the Services which comes to your attention.
+
+3. USE OF SERVICES AND RULES OF CONDUCT
+3.1 Use of Services.
+
+You must be authorised to use the Services for which you register in accordance with these Terms or any other terms applicable to such a Service.
+
+The Services are intended for personal use only and you must in no event use them in any way for commercial purposes without obtaining a licence to do so from us and/or our licensors.
+
+You shall not, directly or indirectly:
+
+sell, rent out or market the Content;
+
+arrange, modify, decompile, disassemble, reverse engineer, translate, adapt, reproduce, distribute, disseminate, re-post or transfer any element of the Content;
+
+automate or use on a large-volume the Content;
+
+transfer any Content between any computers or mobile devices except as involved in ordinary use of the Services.
+
+Where available as part of the Services, you are authorised by UBISOFT to download the Content in question to your computer(s) or mobile device(s) and to print the pages, when applicable, provided that you:
+
+keep intact all copyright and trademark indications and other authorship and origin information;
+
+do not copy (except for copying involved in ordinary use of the Services; and the creation of a single copy for backup requirements) or distribute the Content, or copies or derivative documents based wholly or partially on the Content; and
+
+do not use the Content in a manner which would suggest an association with one of UBISOFT’s products, services and/or brand names.
+
+If you print, copy or download any part of our Services in breach of these Terms, your right to use our Services will cease immediately and you must, at our option, return or destroy any copies of the materials you have made.
+
+You are solely responsible for any damage caused to UBISOFT, its partners, other Users of the games and Services or any other individual or legal entity as a result of use of all or part of the Services in violation of the law or of your obligations as set out in these Terms.
+
+3.2 Rules of Conduct.
+
+You warrant that you shall comply with our rules of conduct set out in this Article 3.2.
+
+You may only use the Services for lawful purposes and according to anticipated use of the Services.
+
+You may not:
+
+use the Services in any way that breaches any applicable local, national or international law or regulation;
+
+use any element of the Services or Content which would infringe the Intellectual Property Rights or other rights of others and/or of UBISOFT;
+
+create, use, share and/or publish by any means (forum, public profile or other means) in relation to the Services any material (text, words, images, sounds, videos, etc.) which would breach of a duty of confidentiality, infringe an individual’s right to privacy or which would incite the committing of an unlawful act (in particular, piracy, cracking or circulation of counterfeit software);
+
+access or aim to access parts of the Services whose use has not been authorised by UBISOFT;
+
+arrange, modify, translate, adapt, reproduce, index, copy and/or extract any information, software, product or other element or part of the Content by any means without UBISOFT’s express prior permission as set out in these Terms or otherwise;
+
+modify, distort, block, abnormally burden, disrupt, slow down and/or hinder the normal functioning of all or part of the Services, or their accessibility to other Users, or the functioning of the partner networks of the Services, or attempt to do any of the above;
+
+transmit or propagate any virus, trojan horse, worm, bomb, corrupted file and/or similar destructive device or corrupted data in relation to the Services, and/or organise, participate in or be involved in any way in an attack on UBISOFT’s servers and/or the Services and/or those of its service providers and partners;
+
+create, use and/or circulate "auto" or "macro" computer programs including without limitation "cheats", "mods", "hacks", "bots" and "trainers" programs or software applications, and/or use the Services via a mirror site;
+
+create, supply or use alternative methods of using the Services, for example server emulators;
+
+use incorrect information, use another User’s Account, assume another person’s identity or present false credentials in relation to any individual or legal entity in relation to the Services;
+
+use any means not expressly permitted by UBISOFT to collect or intercept data exchanged by other Users within the framework of the Services, or the names/ usernames and/or passwords of any other User;
+
+attempt to obtain a password, information concerning an Account or other information of a private nature from any other User of the Services, and/or sell, rent out, share, lend and/or in any other way transfer to any outside party your Account and/or the means of accessing it and/or in any other way allow any outside party to benefit from your Account;
+
+make inappropriate use of the help service or the claim buttons or send untruthful reports to members of UBISOFT’s personnel;
+
+access, use, download from the Services or otherwise reproduce or supply to anyone (free of charge or in return for payment) any directory of Users of the Services or any other information concerning Users or use of the Services;
+
+refuse to obey the instructions of any UBISOFT representative, and/or falsely claim to be an employee or representative of UBISOFT or its partners and/or agents.
+
+3.3 Content Standards
+
+In relation to the Services, you may not:
+
+create, use, share and/or publish by any means (forum, public profile or other means) any material (text, words, images, sounds, videos, etc.) or Content which, in UBISOFT’s sole opinion, is unlawful, aggressive, threatening, malicious, defamatory, untruthful, pornographic, paedophilic, obscene, vulgar, racist, xenophobic, liable to incite hatred, sexually explicit, insulting, violent, contrary to morality or in any other way unacceptable; or
+
+harass other Users, send them unsolicited advertising, promotional items or messages for commercial purposes, use the Services for purposes of surveys, competitions, pyramid selling or similar operations, or for sending mass e-mails or spam.
+
+3.4 Amendments
+
+We reserve the right to amend the rules of conduct and content standards set out in Articles 3.2 and 3.3 to place limits on the use of the Services. We may, for example, define: a maximum number of days for which messages or any other downloaded Content will be stored as part of the Services; a maximum number or volume of messages which can be sent or received by an Account opened on the Services; a maximum memory capacity which will be allocated by our servers for your Account; and / or a maximum number of times you may access the Services, together with a maximum duration for each access during a given period.
+
+3.5 Monitoring of Services by UBISOFT
+
+We are not responsible for and do not endorse the opinions, advice and/or recommendations displayed or sent by Users on the Services, including in public message forums. Such communications are the sole responsibility of the User in question.
+
+Subject to the applicable legal requirements, we do not undertake to monitor the Content, messages and other information made available on the Services by its Users. We may, though are not required to, oversee, monitor or moderate our Services, particularly on website home pages and forums. Some further details of our monitoring of the Services in relation to Minors is set out in Articles 4 and 6.
+
+We reserve the right, at its sole discretion, to refuse any username, screen name and/or password you have chosen.
+
+4. ACCESS AND TERMS SPECIFIC TO MINORS
+4.1 If you are a minor, you should read these Terms with the help of your parents or guardians.
+
+4.2 If you are a parent or guardian, UBISOFT recommends that you monitor your children’s online activities and check that your children never disclose their personal data without your prior consent.
+
+4.3 We may restrict access to certain Services on age grounds. For such Services,we ask for a parent or guardian’s approval when a child under 12 years old (a "Minor") wishes to use the Services made available to Minors. When a Minor registers, they must supply the e-mail address of a parent or legal guardian who we will contact to confirm, refuse or modify their child’s access to Services. UBISOFT reserves the right to limit the period during which a Minor may play pending confirmation and activation by their parent or guardian.
+
+4.4 We reserve the right to ask for written proof of consent from a parent or guardian for any User or potential User of the Services we suspect is a Minor. Parental consent applies exclusively to the Service for which it has been granted.
+
+4.5 Certain Services are specially designed for children and enable children to create their own free Account for which UBISOFT collects their username, password, date of birth (or age), country and parent or guardian’s e-mail address.
+
+4.6 Such Services sometimes offer the possibility of paying for a subscription or certain game functions which enable children to participate in more activities on the Services. The subscription services may also allow parents or guardians to manage their children’s account and create their own new player Account.
+
+4.7 Certain Services enable children to create personalised avatars which they can use across the Services, including mini-games and virtual worlds. Children may also use other functions of the Services such as "recommend to a friend" to invite a friend to find out about the Services. Invitation functions enable children to send their friends a single message inviting them to visit the related Service. We will collect the first name and e-mail address of your child (or, failing that, the e-mail address of the parent or guardian) and the e-mail address of their friend for the sole purpose of sending a single message. This information is neither stored nor used for any other purpose and we do not reveal your child’s e-mail address to the recipient.
+
+4.8 Certain Services enable children to receive newsletters. Minors with access to a forum will be able to see other Users’ messages in the forum. On certain forums UBISOFT may operate a ‘safe chat’ system which either filters words and set phrases which we consider unacceptable for Minors, or limits submissions to a list of predefined phrases. This aims to reduce content of a hurtful or insulting nature. When a forum Service is available, "report abuse" links are provided.
+
+4.9 Parents or guardians may de-activate their child’s account at any time by creating a parental account or by sending an e-mail to the administrator of the Privacy Policy, whose contact details are given in the Privacy Policy.
+
+4.10 In all cases, all use of the Services by Minors is the responsibility of their parents or legal guardians whom we assume approve their use of the Services and agree to these Terms.
+
+4.11 As far as is permitted by law, UBISOFT accepts no responsibility regarding any activities which may be conducted by minors without the permission of their parents or legal guardians. If you are a parent or legal guardian and you give your permission for your child to resister for one or other of the services, you thereby agree to the Terms relating to use of the Services by your child. Please consult our Privacy Policy available on legal.ubi.com for further details.
+
+5. INTELLECTUAL PROPERTY RIGHTS
+5.1 Intellectual Property Rights are defined as "patents, rights to inventions, copyright and related rights, trademarks, trade names, domain names, rights in get-up, rights in goodwill or to sue for passing off, unfair competition rights, rights in designs, rights in computer software, database rights, topography rights, moral rights, rights in confidential information (including know-how and trade secrets) and any other intellectual property rights, in each case whether registered or unregistered, and including all applications for, and renewals or extensions of, such rights, and all similar or equivalent rights or forms of protection in any part of the world".
+
+5.2 The Services and Content are protected by national and international laws and treaties. Except as expressly set out in these Terms, we, and our licensees and licensors, reserve our respective Intellectual Property Rights in the Services and the Content. Any reproduction or representation of these elements in any way and for any reason is prohibited without our prior permission and, if applicable, our licensors’ and representatives’.
+
+5.3 Save as expressly set out in these Terms, no Intellectual Property Rights of any kind are assigned or licensed to you.
+
+5.4 The Services, Content, and all Intellectual Property Rights in them belong to UBISOFT or its licensors and representatives, with the exception of any content generated by the User (dealt with in Article 6 below).
+
+6. USER GENERATED CONTENT
+6.1 UBISOFT offers you the possibility of (i) creating, editing, modifying, adapting, material or information of either original content or, if applicable, Content and/or tools made available to you by UBISOFT in certain Services, and (ii) uploading, publishing or submitting such material or information via the Services (any of which is "User Generated Content" or "UGC").
+
+If you create UGC, you undertake to comply with the Articles of these Terms at all times during and after the creation of this UGC. The Terms will continue to apply after any termination of your Account.
+
+You understand that all UGC, whether you have publicly posted on a forum or privately transmitted to another Service user or to us, is your sole responsibility. Though the Services are designed to be a safe place to share such UGC, UBISOFT cannot guaranty that other users will not misuse the UGC that you share. If you have any UGC that you would like to keep confidential and/or do not want others to use (including but not limited to, photos, personal information, name, home address, telephone number, etc.), do not post it to the Services. TO THE FULLEST EXTENT PERMITTED BY LAW, UNDER NO CIRCUMSTANCES WILL UBISOFT BE LIABLE IN ANY WAY FOR ANY UGC, INCLUDING, BUT NOT LIMITED TO, ANY ERRORS OR OMISSIONS IN ANY UGC, OR FOR ANY LOSS OR DAMAGE OF ANY KIND INCURRED AS A RESULT OF THE USE OF ANY UGC POSTED, EMAILED OR OTHERWISE TRANSMITTED VIA THE SERVICES, TO THE FULLEST EXTENT PERMITTED BY LAW, UBISOFT IS NOT RESPONSIBLE FOR A USER’S MISUSE OR MISAPPROPRIATION OF ANY UGC YOU POST TO THE SERVICES.
+
+6.2 UGC derived from pre-existing UBISOFT Content ("Derived UGC")
+
+You declare that you accept the fact that UGC may be developed and created using tools and/or on the basis of Content belonging to UBISOFT, such as, in particular and without limitation, titles, fictional characters, names, themes, objects, scenery, costumes, effects, texts, dialogues, slogans, places, characters, diagrams, concepts, designs, graphics, animations, sounds, musical compositions, choreographies and other performances, videos, audiovisual effects, user-friendly features and any other element of a game or Services. Any UGC created with such UBISOFT Content will be considered "Derived UGC" as defined below and will be governed by this Article 6.
+
+6.3 With regard to this, you declare that you accept the fact that UBISOFT will be the sole owner of all rights relating to Derived UGC that you produce from pre-existing UBISOFT Content, as and when it is produced. By accepting these Terms, you agree to transfer irrevocably to UBISOFT, free of charge, all rights of use you may have over the UGC in question including but not limited to rights over trademark, patent, commercial secrets, copyright, neighbouring rights and rights of publicity therein, allowing UBISOFT to benefit freely from the following rights, listed only as an illustration and without limitation:
+
+the right to reproduce, permanently or temporarily, by any means and in any form, on all known or as yet unknown media, and in particular:
+
+the right to integrate the Derived UGC in whole or in part in all UBISOFT products and services, including but not limited to other online or offline games, movies, or other audio visual content;
+
+the right to load and download, display, execute, transmit and/or store by any means, in any place and on any medium, the Derived UGC and all products incorporating all or part of the Derived UGC;
+
+the right to arrange, correct, develop, translate, digitise, encode or otherwise modify the Derived UGC, and to reproduce the results of any one of these operations, by any means and on all existing or future media;
+
+the right to make any copy of all or part of the Derived UGC and of all products incorporating all or part of the Derived UGC, including modified, translated or arranged versions, in a number of copies decided by UBISOFT, by any process and on all media (including but not limited to digital media, CDs, CD-ROMs, DVDs, game cartridges, mobile phones, PDAs, Internet, etc.);
+
+the right to market, in return for payment or free of charge, and distribute (including renting out, selling and lending) all or part of the Derived UGC, including modified or arranged versions, and all products incorporating the Derived UGC, by any process and on any known or as yet unknown medium; and
+
+the right to reproduce the Derived UGC by any means, in any form and on any medium, as necessary for the rights of use referred to below.
+
+the right to represent and broadcast the Derived UGC in all places accessible to the public and in all private places, by any means or process and on any known or as yet unknown medium (and in particular terrestrial, satellite and cable broadcasting, optical fibre, pay-to-view or free television, computer transmission, Internet, ADSL, video platforms, web TV and video stream, streaming, MMDS TV, mobile phone TV and catch-up TV).
+
+the right to use the Derived UGC in any way for commercial or non-commercial purposes of demonstration, promotion and advertising for all UBISOFT products and Services.
+
+the right to make the Derived UGC or any product incorporating the Derived UGC available to the public as widely as possible, notably via a transfer, license or any type of contract, temporarily or definitively, in return for payment or free of charge, by all means known or unknown at the present time and in particular via Internet or any digital network, pay per view, pay per play or television broadcasting, and in general via all media and/or networks (particularly analogue or digital networks and media, telecommunication networks and media and computer networks and media).
+
+the right to produce or order the production of any new product or service from the Derived UGC or from any product incorporating the Derived UGC, either reproduced as it stands or modified by UBISOFT or by any outside party of its choice.
+
+the right to exploit the Derived UGC with products incorporating the Derived UGC, i.e. in particular:
+
+the right to use and/or exploit all or part of the Derived UGC and of any product incorporating the Derived UGC in any form, with or without adaptation for use in the form of derivative "merchandising" products, in order in particular, as an example and without limitation: to publish or produce books and comic books, strategy guides and books based on the scenario and/or graphics of the games and/or Services, reviews, calendars, stationery articles, stickers, posters, office supplies, accessories for computers or game consoles, computer wallpapers, screen savers, figurines, games, toys in any materials, textiles, crockery, drawings, advertising materials (particularly by display of mail on the Internet), audible or visual reproduction and representation (particularly films, reports, documentaries, stage shows, theme parks, etc.), and all other objects which incorporate all or part of the Derived UGC in their substance or in their form, decoration, packaging or presentation;
+
+the right to produce ‘sequels’, ‘prequels’, ‘add-ons’, ‘spin-offs’ and any conversions of any game or any other material incorporating the Derived UGC for any platform, in any language and in any form, as UBISOFT chooses; and
+
+in general all prerogatives entailed by the author’s ownership of his work.
+
+This transfer of rights is granted on a worldwide basis and for the period of protection of each Derived UGC by the applicable legislation.
+
+UBISOFT, or any outside party to which the rights concerning the Derived UGC have been transferred in accordance with this Article, may file or register any application for intellectual property rights relating to the Derived UGC in its own name, for all countries in the world. The User undertakes to (i) sign and supply any necessary document requested by UBISOFT, or by the outside party to whom the rights have been transferred, for all registration purposes, and in particular to sign any request, deed of transfer or other document which might be necessary to allow UBISOFT or the outside party to whom the rights have been transferred to register and obtain patents, trademark, copyright, property rights, drawing registrations and any other form of protection relating to the Derived UGC and be recognized as the holder of all patrimonial rights and property rights relating to the Derived UGC and (ii) to provide all necessary assistance to UBISOFT or to the outside party to whom the rights have been transferred, at the expense of UBISOFT or the outside party concerned, in any action, procedure or step aimed at application of the clauses of this Article both inside and outside the United States.
+
+6.4 In the event of a competent court ruling that all or some of the rights concerning the Derived UGC created by you cannot be validly transferred to UBISOFT as described above, you hereby grant to UBISOFT, free of charge, permanently or for the whole legal period of protection of the Derived UGC under intellectual property rights, an irrevocable and transferable right of use, reproduction, representation, modification, display, distribution and, in general, exploitation of this Derived UGC as stipulated in this Article 6, by any means, on all known or as yet unknown media, for all purposes (whether commercial or non-commercial) and on a worldwide basis, without your necessarily being mentioned as the source of this Derived UGC, given the technical or operational constraints.
+
+6.5 Similarly, you grant free of charge to other Users of the Services and games concerned, permanently or for the whole legal period of protection of the Derived UGC under intellectual property rights, a non-exclusive irrevocable right to use the Derived UGC you have created and published, for the purposes of the products and services offered by UBISOFT, throughout the world and within the limits permitted by UBISOFT, and in particular to access, display, copy, adapt and modify said Derived UGC and create derivative works within the framework of the Services. This license will continue to apply after any partial termination of the license that UBISOFT grants to you to use the Services and or of these Terms.
+
+You are authorised by UBISOFT to download a copy of the Content in question on one or more computer(s) or mobile device(s) and to print the pages, when applicable, provided that you:
+
+keep intact all copyright and trademark indications and other property information;
+
+do not copy except (expect the creation of a single copy for your own backup requirements) or create derivative documents based wholly or partially on the Content; and
+
+do not use the Content in a manner which would suggest an association with one of UBISOFT’s products, services and/or brand names.
+
+6.6 Your use of Derived UGC
+UBISOFT hereby grants you a non-exclusive and non-transferable personal license, revocable at all times, to use the Derived UGC you have produced from UBISOFT’s Content throughout the world and for the duration of your use of the Services, in order to:
+
+record it on your console, your computer, your mobile phone or any other medium you use to access the Services;
+
+share it with your friends using the Services; and
+
+load it on the Services and use it within the framework of the Services and/or on any other UBISOFT service or partner network, as allowed by UBISOFT.
+
+The other users of the Services have also granted you a personal license, revocable at all times, non-exclusive and non-transferable, to use the Derived UGC they have produced within the framework of the Services and in accordance with these Terms. The terms of the license are specified in Article 6 below.
+
+6.7 UGC you create independently from pre-existing UBISOFT content ("Original UGC")
+By posting any Original UGC at the Services, you hereby grant UBISOFT a royalty-free, fully paid up, perpetual, irrevocable, non-exclusive and fully sub-licensable right and license to use, reproduce, modify, adapt, publish, translate, combine with other works, create derivative works from including but not limited to merchandising products, distribute, perform, edit and display such Original UGC (in whole or part) worldwide and/or to incorporate it in other works in any form, media, or technology now known or later developed for any reason, including but not limited to, entertainment, information, advertising, promotion, and marketing of all UBISOFT Services or products, for commercial or advertising purposes (hereinafter referred to as the "UGC license.") It is agreed that the Original UGC license entails the granting of a license for all rights in the Original UGC including but not limited to trademark, patent, commercial secrets, copyright, neighbouring rights and rights of publicity. You specifically waive any "moral rights" in and to the Original UGC. The foregoing grants includes, without limitation, any copyrights, neighbouring rights and other intellectual property rights in and to your Original UGC. You represent and warrant that: you own the Original UGC posted by you on or through the Services or otherwise have the right to grant the license set forth in this Article; and the posting of your Original UGC on or through the Services does not violate the privacy rights, publicity rights, copyrights, contract rights or any other rights of any person. You agree to pay for all royalties, fees, and any other monies owing any person by reason of any Original UGC you posted to or through the Services.
+
+6.8 UGC featuring your image
+If UGC that you create and publish reproduces your image, you acknowledge that UBISOFT has a right to use your image as part of the Services throughout the world and for the whole duration of the Services concerned. You agree to UGC reproducing your image being used by UBISOFT as set out in Articles 6.2 and 6.7. If the UGC you publish on the Services features the image of any person other than yourself, you warrant that you have received the permission of the relevant person for the use of his/her image by UBISOFT in accordance with the terms of this Article 6, and you indemnify UBISOFT for any losses which UBISOFT may incur in the event of a well-founded complaint, action or claim by any third party concerning the use by UBISOFT of a third party’s image, derived from UGC that you create and/or publish.
+
+6.9 In all cases:
+
+We do not grant you a licence to use UGC for commercial purposes;
+
+the ability to create UGC is part of the Service we offer and does not entitle you to any payment, including when the UGC is made available to other Users of the Services;
+
+you warrant to UBISOFT that all Content (whether UGC or otherwise) that you create and/or publish while using the Services does not infringe the rights of any third party and in particular does not constitute an infringement of Intellectual Property Rights or an act of unfair competition, including when the Content is used by UBISOFT in the course of supplying the Services;
+
+you warrant that you are personally responsible for all Content that you create, use and/or publish while using the Services and you agree to defend, indemnify and keep indemnified UBISOFT, its including its licensors, licensees, sub-licensees, assignees and successors in title and their respective employees, managers or directors in title from and against any claim or alleged claim, suit or proceeding brought against UBISOFT and/or its Affiliates, relating to the use or publication of content that you create, use and/or publish while using the Services. In such instances, UBISOFT reserves the right to conduct its own defense at its own expense and retain exclusive control over any action which might give rise to compensation on your part. You agree, in such cases, to collaborate fully with UBISOFT on request in defense of its interests;
+
+For the avoidance of doubt, unless and until such Content is removed by UBISOFT, UGC which you have published in relation to the Services will be associated with your username and will be made available to Users of the Service; and
+
+you waive absolutely your moral rights in all Content (whether UGC or otherwise) you create or publish arising under the Copyright, Designs and Patents Act 1988 and, so far as is legally possible, any broadly equivalent rights you may have in any territory of the world, and
+
+you vouch for the obtaining of the same agreement from any other person who might invoke moral rights over the UGC.
+
+you acknowledge and agree UBISOFT may preserve any UGC and may also disclose UGC if required to do so by law or in the good faith belief that such preservation or disclosure is reasonably necessary to: comply with legal process; enforce these Terms; respond to claims that any UGC violates the rights of third-parties; or protect the rights, property, or personal safety of UBISOFT, its users and the public. You understand that the technical processing and transmission of the Services, including your UGC, may involve: transmissions over various networks; and changes to confirm and adapt to technical requirements connecting networks or devices. UBISOFT may store UGC indefinitely. However, UBISOFT has no obligation to store UGC or make it available to you in the future.
+
+To the extent permitted by the applicable law and if any moral rights or other similar rights (hereinafter referred to as "Moral rights") in and over the UGC exist and are not the exclusive property of UBISOFT, you agree not to invoke your moral rights over the UGC against UBISOFT or its Affiliates and other authorised Users and you vouch for the obtaining of the same agreement from any other person who might invoke moral rights over the UGC.
+
+7. REPORTING OF UNLAWFUL CONTENT
+7.1 If you consider that any Content made available on the Services does not comply with these Terms (including the rules of conduct or conduct standards set out in Articles 3.2 and 3.3), you may report this to UBISOFT by using the "Report" option available in each Service or by sending an e-mail to the following email address indicating the information listed below.
+
+emea-email-support@ubisoft.com
+
+7.2 To assist us in quickly responding to your report, it helps us to include as much as possible of the following:
+
+the date of your report;
+
+your surname, first name, date and place of birth, address, and a way of contacting you such as a telephone number or e-mail address;
+
+identification and description of the Content which is, in your opinion, contrary to these Terms, indicating its precise location;
+
+an indication of the reasons why you believe that this Content does not comply with these Terms and should be removed from the Services, citing the Article of these Terms or the legal provision along with proof where possible;
+
+when reporting a copyright infringement, identify the work protected by the copyright of which you wish to report the infringement and provide all necessary information showing the existence of this copyright and demonstrating that you are authorised to intervene on behalf of the copyright holder; and
+
+a declaration specifying that you believe that all the information in the report is correct.
+
+7.3 After receipt of a report, UBISOFT reserves the right to act as it deems appropriate, at its sole discretion.
+
+7.4 UBISOFT reserves the right to ask you to cease to use any Content which it believes to be contrary to the provisions of the Terms and/or delete or deactivate the Content in question.
+
+If UBISOFT deletes or deactivates any Content that you have published which is considered to be contrary to these Terms, UBISOFT reserves the right to terminate these Terms and/or to suspend or delete your Account, in accordance with Article 14 below.
+
+8. TECHNICAL PROTECTIVE MEASURES – DIGITAL RIGHTS MANAGEMENT
+8.1 Certain Services may be protected by technical protection measures and digital rights management, in particular, and without limitation, physical protection, tattooing (watermarking), digital keys and online activation.
+
+8.2 A high speed internet connection and the creation of an Account are necessary to access online functions and to play on-line, and to access some Content including exclusive Content which may be unlocked once only with a unique key.
+
+8.3 For certain games and/or Services incorporating Digital Rights Management technology, a permanent high speed internet connection and the creation of an Account may be necessary to play such game(s) or access such Service(s) at any time.
+
+9. CREDITS, SUBSCRIPTIONS AND UBISOFT POINTS
+Within certain Services, UBISOFT may offer You the possibility of ordering certain subscriptions, in-game virtual currency or additional content such as in-game items, customization elements, maps, building accelerations, avatars which, once added to Your Account, can be used to maximize Your experience within the game or within the application. You will need to have an Account to be able to purchase and use such subscriptions, in-game virtual currency or additional content. In such event, the Terms of Sale accessible on the Service’s page or on legal.ubi.com will apply and shall be integrated to these Terms.
+
+Additionally, we may offer a system enabling you to obtain points if you use Services, if you download Additional Content (as defined below) or if you participate in certain games and activities proposed by the Services (the "Points System"). You may exchange these points for additional content which we offer under the Points System. We reserve the right to modify the Terms or eliminate any or all of the Points Systems at any time entirely at its own discretion, under the terms specified in Article 17 below.
+
+10. MERCHANT SERVICES (UBISHOP)
+UBISOFT’s shop enables you to purchase a UBISOFT product via its online store on http://shop.ubi.com. Specific terms for the purchase may apply and can be found of the UBISHOP website.
+
+11. FORUMS AND DISCUSSION AREAS PROVIDED BY THE SERVICES
+The Services may contain forums, information groups or other types of online discussion areas (collectively known as "Forums") which are not moderated or which are moderated after the event, with the result that your messages are not checked before being displayed on UBISOFT’s websites.
+
+When you use these Services, you should be aware that your username and your messages will be public and viewable by any User who visits the Services. You send your messages at your own risk. You have sole responsibility for their submission, publication and dissemination.
+
+You must comply with all the rules of conduct and Content standards set out in Article 3 of these Terms, and furthermore you undertake not to:
+
+restrict or prevent use of the Forum by any other User of the Services;
+
+place on line or reveal via the Services any real personal information concerning a User;
+
+place on line or reveal information which is not generally related to the designated topic or theme of the public Forum in question;
+
+place on line or reveal information which is inappropriate or disrespectful of the usual or targeted Users of the Forum; or
+
+harass or disparage other users on the Forum by way of private or public messages.
+
+UBISOFT reserves the right to contact you to obtain further information on the messages you have disseminated, in particular to check that you are entitled to disseminate them and/or that you are the owner of the elements (text, words, images, sounds, videos, etc.) which they contain.
+
+In all cases, UBISOFT is not responsible for and does not endorse the opinions, advice and/or recommendations displayed or sent by Users on the Services, notably in any public Forum, and declines any responsibility in this regard.
+
+12. COMPETITIONS, LOTTERIES AND LOYALTY PROGRAMS
+Periodically, UBISOFT and/or its partners organise competitions, games, free prize draws and promotions on the Services. These will be subject to particular terms which we shall communicate to you at the time of these promotions.
+
+Additionally, UBISOFT may feature certain loyalty programs and/or periodical promotions on its merchant Services for which separate terms apply. Please review these additional terms on the Merchant Services and review them carefully
+
+13. ADVERTISING AND PROMOTION OF PRODUCTS
+Entirely at its own discretion, and subject only to its editorial policy for each Service, UBISOFT may display certain third party products and/or services by inserting promotional links, advertising banners or any other advertising and promotional element, and may also carry out cross-marketing operations with any partner of its choice.
+
+UBISOFT is not responsible for the third party products or services so displayed.
+
+14. BETA TESTS
+UBISOFT may, entirely at its own discretion, contact you to propose that you test, evaluate or comment on one or more games and Services, game elements and/or downloadable Content before they are marketed or launched, in order to identify bugs and errors in the programs and/or improve their functioning ("Beta Tests").
+
+If you agree to test the games and Services, UBISOFT reserves the rights to ask You to sign a confidentiality agreement for each Beta Test and return it to UBISOFT before you are accredited and the software is supplied to you or made accessible.
+
+Upon receipt of the signed confidentiality agreement, UBISOFT may then provide you with a beta version of a game or games, Content, Services and related documentation and/or any other information associated therewith, and, if applicable, authorisations to access UBISOFT’s websites (collectively known as the "Test Contents") for the sole purpose of allowing you to test, evaluate and/or comment on the game(s).
+
+You must perform the Beta Test personally and allow no one else to have access to the Test Contents. Beta test accounts may in no case be transferred. You will be asked to inform UBISOFT (and only UBISOFT) of your reactions and suggestions following your experience of the Test Contents in the Beta Test. All comments, feedback, suggestions, ideas, criticisms and other data (collectively referred to as the "Comments") passed on, disclosed or offered to UBISOFT in the course of the Beta Tests, or more generally in the course of use of the Services, will be the exclusive property of UBISOFT. You therefore undertake not to exploit or publish your Comments or make them accessible by any means or process to any outside party other than UBISOFT. You acknowledge that, unless prohibited from doing so under the applicable legislation, UBISOFT may use, sell, promote and exploit the Comments in any way, without restriction and without compensation to you.
+
+You agree and accept that the Test Contents which are supplied to you are highly confidential and/or exclusive information belonging to UBISOFT.
+
+UBISOFT may protect certain Test Contents by incorporating technical protection measures in them to prevent any unlawful reproduction or modification of the Test Contents. In particular, each Test Content is addressed to you by name and UBISOFT may use digital tattooing ("watermarking") processes to identify any violation of these provisions concerning Beta Tests.
+
+Beta versions of games and more generally any Test Contents are supplied to you "as is" and "according to availability" without any explicit or implicit guarantee of any kind. You play on a beta version at your own risk. You accept that (i) the Test Contents may include known or unknown bugs and that (ii) the games and/or other Test Contents may be available only on subscription once the beta phase is completed or at any other time subsequently. You acknowledge that UBISOFT is not obliged to allow you to play free of charge for any period, nor even to authorise you to access these Test Contents. You also accept that all your data, particularly any bonuses, points, Credits, states of progress and statuses attained in the course of the game may be erased and/or reset at any time. In this case, your progress and your data will be erased and you will return to the initial status.
+
+You agree that violation of your obligations under this section would cause UBISOFT irreparable damage and that UBISOFT would be entitled to take any action to prevent any breach or risk of a breach of your obligations or to obtain compensation for the damage it has incurred, without prejudice to the right to terminate your Account in accordance with section 16 below
+
+At the end of the Beta Test period, or at any time when UBISOFT asks you to do so, you undertake to return immediately all Test Contents received from UBISOFT.
+
+Nothing in these Terms may be interpreted as giving you any right or privilege regarding the Test Contents. All of the Terms apply to the use you make of the games during the beta test phase.
+
+15. LIABILITY, INDEMNITY AND COMPENSATION
+15.1 Limitation & Exclusion of Liability
+
+You expressly acknowledge that use of the Services and games is at your own risk.
+
+The Services are supplied "as is", without any guarantees, conditions, warranties or other terms as to:
+
+their conformity, accuracy, currentness, completeness, reliability or security;
+
+their suitability for a particular use;
+
+their market value;
+
+the absence of interruptions or errors, bugs, viruses or harmful elements, or that errors, bugs, viruses or harmful elements will be corrected; and/or
+
+your satisfaction.
+
+In particular, UBISOFT does not exhaustively check Content, in particular UGC (as defined in Article 6), or the words that you or other users publish via the services, including without limitation on the Forums, or your actions within the framework of the Services.
+
+We hereby expressly exclude: all conditions, warranties and other terms which might otherwise be implied by statute, common law or the law of equity; and any liability for loss or damage suffered in connection with the use of the Services or any related third party service. This includes: all losses of any kind, whether in tort (including for negligence or breach of statutory duty), contract, misrepresentation (whether innocent or negligent) or otherwise; direct loss; accidental loss, incidental loss; consequential loss; and indirect loss.
+
+Nothing above prevents claims for damage to your tangible property.
+
+Your sole remedy in the event of a dispute with UBISOFT or its licensors is to:
+
+cease to use the Services and terminate your Account; and
+
+if applicable, seek damages for your losses.
+
+UBISOFT’s liability is limited to the replacement of fee-based Content which are recognized by UBISOFT as being unusable following analysis of your claim, with equivalent Content chosen by UBISOFT.
+
+In any event, the full liability of UBISOFT, including its Affiliates to you may not exceed the price you have paid for the Services during the twelve (12) months prior to the occurrence of the dispute.
+
+Nothing above affects our liability for death or personal injury arising from our negligence, nor our liability for fraud or fraudulent misrepresentation, nor any other liability which cannot be excluded or limited under applicable law.
+
+IF YOU ARE AN AUSTRALIAN CONSUMER:
+
+15.1 Limitation & Exclusion of Liability
+
+You expressly acknowledge that use of the Services and games is at your own risk.
+
+Nothing in these Terms restricts, excludes or modifies, or purports to restrict, exclude or modify and statutory consumer rights under any applicable law including the Australian Competition and Consumer Act 2010 (Cth). To the extent permitted by law, the Services are supplied "as is", without any conditions, warranties or other terms as to:
+
+their market value;
+
+the absence of interruptions or errors, bugs, viruses or harmful elements, or that errors, bugs, viruses or harmful elements will be corrected; and/or
+
+your satisfaction.
+
+In particular, UBISOFT does not exhaustively check Content, in particular UGC (as defined in Article 6), or the words that you or other users publish via the services, including without limitation on the Forums, or your actions within the framework of the Services.
+
+To the extent permitted by law, and subject to the terms of this Article, we hereby expressly exclude:
+
+all conditions, warranties and other terms which might otherwise be implied by statute, common law or the law of equity; and
+
+any liability for loss or damage suffered in connection with the use of the Services or any related third party service. This includes:
+
+all losses of any kind, whether in tort (including for negligence or breach of statutory duty), contract, misrepresentation (whether innocent or negligent) or otherwise;
+
+direct loss;
+
+accidental loss,
+
+incidental loss;
+
+consequential loss; and
+
+indirect loss.
+
+Nothing above prevents claims for damage to your tangible property.
+
+Our goods come with guarantees that cannot be excluded under the Australian consumer law. You are entitled to a replacement or refund for a major failure and compensation for any other reasonably foreseeable loss or damage. You are also entitled to have the goods repaired or replaced if the goods fail to be of acceptable quality and the failure does not amount to a major failure.
+
+Subject to applicable laws and the terms of this Article, your sole remedy in the event of a dispute with UBISOFT or its licensors is to:
+
+cease to use the Services and terminate your Account; and
+
+if applicable, seek damages for your losses.
+
+UBISOFT’s liability is limited to the replacement of fee-based Content which are recognised by UBISOFT as being unusable following analysis of your claim, with equivalent Content chosen by UBISOFT.
+
+In any event, subject to applicable laws, the full liability of UBISOFT, including its affiliates to you may not exceed the price you have paid for the Services during the twelve (12) months prior to the occurrence of the dispute.
+
+Nothing above affects our liability for death or personal injury arising from our negligence, nor our liability for fraud or fraudulent misrepresentation, nor any other liability which cannot be excluded or limited under applicable law.
+
+15.2 Indemnity & Compensation
+
+You agree to defend, indemnify and keep indemnified UBISOFT and its affiliates, their subcontractors and Content suppliers against any claim or alleged claim, all liabilities and damages and all costs, including lawyers’ fees, following and/or resulting from a violation of these Terms for which you are responsible, or related to your behaviour on the Services.
+
+Without limiting the generality of the foregoing, you agree to defend, indemnify and keep indemnified UBISOFT and its affiliates in the event of inappropriate or illegal use of your Account, including in the event of illegal or inappropriate use by someone you have authorised to use your Account. You agree to be held personally responsible for your use of the Services and for all your communications and activities on the Services
+
+UBISOFT reserves the right to take sole conduct, at its own expense, of any claim which you have indemnified UBISOFT in relation to.
+
+15.3 The provisions of this Article 15 remain valid and in force after termination of these Terms or of your Account.
+
+16. TERMINATION
+16.1 We reserve the right to terminate all or part of the Services at any time, without prior notice.
+
+16.2 Termination of the Account or Services at UBISOFT’s initiative
+
+We may suspend or close your Account and your ability to use one or more Services or part of the Services, at any time, automatically and at our sole discretion where: we have sent by e-mail or by post a formal request to provide us proof of your credentials or to cease an action, behaviour, or breach of these Terms; it is confirmed or We have reasonable grounds for believing that: you do not comply with these Terms or any special condition relating to a particular Service or Services; you are in breach of your legal or contractual obligations; your Account has been inactive for more than six months and you do not have access to pay functions; you use, create, share, circulate unauthorized third party programs interacting with one Service; or for any other reason in relation to your use or actions in relation to the Services.
+
+If you have more than one Account, we reserve the right to suspend or close all the Accounts you have opened once one has been suspended or closed under this process.
+
+In the event of a breach of your legal or contractual obligations, we reserve the right to take legal action on grounds of civil or criminal responsibility in order to stop the breach and obtain compensation for our losses. In particular, and without limitation, we reserve the right to prosecute any User who was deliberately damaged or attempted to damage the Services or disrupted the legitimate functioning of the Services or provided assistance for so doing.
+
+16.3 Termination of the Account and/or a subscription on your initiative.
+
+You may terminate your Account to a particular Service or Services at any time by filling the form located at : http://support.ubi.com.
+
+If you do not accept these Terms, you may not use the Services and you must send UBISOFT a request to terminate your Account and/or the corresponding subscriptions.
+
+Note that there will be no total or partial refund for sums already paid for the current subscription period if you decide to end your subscription.
+
+UBISOFT reserves the right to recover the costs, supplements and charges incurred before the termination of your Account or of a subscription to a particular Service or Services. In addition, it is up to you to pay all sums owed to other sellers of suppliers of Contents before the termination of your Account. All arrears or unpaid costs and other unresolved problems with the Services must be settled before any opening of a new Account.
+
+Subject to compliance with the termination procedure indicated above, the termination of your Account and/or your subscription will come into force within a reasonable period of time after receipt of your letter by UBISOFT’s customer service department.
+
+16.4 Consequences of Termination of the Account.
+
+In the event of termination or suspension of your Account, you will lose, and UBISOFT may delete, your profile and the related information you have passed on to UBISOFT, together with any Content (including without limitation UGC) you may have published, uploaded or made available on the Services, notably, without limitation, your username and avatar(s).
+
+UBISOFT reserves the right to store personal data relating to your profile for a reasonable period of time.
+
+In the event of termination of your Account, you must immediately cease all use of the Services and destroy any related documentation on any medium.
+
+In the event of termination of your Account, you will not be able to participate in the Services which require an Account again without UBISOFT’s express permission. To benefit from the Services again, contact emea-email-support@ubisoft.com.
+
+In the event of termination of your Account or of a Service or Services associated with your Account, no credit (such as for unused Services or unused points or Credits) will be credited to you or converted into cash or any other form of reimbursement and you will no longer have access to your Account or to any right associated with your Account or the Service(s) in question (such as points, Credits, tokens or virtual objects).
+
+17. UPDATING OF SERVICES AND TERMS
+17.1 Modification of Terms
+
+We may revise these Terms at any time for security, legal, best practice or regulatory reasons.
+
+We will not use this right to make substantial changes to the Terms to your detriment without giving you a chance to agree.
+
+We will inform you of any revision of these Terms by posting, on the website of the relevant Service, a notification of the revision. Any revision will come into force five (5) days after the posting of the notification. If you do not agree to the changes made to these Terms, you may terminate your Account as set out in Article 14.
+
+You are expected to check for revisions to the Terms regularly as they are binding on you. Any use of the Services subsequent to revised Terms coming into force implies acceptance of the revised Terms.
+
+17.2 Modification of Prices and modification of Services
+
+UBISOFT reserves the right to (i) modify the prices of the Services indicated on the websites of the Services concerned and (ii) modify a Service from a paid Service to a free to play Service. The new price applies only to orders placed after the new price (if any) has come into effect.
+
+During your subscription, UBISOFT reserves the right, at our sole discretion, to change the price of subscriptions to our Services and/or remove the price of subscriptions to its games and Services. In this case, in addition to any other notifications UBISOFT may choose in its sole discretion, UBISOFT will indicate these modifications on the websites of the Services concerned before the change of price. The modification will come into effect only in relation to new subscription renewals.
+
+If you do not accept this price change, you may cancel your subscription or your Account in accordance with the procedure defined in Article 16 of the Terms. Note that this cancellation must be carried out before the renewal (whether requested or tacit) of your subscription. Renewal of your subscription implies acceptance of the modified price.
+
+17.3 Modification of Access to Services and Content
+
+UBISOFT may modify the Content for any reason or without any specific reason, at any time, in particular for technical reasons such as updates, maintenance operations and/or resets to improve and/or optimize the Services.
+
+Such modifications are liable to affect the Services and/or your acquired rights or result in setbacks in the game environment. The products updated or modified in accordance with this Article are subject to the limits of liability set out in Article 15 above.
+
+17.4 Supplementary Contents
+
+During your subscription to certain Services, we reserve the right, at our sole discretion, to make supplementary Content available to all subscribers in the form of updates.
+
+Such supplementary Content is distinct from extensions to Services which are distributed and/or sold separately from the original Service and purchase of the original Service gives no automatic entitlement to the extension.
+
+18. CONFIDENTIALITY AND COLLECTION OF PERSONAL DATA
+Your privacy is very important to us and we will not reveal your personal data to third parties except when expressly authorised by you to do so or in special circumstances.
+
+For further information concerning our use of personal data, please read our Privacy Policy carefully. Our Privacy Policy forms a part of these Terms and so may be revised as set out in Article 17. You may at any time consult our Privacy Policy on legal.ubi.com.
+
+19. HEALTH OF VIDEO GAME USERS
+19.1 We advise you to take the following precautions in all cases when using the Services, and in particular video games.
+
+You should:
+
+avoid playing if you are tired and/or short of sleep;
+
+make sure that you play in a well lit room and adjust the brightness of your screen;
+
+when you play a video game requiring connection to a screen, play at a good distance from the screen and as far away as the connection lead allows; and
+
+take breaks of ten (10) to fifteen (15) minutes every hour.
+
+19.2 Epilepsy Warning:
+
+Some individuals are liable to have epileptic fits including, in certain cases, loss of consciousness, particularly when exposed to strong luminous stimulations (rapid succession of images or repetition of simple geometrical figures, flashes or exposures). Such individuals are exposed to risks of fits when they play certain video games containing such luminous stimulations and should consult their doctor before any use of the Services.
+
+Parents and legal guardians must also pay particularly close attention to their children when they play video games. If you or your child present any of the following symptoms: dizziness, vision problems, contraction of the eyes or muscles, disorientation, involuntary movement or convulsions or momentary loss of consciousness, you or they must immediately stop playing and consult a doctor.
+
+20. SOFTWARE, UTILITIES AND TOOLS
+20.1 The Services are optimized for a screen resolution of 1024 x 768 pixels. UBISOFT reserves the right to optimize any one of its Services for any other resolution and/or browser.
+
+20.2 The Services may ask you or enable you to download software, updates, patches and/or other utilities and tools supplied by UBISOFT or its licensors (referred to as the "UBISOFT Software") onto your computer or any other medium authorised by UBISOFT. UBISOFT grants you a personal, non-transferable and non-exclusive license enabling you to use this UBISOFT Software solely for the purposes of use of the Services, throughout the world and for the legal period of protection of the UBISOFT Software under Intellectual Property Rights. UBISOFT may specify terms of use for this UBISOFT Software at the time at which it is made available to you.
+
+20.3 Computer software and peripherals are not compatible with all computer platforms and media and the performances of the UBISOFT Software and the related Services may vary depending on your computer and other equipment.
+
+20.4 UBISOFT may from time to time supply you with updates or modifications of the UBISOFT Software. Updates and modifications may be necessary in order to be able to continue to use the UBISOFT Software and the Services.
+
+20.5 Your web browser may be configured to prevent the display of pop-up windows. Certain Content is displayed in pop-up windows. To optimize use of the Service, make sure you deactivate any pop-up window blocking function.
+
+20.6 The Terms of Use of the console manufacturers continue to apply in their entirety and govern your behavior when you access the Services via the console manufacturers services. In the event of a conflict between the terms of use of these console manufacturers and these Terms, the former terms of use take precedence. UBISOFT may not be held responsible for the console manufacturers services. UBISOFT is responsible only for supplying customer assistance and invoicing the services obtained via the Services.
+
+21. SPECIFIC TERMS FOR COMPATIBLE MOBILE TERMINALS
+21.1 The expression "Compatible Mobile Terminal" designates any portable device capable of connecting to the Internet to access the Services. The term Compatible Mobile Terminals covers in mobile devices such as, but not limited to, phones, smartphones, tablets and their derivatives
+
+21.2 Access to Mobile Services.UBISOFT allows its Users to access certain Services via their Compatible Mobile Terminal ("Mobile Services").To access the Mobile Services from your Compatible Mobile Terminal you must (i) have a Compatible Mobile Terminal, (ii) have the permission of the person who pays the bill for said Compatible Mobile Terminal(iii) be provided with Internet access via your Compatible Mobile Terminal.
+
+21.3 Mobile Service access costs. The use of a Compatible Mobile Terminal will lead in particular to connection costs for which UBISOFT shall not be held responsible. UBISOFT may charge You fees to access any Mobile Services in whole or in part, including in-game purchase and any micro-transactions.
+
+21.4 Quality of Mobile Services. When the User connects to the Mobile Services, UBISOFT cannot guarantee User comfort equal to that experienced when connecting to the Services via a computer or game console, particularly as regards display quality, response time or access to certain functions such as listening to music or viewing videos. You acknowledge that the user comfort of the Mobile Services depends on the capacities, Services, the quality display, the response time or access to certain functions of your Compatible Mobile Terminal and the capacities of the electronic communication network you use, and UBISOFT may in no case be held responsible for reduced user comfort on Mobile Services.
+
+Downloading, installing and use of certain Mobile Services supplied via your Compatible Mobile Terminal may be prohibited or restricted by your Internet service provider, and it is possible that the Mobile Services will not all function with all network service providers or devices. You must contact your Internet service provider to find out whether the Mobile Services are available for your device and what restrictions, if any, may apply to the use of said Services for mobile devices.
+
+22. MISCELLANEOUS
+22.1 Titles and Headings
+
+Headings in these Terms are intended solely to facilitate reading and understanding and shall not affect the interpretation of these Terms.
+
+22.2 Severance
+
+If any court or competent authority finds that any provision of these Terms (or part of any provision) is invalid, illegal or unenforceable, that provision or part-provision shall, to the extent required, be deemed to be deleted, and the validity and enforceability of the other provisions of these Terms shall not be affected.
+
+If any invalid, unenforceable or illegal provision of these Terms would be valid, enforceable and legal if some part of it were deleted, the provision shall apply with the minimum modification necessary to make it legal, valid and enforceable to reflect UBISOFT’s initial intentions.
+
+22.3 No Waiver
+
+No failure or delay by UBISOFT to exercise any right or remedy provided under these Terms or by law shall constitute a waiver of that or any other right or remedy, nor shall it preclude or restrict the further exercise of that or any other right or remedy. No single or partial exercise of such right or remedy shall preclude or restrict the further exercise of that or any other right or remedy.
+
+Waiver of a right or remedy may be considered to have taken place only after signing of a written statement to this effect by UBISOFT or by the User.
+
+22.4 Entire Agreement.
+
+In entering into these Terms (including UBISOFT’s Privacy Policy available on legal.ubi.com), neither party has relied upon and does not rely on any statement, representation (whether innocent or negligent), assurance or warranty ("Representation") (whether in writing or not) of any person (whether party to this agreement or not) other than as expressly set out in these Terms.
+
+Each party agrees that the only rights and remedies available to it arising out of or in connection with a Representation shall be for breach of contract.
+
+These Terms (including UBISOFT’s Privacy Policy available on legal.ubi.com) and all rules or instructions published on line concerning a game, an activity, a competition or lottery or a merchant service in particular contain the entire agreement between UBISOFT and you with respect to the subject matter hereof and supersede and cancel any and all prior or contemporaneous oral or written understandings, negotiations and agreements.
+
+You should add this page to your browser bookmarks and consult this site regularly to find out about any updates to the Terms.
+
+Nothing in this Article shall limit or exclude any liability for fraud or fraudulent misrepresentation.
+
+22.5 Law and Jurisdiction
+
+To the extent permitted by applicable law, these Terms and your Account and any disputes or claims arising out of or in connection with them or their subject matter or formation (including non-contractual disputes or claims) are governed by and construed in accordance with the laws of England. You irrevocably agree that the courts of England have exclusive jurisdiction to settle any dispute or claim that arises out of or in connection with the Terms or their subject matter or formation (including non-contractual disputes or claims).
+
+22.6 Force majeure
+
+UBISOFT shall have no liability under these Terms if it is prevented from, or delayed in, performing its obligations or from carrying on its business by acts, events, omissions or accidents beyond its reasonable control, including, without limitation, strikes, lock-outs or other industrial disputes (whether involving the workforce of UBISOFT or any other party), failure of a utility service or transport or telecommunications network, act of God, war, riot, civil commotion, malicious damage, compliance with any law or governmental order, rule, regulation or direction, accident, breakdown of plant or machinery, fire, flood, storm or default of suppliers or sub-contractors
+
+22.7 Contacts
+
+These Terms can be accessed at any time at https://legal.ubi.com
+
+For any question concerning these Terms, you may contact UBISOFT at the following address: emea-email-support@ubisoft.com
+
+THESE TERMS ARE APPLICABLE ONLY TO THE EXTENT AUTHORISED BY LAW.
+
+ANY USE OF THE SERVICES IMPLIES UNRESERVED APPROVAL OF THESE TERMS AND UBISOFT’S PRIVACY POLICY.
