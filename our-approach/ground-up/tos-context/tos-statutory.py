@@ -328,7 +328,7 @@ def main():
         sampled_train.get_y(),
         llm=llm,
         generations=20, #5
-        pop_size=4, #6
+        pop_size=6, #6
     )
 
     print("\nRunning on test set...")
