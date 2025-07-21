@@ -88,6 +88,14 @@ Original Template: {parent_template}
 New Template:
 """
 
+BASE_INSTR_CORE = "Classify the following clause from a Terms of Service contract as fair (0) or unfair (1)"
+BASE_INSTR_USING_CONTEXT = " using the {contexts} for better understanding"
+BASE_INSTR_SUFFIX = ". Respond only with '0' or '1'."
+
+BASE_TEMPLATE_CORE = "Instruction: <instruction>\nClause: <clause>"
+BASE_TEMPLATE_STATUTORY = "\nStatutory Context: <statutory_context>"
+BASE_TEMPLATE_CONTRACT = "\nContract Context: <contract_context>"
+
 # ========== Classes ============
 class BanditSelector:
     def __init__(self, strategies, name=""):
@@ -295,22 +303,29 @@ def mutate_prompt_ga(parent, instr_selector, template_selector, llm, use_bandit_
     child.template_arm = template_arm
     return child
 
-def optimize_prompt(train_x, train_context, train_y, llm, generations=50, pop_size=10, train_sample_size=50, use_bandit_instr=True, use_bandit_template=True, statutory_context_enabled=True, contract_context_enabled=True):
-    base_instr = "Classify the following clause from a Terms of Service contract as fair (0) or unfair (1)"
+def get_base_instr(statutory_enabled, contract_enabled):
+    base_instr = BASE_INSTR_CORE
     contexts = []
-    if statutory_context_enabled:
+    if statutory_enabled:
         contexts.append("statutory context")
-    if contract_context_enabled:
+    if contract_enabled:
         contexts.append("contract context")
     if contexts:
-        base_instr += f" using the {' and '.join(contexts)} for better understanding"
-    base_instr += ". Respond only with '0' or '1'."
-    
-    base_template = "Instruction: <instruction>\nClause: <clause>"
-    if statutory_context_enabled:
-        base_template += "\nStatutory Context: <statutory_context>"
-    if contract_context_enabled:
-        base_template += "\nContract Context: <contract_context>"
+        base_instr += BASE_INSTR_USING_CONTEXT.format(contexts=' and '.join(contexts))
+    base_instr += BASE_INSTR_SUFFIX
+    return base_instr
+
+def get_base_template(statutory_enabled, contract_enabled):
+    base_template = BASE_TEMPLATE_CORE
+    if statutory_enabled:
+        base_template += BASE_TEMPLATE_STATUTORY
+    if contract_enabled:
+        base_template += BASE_TEMPLATE_CONTRACT
+    return base_template
+
+def optimize_prompt(train_x, train_context, train_y, llm, generations=50, pop_size=10, train_sample_size=50, use_bandit_instr=True, use_bandit_template=True, statutory_context_enabled=True, contract_context_enabled=True):
+    base_instr = get_base_instr(statutory_context_enabled, contract_context_enabled)
+    base_template = get_base_template(statutory_context_enabled, contract_context_enabled)
     
     population = [Prompt(base_instr, base_template) for _ in range(pop_size)]  # Start with identical bases
     instr_selector = BanditSelector(INSTRUCTION_STRATEGIES_LEGAL, name="Instruction")
