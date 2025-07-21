@@ -202,7 +202,7 @@ def mutate_prompt_ga(parent, strategy, llm):
     )
     new_instr = llm.query([prompt])[0]
     template_prompt = (
-        f"Generate a prompt template using placeholders <clause> for the individual clause to be classified, <prompt> for the instruction, and <context> for the context from the contract. It is important that responses at all times only consist '0' for fair or '1' for unfair.\n"
+        f"Generate a prompt template using placeholders <clause> for the individual clause to be classified, <prompt> for the instruction, and <context> for the context from the contract (e.g. the section of the contract where the clause is from). It is important that responses at all times only consist '0' for fair or '1' for unfair.\n"
         f"Instruction: {new_instr}\n"
         f"Prompt Template:"
     )
