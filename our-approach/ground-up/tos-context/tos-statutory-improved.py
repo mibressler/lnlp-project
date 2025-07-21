@@ -78,7 +78,7 @@ Reformulate the below instruction using the technique. Include ALL original info
 Original Instruction: {parent_instr}
 """
 
-META_PROMPT_TEMPLATE = """
+META_PROMPT_TEMPLATE_BASE = """
 You are an expert prompt engineer gently applying the following transformation strategy to improve a prompt template for a classification task. Ensure the template includes placeholders: At least <instruction> for the classification instruction and <clause> for the clause text. <contract_context> and <statutory_context> may or may not be part of the template. It is important that responses at all times only consist '0' for fair or '1' for unfair.
 
 Strategy: {strategy}
@@ -109,18 +109,16 @@ class BanditSelector:
             self.betas[arm] += 1
 
 class Prompt:
-    def __init__(self, instr, template, statutory_enabled=True, contract_enabled=True):
+    def __init__(self, instr, template):
         self.instr = instr
         self.template = template
-        self.statutory_enabled = statutory_enabled
-        self.contract_enabled = contract_enabled
         self.score = np.nan
         self.instr_arm = None
         self.template_arm = None  # Track both arms
     
-    def join_input(self, text, context):
-        statutory = PLACEHOLDER_STATUTORY_CONTEXT if self.statutory_enabled else ''
-        contract = context if self.contract_enabled else ''
+    def join_input(self, text, context, statutory_enabled, contract_enabled):
+        statutory = PLACEHOLDER_STATUTORY_CONTEXT if statutory_enabled else ''
+        contract = context if contract_enabled else ''
         return self.template.replace("<instruction>", self.instr).replace("<clause>", text).replace("<contract_context>", contract).replace("<statutory_context>", statutory)
 
 class Data:
@@ -198,7 +196,7 @@ def extract_answer(output):
     logging.warning(f"Invalid answer: '{output}'")
     return 'invalid'
 
-def evaluate(prompt_obj, data_x, data_context, data_y, llm, batch_size=20, sample_size=50):
+def evaluate(prompt_obj, data_x, data_context, data_y, llm, batch_size=20, sample_size=50, statutory_enabled=True, contract_enabled=True):
     n = len(data_x)
     if sample_size >= n:
         logging.info(f"Sample size {sample_size} >= dataset {n}. Using full dataset.")
@@ -215,7 +213,7 @@ def evaluate(prompt_obj, data_x, data_context, data_y, llm, batch_size=20, sampl
         logging.info(f"Processing batch {i // batch_size + 1}")
         batch_x = eval_x[i:i+batch_size]
         batch_context = eval_context[i:i+batch_size]
-        formatted = [prompt_obj.join_input(x, c) for x, c in zip(batch_x, batch_context)]
+        formatted = [prompt_obj.join_input(x, c, statutory_enabled, contract_enabled) for x, c in zip(batch_x, batch_context)]
         outputs.extend(llm.query(formatted, temperature=0.0))
 
     cleaned_outputs = [extract_answer(o) for o in outputs]
@@ -267,13 +265,17 @@ def mutate_instruction(parent_instr, strategy, llm):
     prompt = META_PROMPT_INSTR.format(strategy=strategy, parent_instr=parent_instr)
     return llm.query([prompt])[0]
 
-def mutate_template(parent_template, strategy, llm):
-    if strategy == "INACTION":
+def mutate_template(parent_template, template_strategy, llm, statutory_enabled, contract_enabled):
+    if template_strategy == "INACTION":
         return parent_template
-    prompt = META_PROMPT_TEMPLATE.format(strategy=strategy, parent_template=parent_template)
+    prompt = META_PROMPT_TEMPLATE_BASE.format(strategy=template_strategy, parent_template=parent_template)
+    if not statutory_enabled:
+        prompt += "\nDo not include the <statutory_context> placeholder in the new template."
+    if not contract_enabled:
+        prompt += "\nDo not include the <contract_context> placeholder in the new template."
     return llm.query([prompt])[0]
 
-def mutate_prompt_ga(parent, instr_selector, template_selector, llm, use_bandit_instr, use_bandit_template):
+def mutate_prompt_ga(parent, instr_selector, template_selector, llm, use_bandit_instr, use_bandit_template, statutory_enabled, contract_enabled):
     if use_bandit_instr:
         instr_arm = instr_selector.select_arm()
     else:
@@ -286,18 +288,31 @@ def mutate_prompt_ga(parent, instr_selector, template_selector, llm, use_bandit_
     else:
         template_arm = random.randint(0, template_selector.num_arms - 1)
     template_strategy = template_selector.strategies[template_arm]
-    new_template = mutate_template(parent.template, template_strategy, llm)
+    new_template = mutate_template(parent.template, template_strategy, llm, statutory_enabled, contract_enabled)
     
-    child = Prompt(new_instr, new_template, parent.statutory_enabled, parent.contract_enabled)
+    child = Prompt(new_instr, new_template)
     child.instr_arm = instr_arm
     child.template_arm = template_arm
     return child
 
 def optimize_prompt(train_x, train_context, train_y, llm, generations=50, pop_size=10, train_sample_size=50, use_bandit_instr=True, use_bandit_template=True, statutory_context_enabled=True, contract_context_enabled=True):
-    base_instr = "Classify the following clause from a Terms of Service contract as fair (0) or unfair (1) using the context for better understanding. Respond only with '0' or '1'."
-    base_template = "Instruction: <instruction>\nClause: <clause>\nStatutory Context: <statutory_context>\nContract Context: <contract_context>"
+    base_instr = "Classify the following clause from a Terms of Service contract as fair (0) or unfair (1)"
+    contexts = []
+    if statutory_context_enabled:
+        contexts.append("statutory context")
+    if contract_context_enabled:
+        contexts.append("contract context")
+    if contexts:
+        base_instr += f" using the {' and '.join(contexts)} for better understanding"
+    base_instr += ". Respond only with '0' or '1'."
     
-    population = [Prompt(base_instr, base_template, statutory_context_enabled, contract_context_enabled) for _ in range(pop_size)]  # Start with identical bases
+    base_template = "Instruction: <instruction>\nClause: <clause>"
+    if statutory_context_enabled:
+        base_template += "\nStatutory Context: <statutory_context>"
+    if contract_context_enabled:
+        base_template += "\nContract Context: <contract_context>"
+    
+    population = [Prompt(base_instr, base_template) for _ in range(pop_size)]  # Start with identical bases
     instr_selector = BanditSelector(INSTRUCTION_STRATEGIES_LEGAL, name="Instruction")
     template_selector = BanditSelector(TEMPLATE_STRATEGIES, name="Template")
     
@@ -309,7 +324,7 @@ def optimize_prompt(train_x, train_context, train_y, llm, generations=50, pop_si
         logging.info(f"Starting generation {gen + 1}")
         print(f"Generation {gen + 1}")
         
-        scores = [evaluate(p, train_x, train_context, train_y, llm, sample_size=train_sample_size) for p in tqdm(population, desc="Evaluating population")]
+        scores = [evaluate(p, train_x, train_context, train_y, llm, sample_size=train_sample_size, statutory_enabled=statutory_context_enabled, contract_enabled=contract_context_enabled) for p in tqdm(population, desc="Evaluating population")]
         for p, score in zip(population, scores):
             p.score = score if not np.isnan(score) else 0.0  # Handle NaN
         population.sort(key=lambda p: p.score, reverse=True)
@@ -329,8 +344,8 @@ def optimize_prompt(train_x, train_context, train_y, llm, generations=50, pop_si
         children = []
         for _ in range(pop_size - len(top_k)):
             parent = random.choice(top_k)
-            child = mutate_prompt_ga(parent, instr_selector, template_selector, llm, use_bandit_instr, use_bandit_template)
-            child.score = evaluate(child, train_x, train_context, train_y, llm, sample_size=train_sample_size)
+            child = mutate_prompt_ga(parent, instr_selector, template_selector, llm, use_bandit_instr, use_bandit_template, statutory_context_enabled, contract_context_enabled)
+            child.score = evaluate(child, train_x, train_context, train_y, llm, sample_size=train_sample_size, statutory_enabled=statutory_context_enabled, contract_enabled=contract_context_enabled)
             
             parent_max = max(p.score for p in top_k)
             reward = 1 if child.score > parent_max else 0
@@ -353,7 +368,7 @@ def optimize_prompt(train_x, train_context, train_y, llm, generations=50, pop_si
     return best_prompt
 
 # ========== Main ============
-def main(generations=20, pop_size=8, train_sample_size=10, test_sample_size=100, model_name="google/gemini-2.5-flash-lite-preview-06-17", use_bandit_instr=True, use_bandit_template=True, statutory_context_enabled=False, contract_context_enabled=True):
+def main(generations=20, pop_size=8, train_sample_size=10, test_sample_size=100, model_name="google/gemini-2.5-flash-lite-preview-06-17", use_bandit_instr=True, use_bandit_template=True, statutory_context_enabled=True, contract_context_enabled=True):
     base_dir = os.path.dirname(os.path.abspath(__file__))
     train_data = Data.load(os.path.join(base_dir, "train_unskewed.tsv"))
     test_data = Data.load(os.path.join(base_dir, "test.tsv"))
@@ -362,7 +377,7 @@ def main(generations=20, pop_size=8, train_sample_size=10, test_sample_size=100,
     best_prompt = optimize_prompt(train_data.get_x(), train_data.get_context(), train_data.get_y(), llm, generations, pop_size, train_sample_size, use_bandit_instr, use_bandit_template, statutory_context_enabled, contract_context_enabled)
     
     print("\nRunning on test set...")
-    test_f1 = evaluate(best_prompt, test_data.get_x(), test_data.get_context(), test_data.get_y(), llm, sample_size=test_sample_size)
+    test_f1 = evaluate(best_prompt, test_data.get_x(), test_data.get_context(), test_data.get_y(), llm, sample_size=test_sample_size, statutory_enabled=statutory_context_enabled, contract_enabled=contract_context_enabled)
     print(f"Test Macro F1: {test_f1:.4f}")
     logging.info(f"Test Macro F1: {test_f1:.4f}")
 
