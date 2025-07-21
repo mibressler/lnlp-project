@@ -34,6 +34,21 @@ instruction_strategies = [
     "Edit the prompt instruction to invoke legal reasoning for problem solving: 1) State the goal of determining the unfairness of a clause. 2) Give a detailed definition of what could be considered an unfair clause. 3) compare the given sentence with the definition to estimate which parts of the sentence falls under that definition. 4) make a final determination based on the comparison."
 ]
 
+instruction_strategies_concise = [
+    "Craft a concise description of the most capable expert for the task, addressing them in second person (e.g., 'You are an expert in...') to enhance precision and focus the model's response.",
+    "Guide the model through step-by-step reasoning by adding a precise phrase like 'Let's think step-by-step' at the end, ensuring explanations are logical and concise while shortening unnecessary elaboration.",
+    "Envision three experts collaboratively solving the problem: each briefly shares one step of thinking per round, and any who realize they're wrong exit immediately. This promotes precise, error-minimizing reasoning without verbose discussions.",
+    "Ensure all essential information is embedded succinctly in the prompt, adding only what's needed to clarify without altering the objective, thereby making the instruction more precise and shorter.",
+    "Append a brief phrase evoking positive emotion (e.g., 'Achieve outstanding success!') to motivate the model. Focus on: 1) Targeting encouragement or reassurance; 2) Using supportive words like 'excellent' or 'believe'; 3) Emphasizing with exclamation or capitals; 4) Boosting self-esteem via motivational cues. Keep it concise to avoid lengthening the prompt.",
+    "Add a short directive like 'Read the question again carefully' before responding, improving accuracy for complex tasks by encouraging precise comprehension without unnecessary repetition.",
+    "Specify the desired style succinctly in the prompt (e.g., 'Write in a formal tone...' or 'Use poetic language for...'), ensuring the instruction is precise and guides the model to match the style efficiently.",
+    "Instruct the model to 'Rephrase the question concisely, then respond,' promoting clearer understanding and more focused, precise answers while avoiding verbose expansions.",
+    "Refine the prompt's description to be more specific and concise, eliminating ambiguities to help the model execute instructions accurately and efficiently.",
+    "Add a neutral directive like 'Base your response on logical reasoning only, avoiding opinions or biases' to foster unbiased, precise inferences focused on analysis.",
+    "For lengthy instructions, condense to essential elements only, prioritizing clarity and brevity while preserving core objectives and never removing requirements like strictly responding with '0' for fair or '1' for unfair.",
+    "Revise the prompt to invoke precise legal reasoning: 1) State the goal of assessing clause unfairness briefly; 2) Provide a concise definition of unfair clauses; 3) Compare the sentence directly to the definition, highlighting matching elements succinctly; 4) Conclude with a clear '0' (fair) or '1' (unfair) determination based on the comparison."
+]
+
 template_strategies = [
     "Enhance the description of relationships between template elements, for example explaining how the statutory context provides legal foundations, the contract context offers specific background, the instruction guides the process, and the clause is the target for classification.",
     "Reorder the template elements to optimize logical flow, for example presenting the statutory context first, followed by contract context, instruction, and clause or another arrangement that could be better.",
@@ -240,7 +255,7 @@ def optimize_prompt(train_x, train_context, train_y, llm, generations=5, pop_siz
     population = [Prompt(base_instr, base_template)]
 
     for _ in range(pop_size - 1):
-        instr_strategy = random.choice(instruction_strategies)
+        instr_strategy = random.choice(instruction_strategies_concise)
         population.append(mutate_prompt_ga(population[0], instr_strategy, llm))
 
     for gen in range(generations):
@@ -254,7 +269,7 @@ def optimize_prompt(train_x, train_context, train_y, llm, generations=5, pop_siz
         children = []
         for _ in range(pop_size - len(top_k)):
             parent = random.choice(top_k)
-            instr_strategy = random.choice(instruction_strategies)
+            instr_strategy = random.choice(instruction_strategies_concise)
             children.append(mutate_prompt_ga(parent, instr_strategy, llm))
 
         population = top_k + children
@@ -284,13 +299,13 @@ def main():
         sampled_train.get_context(),
         sampled_train.get_y(),
         llm=llm,
-        generations=10, #5
+        generations=20, #5
         pop_size=4, #6
     )
 
     print("\nRunning on test set...")
 
-    test_macro_f1 = evaluate(best_prompt, test_data.get_x(), test_data.get_context(), test_data.get_y(), llm, sample_size=200)
+    test_macro_f1 = evaluate(best_prompt, test_data.get_x(), test_data.get_context(), test_data.get_y(), llm, sample_size=100)
     print(f"Best Instruction: {best_prompt.instr}")
     print(f"Best Template: {best_prompt.template}")
 
