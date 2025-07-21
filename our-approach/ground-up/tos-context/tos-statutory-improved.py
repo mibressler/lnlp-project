@@ -41,6 +41,21 @@ INSTRUCTION_STRATEGIES = [
     "Revise the prompt to invoke precise legal reasoning: 1) State the goal of assessing clause unfairness briefly; 2) Provide a concise definition of unfair clauses; 3) Compare the sentence directly to the definition, highlighting matching elements succinctly; 4) Conclude with a clear '0' (fair) or '1' (unfair) determination based on the comparison."
 ]
 
+INSTRUCTION_STRATEGIES_LEGAL = [
+    "Craft a concise second-person description of a highly capable legal expert specializing in consumer contract fairness, emphasizing expertise in EU Directive 93/13 and unfair terms analysis to focus the model's response (e.g., 'You are a seasoned legal scholar in EU consumer law...').",
+    "Incorporate step-by-step legal reasoning by adding 'Let's analyze step-by-step' or similar, ensuring the model explains its thought process logically, compares the clause to unfairness definitions, and concludes with '0' or '1' while keeping explanations concise.",
+    "Envision a panel of three legal experts (e.g., a judge, a consumer rights advocate, and a contract law professor) collaboratively analyzing the clause: each shares one brief reasoning step per round, exiting if wrong, to minimize errors and promote precise classification.",
+    "Embed all essential legal information succinctly, such as key definitions from Directive 93/13 and examples of unfair terms, adding clarifications only if needed without changing the objective of binary '0' (fair) or '1' (unfair) classification.",
+    "Append a brief motivational phrase evoking confidence and precision (e.g., 'Deliver an EXCELLENT, accurate verdict!'), using positive language, emphasis, and self-esteem cues to encourage reliable outputs without extending the prompt length.",
+    "Add a directive like 'Carefully reread the clause and context before classifying' to promote thorough comprehension and accuracy in this complex legal task, enhancing response reliability.",
+    "Specify a formal, analytical legal style (e.g., 'Respond in a precise judicial tone, concluding strictly with '0' or '1''), guiding the model to produce structured, professional classifications matching legal standards.",
+    "Instruct the model to 'Concisely rephrase the clause and task, then classify,' fostering deeper understanding, focused reasoning, and elimination of ambiguities for more accurate '0' or '1' outputs.",
+    "Refine the instruction to be highly specific and concise, incorporating legal criteria like 'significant imbalance' and 'good faith,' while eliminating ambiguities and preserving the strict binary response requirement.",
+    "Add a directive for unbiased, logic-based analysis (e.g., 'Base your classification solely on legal facts and Directive 93/13, avoiding any personal opinions'), minimizing biases and emphasizing careful clause-definition comparison.",
+    "Condense lengthy instructions to essentials, integrating a structured legal reasoning framework: state the unfairness assessment goal, define unfair clauses briefly, compare the clause, and determine '0' or '1' based on matches.",
+    "Completely rewrite the instruction from scratch, combining expert role, step-by-step analysis, and legal definitions into a streamlined prompt that ensures binary '0' or '1' responses with high accuracy."
+]
+
 TEMPLATE_STRATEGIES = [
     "Enhance the description of relationships between template elements, for example explaining how the statutory context provides legal foundations, the contract context offers specific background, the instruction guides the process, and the clause is the target for classification.",
     "Reorder the template elements to optimize logical flow, for example presenting the statutory context first, followed by contract context, instruction, and clause or another arrangement that could be better.",
@@ -273,7 +288,7 @@ def optimize_prompt(train_x, train_context, train_y, llm, generations=50, pop_si
     base_template = "Instruction: <instruction>\nClause: <clause>\nStatutory Context: <statutory_context>\nContract Context: <contract_context>"
     
     population = [Prompt(base_instr, base_template) for _ in range(pop_size)]  # Start with identical bases
-    instr_selector = BanditSelector(INSTRUCTION_STRATEGIES, name="Instruction")
+    instr_selector = BanditSelector(INSTRUCTION_STRATEGIES_LEGAL, name="Instruction")
     template_selector = BanditSelector(TEMPLATE_STRATEGIES, name="Template")
     
     best_score = 0.0
