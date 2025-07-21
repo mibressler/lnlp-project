@@ -109,15 +109,19 @@ class BanditSelector:
             self.betas[arm] += 1
 
 class Prompt:
-    def __init__(self, instr, template):
+    def __init__(self, instr, template, statutory_enabled=True, contract_enabled=True):
         self.instr = instr
         self.template = template
+        self.statutory_enabled = statutory_enabled
+        self.contract_enabled = contract_enabled
         self.score = np.nan
         self.instr_arm = None
         self.template_arm = None  # Track both arms
     
     def join_input(self, text, context):
-        return self.template.replace("<instruction>", self.instr).replace("<clause>", text).replace("<contract_context>", context).replace("<statutory_context>", PLACEHOLDER_STATUTORY_CONTEXT)
+        statutory = PLACEHOLDER_STATUTORY_CONTEXT if self.statutory_enabled else ''
+        contract = context if self.contract_enabled else ''
+        return self.template.replace("<instruction>", self.instr).replace("<clause>", text).replace("<contract_context>", contract).replace("<statutory_context>", statutory)
 
 class Data:
     def __init__(self, dataset):
@@ -284,16 +288,16 @@ def mutate_prompt_ga(parent, instr_selector, template_selector, llm, use_bandit_
     template_strategy = template_selector.strategies[template_arm]
     new_template = mutate_template(parent.template, template_strategy, llm)
     
-    child = Prompt(new_instr, new_template)
+    child = Prompt(new_instr, new_template, parent.statutory_enabled, parent.contract_enabled)
     child.instr_arm = instr_arm
     child.template_arm = template_arm
     return child
 
-def optimize_prompt(train_x, train_context, train_y, llm, generations=50, pop_size=10, train_sample_size=50, use_bandit_instr=True, use_bandit_template=True):
+def optimize_prompt(train_x, train_context, train_y, llm, generations=50, pop_size=10, train_sample_size=50, use_bandit_instr=True, use_bandit_template=True, statutory_context_enabled=True, contract_context_enabled=True):
     base_instr = "Classify the following clause from a Terms of Service contract as fair (0) or unfair (1) using the context for better understanding. Respond only with '0' or '1'."
     base_template = "Instruction: <instruction>\nClause: <clause>\nStatutory Context: <statutory_context>\nContract Context: <contract_context>"
     
-    population = [Prompt(base_instr, base_template) for _ in range(pop_size)]  # Start with identical bases
+    population = [Prompt(base_instr, base_template, statutory_context_enabled, contract_context_enabled) for _ in range(pop_size)]  # Start with identical bases
     instr_selector = BanditSelector(INSTRUCTION_STRATEGIES_LEGAL, name="Instruction")
     template_selector = BanditSelector(TEMPLATE_STRATEGIES, name="Template")
     
@@ -349,13 +353,13 @@ def optimize_prompt(train_x, train_context, train_y, llm, generations=50, pop_si
     return best_prompt
 
 # ========== Main ============
-def main(generations=20, pop_size=8, train_sample_size=10, test_sample_size=100, model_name="google/gemini-2.5-flash-lite-preview-06-17", use_bandit_instr=True, use_bandit_template=True):
+def main(generations=20, pop_size=8, train_sample_size=10, test_sample_size=100, model_name="google/gemini-2.5-flash-lite-preview-06-17", use_bandit_instr=True, use_bandit_template=True, statutory_context_enabled=False, contract_context_enabled=True):
     base_dir = os.path.dirname(os.path.abspath(__file__))
     train_data = Data.load(os.path.join(base_dir, "train_unskewed.tsv"))
     test_data = Data.load(os.path.join(base_dir, "test.tsv"))
     
     llm = OpenRouterLLM(model_name)
-    best_prompt = optimize_prompt(train_data.get_x(), train_data.get_context(), train_data.get_y(), llm, generations, pop_size, train_sample_size, use_bandit_instr, use_bandit_template)
+    best_prompt = optimize_prompt(train_data.get_x(), train_data.get_context(), train_data.get_y(), llm, generations, pop_size, train_sample_size, use_bandit_instr, use_bandit_template, statutory_context_enabled, contract_context_enabled)
     
     print("\nRunning on test set...")
     test_f1 = evaluate(best_prompt, test_data.get_x(), test_data.get_context(), test_data.get_y(), llm, sample_size=test_sample_size)
