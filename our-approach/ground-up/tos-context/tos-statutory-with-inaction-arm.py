@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 import numpy as np
 import openai
 from tqdm import tqdm
-from sklearn.metrics import f1_score, classification_report
+from sklearn.metrics import classification_report, accuracy_score, precision_score, recall_score, f1_score
 import csv
 import scipy.stats as stats
 
@@ -52,6 +52,16 @@ Available technique: {strategy}
 Reformulate the below instruction using the technique. Include ALL original information. ONLY return the reformulated instruction.
 
 Original Instruction: {parent_instr}
+"""
+
+META_PROMPT_TEMPLATE = """
+You are an expert prompt engineer gently applying the following transformation strategy to improve a prompt template for a classification task. Ensure the template includes placeholders: At least <instruction> for the classification instruction and <clause> for the clause text. <contract_context> and <statutory_context> may or may not be part of the template. It is important that responses at all times only consist '0' for fair or '1' for unfair.
+
+Strategy: {strategy}
+
+Original Template: {parent_template}
+
+New Template:
 """
 
 # ========== Classes ============
@@ -108,11 +118,10 @@ class OpenRouterLLM:
     
     def query(self, prompts, temperature=0.7, max_tokens=256):
         outputs = []
-        for idx, prompt in enumerate(prompts):
+        for prompt in prompts:
             retries = 0
             while retries < 3:
                 try:
-                    print(f"\n--- SENT [{idx+1}/{len(prompts)}] ---\n{prompt}\n")
                     client = openai.OpenAI(base_url="https://openrouter.ai/api/v1", api_key=api_key)
                     response = client.chat.completions.create(
                         model=self.model_name,
@@ -120,9 +129,16 @@ class OpenRouterLLM:
                         temperature=temperature,
                         max_tokens=max_tokens,
                     )
-                    reply = response.choices[0].message.content.strip()
-                    print(f"--- RECEIVED [{idx+1}/{len(prompts)}] ---\n{reply}\n")
-                    outputs.append(reply)
+                    output = response.choices[0].message.content.strip()
+                    outputs.append(output)
+                    
+                    # Nicely formatted print
+                    print("\n=== SENT ===")
+                    print(prompt)
+                    print("\n=== RECEIVED ===")
+                    print(output)
+                    print("\n=============\n")
+                    
                     break
                 except Exception as e:
                     print(f"Retrying due to error: {e}")
@@ -144,7 +160,7 @@ def extract_answer(output):
     print(f"⚠️ Invalid answer: '{output}'")
     return 'invalid'
 
-def evaluate(prompt_obj, data_x, data_context, data_y, llm, batch_size=20, sample_size=10):
+def evaluate(prompt_obj, data_x, data_context, data_y, llm, batch_size=20, sample_size=50):
     n = len(data_x)
     indices = random.sample(range(n), min(sample_size, n))
     eval_x = [data_x[i] for i in indices]
@@ -159,20 +175,44 @@ def evaluate(prompt_obj, data_x, data_context, data_y, llm, batch_size=20, sampl
         outputs.extend(llm.query(formatted, temperature=0.0))
 
     cleaned_outputs = [extract_answer(o) for o in outputs]
-    y_true = [str(y).strip() for y in eval_y]
-    y_pred = [p if p in ['0', '1'] else 'invalid' for p in cleaned_outputs]
+    y_true_all = [str(y).strip() for y in eval_y]
+    y_pred_all = [p if p in ['0', '1'] else 'invalid' for p in cleaned_outputs]
 
-    valid_indices = [i for i, (pred, true) in enumerate(zip(y_pred, y_true)) if pred in ['0', '1'] and true in ['0', '1']]
-    y_true_valid = [y_true[i] for i in valid_indices]
-    y_pred_valid = [y_pred[i] for i in valid_indices]
+    valid_indices = [i for i, (pred, true) in enumerate(zip(y_pred_all, y_true_all)) if pred in ['0', '1'] and true in ['0', '1']]
+    y_true = [y_true_all[i] for i in valid_indices]
+    y_pred = [y_pred_all[i] for i in valid_indices]
 
-    if not y_pred_valid:
-        print("❌ No valid predictions. Score: 0.")
+    print(f"✅ Valid predictions: {len(y_pred)} / {len(y_pred_all)}")
+    print("Unique y_true:", set(y_true))
+    print("Unique y_pred:", set(y_pred))
+
+    if not y_pred:
+        print("❌ No valid predictions to evaluate. Returning score of 0.")
         return 0.0
 
-    f1_macro = f1_score(y_true_valid, y_pred_valid, average='macro', zero_division=0)
-    print(f"Eval F1-Macro: {f1_macro:.4f} (Valid: {len(y_pred_valid)}/{len(y_pred)})")
-    return f1_macro
+    try:
+        accuracy = accuracy_score(y_true, y_pred)
+        precision = precision_score(y_true, y_pred, average='binary', pos_label='1', zero_division=0)
+        recall = recall_score(y_true, y_pred, average='binary', pos_label='1', zero_division=0)
+        f1_micro = f1_score(y_true, y_pred, average='micro', zero_division=0)
+        f1_macro = f1_score(y_true, y_pred, average='macro', zero_division=0)
+        report = classification_report(y_true, y_pred, digits=4, zero_division=0, output_dict=True)
+        support = {k: v['support'] for k, v in report.items() if k in ['0', '1']}
+
+        print(f"Sample size: {len(y_true)}")
+        print(f"Accuracy: {accuracy:.4f}")
+        print(f"Precision: {precision:.4f}")
+        print(f"Recall: {recall:.4f}")
+        print(f"Micro F1: {f1_micro:.4f}")
+        print(f"Macro F1: {f1_macro:.4f}")
+        print(f"Support: {support}")
+        print("Detailed classification report:")
+        print(classification_report(y_true, y_pred, digits=4, zero_division=0))
+
+        return f1_macro
+    except ValueError as e:
+        print(f"‼️ Skipping metrics due to error: {e}")
+        return 0.0
 
 def mutate_instruction(parent_instr, strategy, llm):
     if strategy == "INACTION":
@@ -181,12 +221,7 @@ def mutate_instruction(parent_instr, strategy, llm):
     return llm.query([prompt])[0]
 
 def mutate_template(parent_template, template_strategy, llm):
-    prompt = (
-        f"You are an expert prompt engineer applying: {template_strategy}\n"
-        f"Ensure placeholders: <instruction>, <clause>, optionally <contract_context>, <statutory_context>.\n"
-        f"Responses must be '0' or '1'.\n"
-        f"Original Template: {parent_template}\nNew Template:"
-    )
+    prompt = META_PROMPT_TEMPLATE.format(strategy=template_strategy, parent_template=parent_template)
     return llm.query([prompt])[0]
 
 def mutate_prompt_ga(parent, bandit_selector, llm):
@@ -201,12 +236,16 @@ def mutate_prompt_ga(parent, bandit_selector, llm):
     child.select_arm = arm
     return child
 
-def optimize_prompt(train_x, train_context, train_y, llm, generations=10, pop_size=4):
+def optimize_prompt(train_x, train_context, train_y, llm, generations=50, pop_size=10):
     base_instr = "Classify the following clause from a Terms of Service contract as fair (0) or unfair (1) using the context for better understanding. Respond only with '0' or '1'."
     base_template = "Instruction: <instruction>\nClause: <clause>\nStatutory Context: <statutory_context>\nContract Context: <contract_context>"
     
-    population = [Prompt(base_instr, base_template) for _ in range(pop_size)]
+    population = [Prompt(base_instr, base_template)]
     bandit_selector = BanditSelector(INSTRUCTION_STRATEGIES)
+    
+    for _ in range(pop_size - 1):
+        child = mutate_prompt_ga(population[0], bandit_selector, llm)
+        population.append(child)
     
     for gen in range(generations):
         print(f"Generation {gen + 1}")
