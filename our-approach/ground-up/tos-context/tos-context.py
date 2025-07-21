@@ -11,6 +11,8 @@ from tqdm import tqdm
 from sklearn.metrics import classification_report, accuracy_score, precision_score, recall_score, f1_score
 import csv  # Import csv for proper reading
 
+csv.field_size_limit(10_000_000) 
+
 # Load API key
 load_dotenv()
 api_key = os.getenv("OPENROUTER_API_KEY")
@@ -221,7 +223,7 @@ def optimize_prompt(train_x, train_context, train_y, llm, generations=5, pop_siz
 
     for gen in range(generations):
         print(f"Generation {gen + 1}")
-        scores = [evaluate(p, train_x, train_context, train_y, llm, sample_size=5) for p in population]
+        scores = [evaluate(p, train_x, train_context, train_y, llm, sample_size=50) for p in population]
         for i, p in enumerate(population):
             p.score = scores[i]
         population = sorted(population, key=lambda p: p.score, reverse=True)
