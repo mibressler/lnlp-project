@@ -17,9 +17,9 @@ csv.field_size_limit(10_000_000)
 load_dotenv()
 api_key = os.getenv("OPENROUTER_API_KEY")
 
-# ========== Strategy List from APET Paper ============
+# ========== Strategy Lists ============
 
-strategies_list = [
+instruction_strategies = [
     "Crafting an expert who is an expert at the given task, by writing a high-quality description about the most capable and suitable agent to answer the instruction in second person perspective.",
     "Explaining step-by-step how the problem should be tackled, and making sure the model explains step-by-step how it came to the answer. You can do this by adding \"Let's think step-by-step\".",
     "Imagining three different experts who are discussing the problem at hand. All experts will write down 1 step of their thinking, then share it with the group. Then all experts will go on to the next step, etc. If any expert realises they're wrong at any point then they leave.",
@@ -34,9 +34,22 @@ strategies_list = [
     "Edit the prompt instruction to invoke legal reasoning for problem solving: 1) State the goal of determining the unfairness of a clause. 2) Give a detailed definition of what could be considered an unfair clause. 3) compare the given sentence with the definition to estimate which parts of the sentence falls under that definition. 4) make a final determination based on the comparison."
 ]
 
-template_strategies_list = [
-    "",
+template_strategies = [
+    "Describe the relationship of the template elements better, such as explaining how the statutory context informs the classification, how the contract context provides background, and how the clause relates to both.",
+    "Omit certain template elements that are redundant or unnecessary, while ensuring all placeholders (<instruction>, <clause>, <context>, <statutory_context>) are retained if essential.",
+    "Reorder the template elements to improve logical flow, for example, placing the statutory context first to set legal foundations, followed by contract context, instruction, and clause.",
+    "Add separators or delimiters (e.g., --- or new sections) between template elements to enhance readability and structure.",
+    "Emphasize key template elements using formatting like bold, italics, or uppercase to draw attention to important parts, such as the clause or instruction.",
+    "Combine or merge template elements to make the overall prompt more concise without losing critical information.",
+    "Expand the descriptions around template elements to provide more guidance on their purpose and interconnection.",
+    "Introduce conditional phrasing in the template to handle cases where certain elements like context might be empty.",
+    "Add placeholders for examples within the template structure to illustrate the task without adding actual content.",
+    "Simplify the language in the template to make it more straightforward and easier for the model to parse."
 ]
+
+placeholder_statutory_context = (
+    "According to art. 3 of the Directive 93/13 on Unfair Terms in Consumer Contracts, a contractual term is unfair if: 1) it has not been individually negotiated; and 2) contrary to the requirement of good faith, it causes a significant imbalance in the parties' rights and obligations, to the detriment of the consumer. This general definition is further specified in the Annex to the Directive, containing an indicative and non-exhaustive list of the terms which may be regarded as unfair, as well as in a few dozen judgments of the Court of Justice of the EU (Micklitz and Reich 2014). Examples of unfair clauses encompass taking jurisdiction away from the consumer, limiting liability for damages on health and/or gross negligence, imposing obligatory arbitration in a country different from consumer's residence, etc. Loos and Luzak (2016) identified five categories of potentially unfair clauses often appearing in the terms of online services: 1) establishing jurisdiction for disputes in a country different than consumer's residence; 2) choice of a foreign law governing the contract; 3) limitation of liability; 4) the provider's right to unilaterally terminate the contract/access to the service; and 5) the provider's right to unilaterally modify the contract/the service. Our research has identified three additional categories: 6) requiring a consumer to undertake arbitration before the court proceedings can commence; 7) the provider retaining the right to unilaterally remove consumer content from the service, including in-app purchases; 8) having a consumer accept the agreement simply by using the service, not only without reading it, but even without having to click on 'I agree/I accept.'"
+)
 
 # ========== Utility Classes ============
 
@@ -51,7 +64,7 @@ class Prompt:
         return self.instr
 
     def join_input(self, text, context):
-        return self.template.replace("<instruction>", self.instr).replace("<clause>", text).replace("<context>", context)
+        return self.template.replace("<instruction>", self.instr).replace("<clause>", text).replace("<context>", context).replace("<statutory_context>", placeholder_statutory_context)
 
 
 class Data:
@@ -96,7 +109,6 @@ class OpenRouterLLM:
                         temperature=temperature,
                         max_tokens=max_tokens,
                     )
-                    # time.sleep(0.5)  
                     outputs.append(response.choices[0].message.content.strip())
                     print("SENT \n", prompt)
                     print("RECEIVED \n", outputs[-1], "\n")
@@ -175,7 +187,6 @@ def evaluate(prompt_obj, data_x, data_context, data_y, llm, batch_size=20, sampl
         return 0.0
 
 
-
 def extract_answer(output):
     output = output.strip()
 
@@ -196,34 +207,47 @@ def extract_answer(output):
     return 'invalid'
 
 
-
 # ========== OPTS-TS with GA (EvoPromptGA-OPTS-TS) ============
 
-def mutate_prompt_ga(parent, strategy, llm):
+def mutate_instruction(parent_instr, instr_strategy, llm):
     prompt = (
         f"You are an expert prompt engineer applying the following transformation strategy to improve an instruction for a classification task. It is important that responses at all times only consist '0' for fair or '1' for unfair.\n"
-        f"Strategy: {strategy}\n"
-        f"Original Instruction: {parent.instr}\n"
+        f"Strategy: {instr_strategy}\n"
+        f"Original Instruction: {parent_instr}\n"
         f"New Instruction:"
     )
     new_instr = llm.query([prompt])[0]
-    template_prompt = (
-        f"Generate a prompt template using placeholders <clause> for the individual clause to be classified, <instruction> for the instruction guiding the classification, and <context> for the context from the contract (e.g. the section of the contract where the clause is from). It is important that responses at all times only consist '0' for fair or '1' for unfair.\n"
-        f"Instruction: {new_instr}\n"
-        f"Prompt Template:"
+    return new_instr
+
+
+def mutate_template(parent_template, template_strategy, llm):
+    prompt = (
+        f"You are an expert prompt engineer applying the following transformation strategy to improve a prompt template for a classification task. Ensure the template includes placeholders: <instruction> for the classification instruction, <clause> for the clause text, <context> for the contract-specific context, and <statutory_context> for the fixed statutory legal context. It is important that responses at all times only consist '0' for fair or '1' for unfair.\n"
+        f"Strategy: {template_strategy}\n"
+        f"Original Template: {parent_template}\n"
+        f"New Template:"
     )
-    template = llm.query([template_prompt])[0]
-    return Prompt(new_instr, template)
+    new_template = llm.query([prompt])[0]
+    return new_template
+
+
+def mutate_prompt_ga(parent, instr_strategy, llm):
+    new_instr = mutate_instruction(parent.instr, instr_strategy, llm)
+    
+    template_strategy = random.choice(template_strategies)
+    new_template = mutate_template(parent.template, template_strategy, llm)
+    
+    return Prompt(new_instr, new_template)
 
 
 def optimize_prompt(train_x, train_context, train_y, llm, generations=5, pop_size=6):
     base_instr = "Classify the following clause from a Terms of Service contract as fair (0) or unfair (1) using the context for better understanding. Respond only with '0' or '1'."
-    base_template = "Instruction: <instruction>\nContext: <context>\nClause: <clause>\n"
+    base_template = "Statutory Context: <statutory_context>\nInstruction: <instruction>\nContract Context: <context>\nClause: <clause>\n"
     population = [Prompt(base_instr, base_template)]
 
     for _ in range(pop_size - 1):
-        strategy = random.choice(strategies_list)
-        population.append(mutate_prompt_ga(population[0], strategy, llm))
+        instr_strategy = random.choice(instruction_strategies)
+        population.append(mutate_prompt_ga(population[0], instr_strategy, llm))
 
     for gen in range(generations):
         print(f"Generation {gen + 1}")
@@ -236,8 +260,8 @@ def optimize_prompt(train_x, train_context, train_y, llm, generations=5, pop_siz
         children = []
         for _ in range(pop_size - len(top_k)):
             parent = random.choice(top_k)
-            strategy = random.choice(strategies_list)
-            children.append(mutate_prompt_ga(parent, strategy, llm))
+            instr_strategy = random.choice(instruction_strategies)
+            children.append(mutate_prompt_ga(parent, instr_strategy, llm))
 
         population = top_k + children
 
@@ -269,7 +293,6 @@ def main():
         generations=5, #5
         pop_size=4, #6
     )
-
 
     print("\nRunning on test set...")
 
