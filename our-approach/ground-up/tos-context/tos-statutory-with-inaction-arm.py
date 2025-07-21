@@ -108,10 +108,11 @@ class OpenRouterLLM:
     
     def query(self, prompts, temperature=0.7, max_tokens=256):
         outputs = []
-        for prompt in prompts:
+        for idx, prompt in enumerate(prompts):
             retries = 0
             while retries < 3:
                 try:
+                    print(f"\n--- SENT [{idx+1}/{len(prompts)}] ---\n{prompt}\n")
                     client = openai.OpenAI(base_url="https://openrouter.ai/api/v1", api_key=api_key)
                     response = client.chat.completions.create(
                         model=self.model_name,
@@ -119,7 +120,9 @@ class OpenRouterLLM:
                         temperature=temperature,
                         max_tokens=max_tokens,
                     )
-                    outputs.append(response.choices[0].message.content.strip())
+                    reply = response.choices[0].message.content.strip()
+                    print(f"--- RECEIVED [{idx+1}/{len(prompts)}] ---\n{reply}\n")
+                    outputs.append(reply)
                     break
                 except Exception as e:
                     print(f"Retrying due to error: {e}")
