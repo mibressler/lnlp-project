@@ -47,7 +47,7 @@ class Prompt:
         return self.instr
 
     def join_input(self, text, context):
-        return self.template.replace("<prompt>", self.instr).replace("<clause>", text).replace("<context>", context)
+        return self.template.replace("<instruction>", self.instr).replace("<clause>", text).replace("<context>", context)
 
 
 class Data:
@@ -94,8 +94,8 @@ class OpenRouterLLM:
                     )
                     # time.sleep(0.5)  
                     outputs.append(response.choices[0].message.content.strip())
-                    print("Prompt:", prompt)
-                    print("Response:", outputs[-1])
+                    print("SENT \n", prompt)
+                    print("RECEIVED \n", outputs[-1], "\n")
                     break
                 except Exception as e:
                     print("Retrying due to error:", e)
@@ -214,7 +214,7 @@ def mutate_prompt_ga(parent, strategy, llm):
 
 def optimize_prompt(train_x, train_context, train_y, llm, generations=5, pop_size=6):
     base_instr = "Classify the following clause from a Terms of Service contract as fair (0) or unfair (1). Respond only with '0' or '1'."
-    base_template = "Context: <context>\nClause: <clause>\nA: <prompt>\n"
+    base_template = "Context: <context>\nClause: <clause>\nInstruction: <instruction>\n"
     population = [Prompt(base_instr, base_template)]
 
     for _ in range(pop_size - 1):
@@ -247,7 +247,7 @@ def optimize_prompt(train_x, train_context, train_y, llm, generations=5, pop_siz
 
 def main():
     base_dir = os.path.dirname(os.path.abspath(__file__))
-    train_path = os.path.join(base_dir, "train.tsv")
+    train_path = os.path.join(base_dir, "train_unskewed.tsv")
     test_path = os.path.join(base_dir, "test.tsv")
 
     train_data = Data.load(train_path)
@@ -262,8 +262,8 @@ def main():
         sampled_train.get_context(),
         sampled_train.get_y(),
         llm=llm,
-        generations=3, #5
-        pop_size=2, #6
+        generations=10, #5
+        pop_size=6, #6
     )
 
 
