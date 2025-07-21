@@ -44,6 +44,7 @@ instruction_strategies = [
     "Add a neutral directive like 'Base your response on logical reasoning only, avoiding opinions or biases' to foster unbiased, precise inferences focused on analysis.",
     "For lengthy instructions, condense to essential elements only, prioritizing clarity and brevity while preserving core objectives and never removing requirements like strictly responding with '0' for fair or '1' for unfair.",
     "Revise the prompt to invoke precise legal reasoning: 1) State the goal of assessing clause unfairness briefly; 2) Provide a concise definition of unfair clauses; 3) Compare the sentence directly to the definition, highlighting matching elements succinctly; 4) Conclude with a clear '0' (fair) or '1' (unfair) determination based on the comparison."
+    "Completely rewrite the instruction from scratch"
 ]
 
 instruction_strategies_original = [
@@ -80,7 +81,8 @@ template_strategies = [
     "Enhance the description of relationships between template elements, for example explaining how the statutory context provides legal foundations, the contract context offers specific background, the instruction guides the process, and the clause is the target for classification.",
     "Reorder the template elements to optimize logical flow, for example presenting the statutory context first, followed by contract context, instruction, and clause or another arrangement that could be better.",
     "Incorporate separators, delimiters, or formatting emphasis (e.g., bold, italics) to improve readability and highlight key sections of the template.",
-    "Experimentally completely omit or re-add one or more placeholders (<instruction>, <clause>, <statutory_context>, <contract_context>) to refine the template, potentially simplifying or enriching it while maintaining the classification task's integrity."
+    "Experimentally completely omit one or more of the placeholders <statutory_context> and <contract_context> to refine the template, potentially simplifying or enriching it while maintaining the classification task's integrity with <instruction> and <clause> ."
+    "Experimentally re-add one or more of the placeholders <statutory_context> and <contract_context> to refine the template, potentially enriching it while maintaining the classification task's integrity with <instruction> and <clause> ."
 ]
 
 placeholder_statutory_context = (
@@ -258,7 +260,7 @@ def mutate_instruction(parent_instr, instr_strategy, llm):
 
 def mutate_template(parent_template, template_strategy, llm):
     prompt = (
-        f"You are an expert prompt engineer gently applying the following transformation strategy to improve a prompt template for a classification task. Ensure the template includes placeholders: <instruction> for the classification instruction, <clause> for the clause text and optionally <contract_context> for the contract-specific context, and <statutory_context> for the fixed statutory legal context. It is important that responses at all times only consist '0' for fair or '1' for unfair.\n"
+        f"You are an expert prompt engineer gently applying the following transformation strategy to improve a prompt template for a classification task. Ensure the template includes placeholders: At least <instruction> for the classification instruction and <clause> for the clause text. <contract_context> and <statutory_context> may or may not be part of the template. It is important that responses at all times only consist '0' for fair or '1' for unfair.\n"
         f"Strategy: {template_strategy}\n"
         f"Original Template: {parent_template}\n"
         f"New Template:"
