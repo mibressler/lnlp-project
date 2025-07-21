@@ -114,14 +114,22 @@ Please trim this chunk to the meaningful semantic section (such as a paragraph, 
 
 def process_row(row_data):
     """Process a single row (for parallel execution)."""
-    idx, row, lines, words_with_lines, sentence_col, total_rows = row_data
-    if len(row) < sentence_col + 1:
+    idx, row, doc_data, sentence_col, total_rows = row_data
+    document_col = 1  # Column index for document name
+    if len(row) < max(sentence_col, document_col) + 1:
         print(f"[DEBUG] Row {idx}: Skipping invalid row (too few columns).")
         return row, ''
     
+    document = row[document_col]
+    if document not in doc_data:
+        print(f"[DEBUG] Row {idx}: Document not found in loaded data: '{document}'")
+        return row, ''
+    
+    lines, words_with_lines = doc_data[document]
+    
     sentence = row[sentence_col]
     sent_preview = sentence[:100] + '...' if len(sentence) > 100 else sentence
-    print(f"[DEBUG] Row {idx}/{total_rows}: Processing sentence: '{sent_preview}'")
+    print(f"[DEBUG] Row {idx}/{total_rows}: Processing sentence from document '{document}': '{sent_preview}'")
     
     chunk = find_context_chunk(sentence, lines, words_with_lines)
     
@@ -138,7 +146,7 @@ def process_row(row_data):
         print(f"[DEBUG]   Final context: '{context_preview}'")
         return row, context
 
-def process_tsv(file_name, lines, words_with_lines, max_workers=None):
+def process_tsv(file_name, max_workers=None):
     """Process a TSV file, add 'context' column at index 6 (appended as the 7th column)."""
     file_path = os.path.join(SCRIPT_DIR, file_name)
     print(f"[DEBUG] Processing TSV: {file_path}")
@@ -156,6 +164,7 @@ def process_tsv(file_name, lines, words_with_lines, max_workers=None):
     header = rows[0]
     print(f"[DEBUG] Header: {header} (columns: {len(header)})")
     sentence_col = 4  # Column index for sentence
+    document_col = 1  # Column index for document
     if len(header) < sentence_col + 1:
         raise ValueError(f"File {file_path} has fewer than {sentence_col + 1} columns.")
     
@@ -172,21 +181,50 @@ def process_tsv(file_name, lines, words_with_lines, max_workers=None):
     contexts_added = 0
     empties = 0
     
+    # Collect rows to process
+    data_rows_to_process = rows[1:1 + processed_count]
+    
+    # Collect unique documents from rows to process
+    unique_docs = set(row[document_col] for row in data_rows_to_process if len(row) > document_col)
+    print(f"[DEBUG] Unique documents to load for processing: {unique_docs}")
+    
+    # Load document data
+    doc_data = {}
+    for doc in unique_docs:
+        doc_path = os.path.join(SCRIPT_DIR, 'all-documents-as-txt', f"{doc}.txt")
+        if not os.path.exists(doc_path):
+            print(f"[DEBUG] Document file not found: {doc_path}. Skipping.")
+            continue
+        print(f"[DEBUG] Loading document: {doc_path}")
+        with open(doc_path, 'r', encoding='utf-8') as f:
+            lines = f.readlines()
+        print(f"[DEBUG] Loaded {len(lines)} lines from {doc}.")
+        
+        # Precompute words_with_lines
+        words_with_lines = []
+        for line_idx, line in enumerate(lines):
+            line_words = extract_words(line)
+            for word in line_words:
+                words_with_lines.append((line_idx, word))
+        print(f"[DEBUG] Precomputed {len(words_with_lines)} words for {doc}.")
+        
+        doc_data[doc] = (lines, words_with_lines)
+    
     # Prepare data for parallel processing (only first 10 rows)
-    pool_data = [(idx + 1, row, lines, words_with_lines, sentence_col, total_rows) for idx, row in enumerate(rows[1:1 + processed_count])]
+    pool_data = [(idx + 1, row, doc_data, sentence_col, total_rows) for idx, row in enumerate(data_rows_to_process)]
     
     # Set max_workers conservatively to avoid API rate limits
     if max_workers is None:
         max_workers = min(multiprocessing.cpu_count() // 2, 4)  # e.g., 4 on an 8-core machine
     
-    print(f"[DEBUG] Starting parallel processing with {max_workers} workers for first {processed_count} rows.")
+    print(f"[DEBUG] Starting parallel processing with {max_workers} workers for first {len(pool_data)} rows.")
     with multiprocessing.Pool(processes=max_workers) as pool:
         results = pool.map(process_row, pool_data)
     
     # Create a new list for updated rows to avoid modifying while processing
     updated_rows = [header]
     for i in range(total_rows):
-        if i < processed_count:
+        if i < len(results):  # Use actual processed count
             original_row, context = results[i]
             updated_row = original_row + [context]  # Append context to a copy
             if context:
@@ -199,34 +237,19 @@ def process_tsv(file_name, lines, words_with_lines, max_workers=None):
         updated_rows.append(updated_row)
     
     # Update counters for remaining
-    remaining_rows = total_rows - processed_count
+    remaining_rows = total_rows - len(results)
     
     # Write back to the same file with proper quoting and lineterminator
     with open(file_path, 'w', encoding='utf-8', newline='') as f:
         writer = csv.writer(f, delimiter='\t', quoting=csv.QUOTE_ALL, lineterminator='\n')
         writer.writerows(updated_rows)
     
-    print(f"[DEBUG] Processed {file_path} successfully. Summary: Processed {processed_count} rows ({contexts_added} with context, {processed_count - contexts_added} empty from processing). Appended empty to {remaining_rows} remaining rows. Total empties: {empties} (out of {total_rows} data rows).")
+    print(f"[DEBUG] Processed {file_path} successfully. Summary: Processed {len(results)} rows ({contexts_added} with context, {len(results) - contexts_added} empty from processing). Appended empty to {remaining_rows} remaining rows. Total empties: {empties} (out of {total_rows} data rows).")
 
 def main():
-    # Load the full documents once (using script dir)
-    tos_path = os.path.join(SCRIPT_DIR, 'all_tos_documents.txt')
-    print(f"[DEBUG] Loading all_tos_documents.txt from: {tos_path}")
-    with open(tos_path, 'r', encoding='utf-8') as f:
-        lines = f.readlines()
-    print(f"[DEBUG] Loaded {len(lines)} lines from all_tos_documents.txt.")
-    
-    # Precompute words_with_lines for robust matching
-    words_with_lines = []
-    for line_idx, line in enumerate(lines):
-        line_words = extract_words(line)
-        for word in line_words:
-            words_with_lines.append((line_idx, word))
-    print(f"[DEBUG] Precomputed {len(words_with_lines)} words for matching.")
-    
     # Process each file with parallelism (adjust max_workers if needed)
     for file_name in ['test.tsv', 'train.tsv', 'val.tsv']:
-        process_tsv(file_name, lines, words_with_lines, max_workers=4)
+        process_tsv(file_name, max_workers=4)
 
 if __name__ == "__main__":
     main()
