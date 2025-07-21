@@ -348,7 +348,7 @@ def main(generations=20, pop_size=8, train_sample_size=10, test_sample_size=100)
     train_data = Data.load(os.path.join(base_dir, "train_unskewed.tsv"))
     test_data = Data.load(os.path.join(base_dir, "test.tsv"))
     
-    llm = OpenRouterLLM("google/gemini-2.5-flash-lite-preview-06-17")
+    llm = OpenRouterLLM("google/gemini-2.5-flash")
     best_prompt = optimize_prompt(train_data.get_x(), train_data.get_context(), train_data.get_y(), llm, generations, pop_size, train_sample_size)
     
     print("\nRunning on test set...")
