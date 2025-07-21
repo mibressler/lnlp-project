@@ -216,7 +216,7 @@ def mutate_instruction(parent_instr, instr_strategy, llm):
 
 def mutate_template(parent_template, template_strategy, llm):
     prompt = (
-        f"You are an expert prompt engineer applying the following transformation strategy to improve a prompt template for a classification task. Ensure the template includes placeholders: <instruction> for the classification instruction, <clause> for the clause text, <context> for the contract-specific context, and <statutory_context> for the fixed statutory legal context. It is important that responses at all times only consist '0' for fair or '1' for unfair.\n"
+        f"You are an expert prompt engineer applying the following transformation strategy to improve a prompt template for a classification task. Ensure the template includes placeholders: <instruction> for the classification instruction, <clause> for the clause text and optionally <contract_context> for the contract-specific context, and <statutory_context> for the fixed statutory legal context. It is important that responses at all times only consist '0' for fair or '1' for unfair.\n"
         f"Strategy: {template_strategy}\n"
         f"Original Template: {parent_template}\n"
         f"New Template:"
