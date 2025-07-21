@@ -32,6 +32,33 @@ instruction_strategies = [
     "To allow Large Language Models to make logical and unbiased inferences, add phrases to a given prompt that instruct it to remove opinionated content. This helps the model concentrate on providing responses based on careful analysis and logical reasoning, minimizing biases.",
     "If a given prompt has long instructions, make it shorter by condensing it to only the essential parts. Never remove the instruction to strictly respond with '0' for fair or '1' for unfair.",
     "Edit the prompt instruction to invoke legal reasoning for problem solving: 1) State the goal of determining the unfairness of a clause. 2) Give a detailed definition of what could be considered an unfair clause. 3) compare the given sentence with the definition to estimate which parts of the sentence falls under that definition. 4) make a final determination based on the comparison."
+    "Craft a concise description of the most capable expert for the task, addressing them in second person (e.g., 'You are an expert in...') to enhance precision and focus the model's response.",
+    "Guide the model through step-by-step reasoning by adding a precise phrase like 'Let's think step-by-step' at the end, ensuring explanations are logical and concise while shortening unnecessary elaboration.",
+    "Envision three experts collaboratively solving the problem: each briefly shares one step of thinking per round, and any who realize they're wrong exit immediately. This promotes precise, error-minimizing reasoning without verbose discussions.",
+    "Ensure all essential information is embedded succinctly in the prompt, adding only what's needed to clarify without altering the objective, thereby making the instruction more precise and shorter.",
+    "Append a brief phrase evoking positive emotion (e.g., 'Achieve outstanding success!') to motivate the model. Focus on: 1) Targeting encouragement or reassurance; 2) Using supportive words like 'excellent' or 'believe'; 3) Emphasizing with exclamation or capitals; 4) Boosting self-esteem via motivational cues. Keep it concise to avoid lengthening the prompt.",
+    "Add a short directive like 'Read the question again carefully' before responding, improving accuracy for complex tasks by encouraging precise comprehension without unnecessary repetition.",
+    "Specify the desired style succinctly in the prompt (e.g., 'Write in a formal tone...' or 'Use poetic language for...'), ensuring the instruction is precise and guides the model to match the style efficiently.",
+    "Instruct the model to 'Rephrase the question concisely, then respond,' promoting clearer understanding and more focused, precise answers while avoiding verbose expansions.",
+    "Refine the prompt's description to be more specific and concise, eliminating ambiguities to help the model execute instructions accurately and efficiently.",
+    "Add a neutral directive like 'Base your response on logical reasoning only, avoiding opinions or biases' to foster unbiased, precise inferences focused on analysis.",
+    "For lengthy instructions, condense to essential elements only, prioritizing clarity and brevity while preserving core objectives and never removing requirements like strictly responding with '0' for fair or '1' for unfair.",
+    "Revise the prompt to invoke precise legal reasoning: 1) State the goal of assessing clause unfairness briefly; 2) Provide a concise definition of unfair clauses; 3) Compare the sentence directly to the definition, highlighting matching elements succinctly; 4) Conclude with a clear '0' (fair) or '1' (unfair) determination based on the comparison."
+]
+
+instruction_strategies_original = [
+    "Crafting an expert who is an expert at the given task, by writing a high-quality description about the most capable and suitable agent to answer the instruction in second person perspective.",
+    "Explaining step-by-step how the problem should be tackled, and making sure the model explains step-by-step how it came to the answer. You can do this by adding \"Let's think step-by-step\".",
+    "Imagining three different experts who are discussing the problem at hand. All experts will write down 1 step of their thinking, then share it with the group. Then all experts will go on to the next step, etc. If any expert realises they're wrong at any point then they leave.",
+    "Making sure all information needed is in the prompt, adding where necessary but making sure the question remains having the same objective.",
+    "At the end of the prompt, add a phrase that evokes a strong emotion. When doing so, keep the following four points in mind:\n1. Define emotional goals: Identify the emotional response you want to evoke, such as encouragement, motivation, or reassurance.\n2. Use positive language: Incorporate words and phrases that are positive and supportive. Examples include \"believe in your abilities,\" \"excellent,\" \"success,\" and \"outstanding achievements\".\n3. Emphasize key words: Use techniques like exclamation marks and capitalized words to highlight important aspects and to enhance the emotional impact.\n4. Incorporate social and self-esteem cues: Design stimuli that leverage social influence (e.g., group membership, others' opinions) and boost self-esteem and motivation. This can help regulate the emotional response of the Large Language Models and tap into intrinsic motivation.",
+    "For a given prompt, add a phrase such as \"Read the question again\" that instructs the Large Language Models to reread the question before generating an answer. This strategy is particularly effective for complex tasks and helps enhance the quality and reliability of the model's outputs",
+    "Clearly define the desired style in the given prompt. For example, you might say, \"Write a formal letter about...\" or \"Create a casual conversation discussing...\". This guidance helps the model produce text that matches the requested stylistic elements, whether it's formal, informal, technical, or poetic.",
+    "For a given prompt, add a phrase that instructs the Large Language Models to rephrase the question before responding, such as \"Rephrase and expand the question, and respond.\"",
+    "Make the description of the given prompt more specific. This makes it easier for Large Language Models to correctly execute prompt instructions.",
+    "To allow Large Language Models to make logical and unbiased inferences, add phrases to a given prompt that instruct it to remove opinionated content. This helps the model concentrate on providing responses based on careful analysis and logical reasoning, minimizing biases.",
+    "If a given prompt has long instructions, make it shorter by condensing it to only the essential parts. Never remove the instruction to strictly respond with '0' for fair or '1' for unfair.",
+    "Edit the prompt instruction to invoke legal reasoning for problem solving: 1) State the goal of determining the unfairness of a clause. 2) Give a detailed definition of what could be considered an unfair clause. 3) compare the given sentence with the definition to estimate which parts of the sentence falls under that definition. 4) make a final determination based on the comparison."
 ]
 
 instruction_strategies_concise = [
@@ -220,7 +247,7 @@ def extract_answer(output):
 
 def mutate_instruction(parent_instr, instr_strategy, llm):
     prompt = (
-        f"You are an expert prompt engineer applying the following transformation strategy to improve an instruction for a classification task. It is important that responses at all times only consist '0' for fair or '1' for unfair.\n"
+        f"You are an expert prompt engineer gently applying the following transformation strategy to improve an instruction for a classification task. It is important that responses at all times only consist '0' for fair or '1' for unfair.\n"
         f"Strategy: {instr_strategy}\n"
         f"Original Instruction: {parent_instr}\n"
         f"New Instruction:"
@@ -231,7 +258,7 @@ def mutate_instruction(parent_instr, instr_strategy, llm):
 
 def mutate_template(parent_template, template_strategy, llm):
     prompt = (
-        f"You are an expert prompt engineer applying the following transformation strategy to improve a prompt template for a classification task. Ensure the template includes placeholders: <instruction> for the classification instruction, <clause> for the clause text and optionally <contract_context> for the contract-specific context, and <statutory_context> for the fixed statutory legal context. It is important that responses at all times only consist '0' for fair or '1' for unfair.\n"
+        f"You are an expert prompt engineer gently applying the following transformation strategy to improve a prompt template for a classification task. Ensure the template includes placeholders: <instruction> for the classification instruction, <clause> for the clause text and optionally <contract_context> for the contract-specific context, and <statutory_context> for the fixed statutory legal context. It is important that responses at all times only consist '0' for fair or '1' for unfair.\n"
         f"Strategy: {template_strategy}\n"
         f"Original Template: {parent_template}\n"
         f"New Template:"
@@ -255,7 +282,7 @@ def optimize_prompt(train_x, train_context, train_y, llm, generations=5, pop_siz
     population = [Prompt(base_instr, base_template)]
 
     for _ in range(pop_size - 1):
-        instr_strategy = random.choice(instruction_strategies_concise)
+        instr_strategy = random.choice(instruction_strategies)
         population.append(mutate_prompt_ga(population[0], instr_strategy, llm))
 
     for gen in range(generations):
@@ -264,12 +291,13 @@ def optimize_prompt(train_x, train_context, train_y, llm, generations=5, pop_siz
         for i, p in enumerate(population):
             p.score = scores[i]
         population = sorted(population, key=lambda p: p.score, reverse=True)
+        print("Scores:", [p.score for p in population])
 
         top_k = population[:pop_size//2]
         children = []
         for _ in range(pop_size - len(top_k)):
             parent = random.choice(top_k)
-            instr_strategy = random.choice(instruction_strategies_concise)
+            instr_strategy = random.choice(instruction_strategies)
             children.append(mutate_prompt_ga(parent, instr_strategy, llm))
 
         population = top_k + children
