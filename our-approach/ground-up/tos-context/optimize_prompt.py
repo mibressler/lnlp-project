@@ -431,7 +431,7 @@ def optimize_prompt(train_x, train_context, train_y, llm, generations=50, pop_si
     
     population = [Prompt(base_instr, base_template) for _ in range(pop_size)]  # Start with identical bases
     instr_selector = BanditSelector(INSTRUCTION_STRATEGIES_WELL_PERFORMING, name="Instruction")
-    template_selector = BanditSelector(TEMPLATE_STRATEGIES_LEGAL_REASONING, name="Template")
+    template_selector = BanditSelector(TEMPLATE_STRATEGIES, name="Template")
     
     best_score = 0.0
     no_improve_gens = 0
