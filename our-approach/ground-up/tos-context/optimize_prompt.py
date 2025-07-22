@@ -288,6 +288,7 @@ def evaluate(prompt_obj, data_x, data_context, data_y, llm, batch_size=20, sampl
         batch_x = eval_x[i:i+batch_size]
         batch_context = eval_context[i:i+batch_size]
         formatted = [prompt_obj.join_input(x, c, statutory_enabled, contract_enabled) for x, c in zip(batch_x, batch_context)]
+        print(f"========== Batch {i // batch_size + 1} =========")
         print(formatted[0])
         outputs.extend(llm.query(formatted, temperature=0.0))
 
