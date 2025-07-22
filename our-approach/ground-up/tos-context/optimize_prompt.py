@@ -332,7 +332,7 @@ def evaluate(prompt_obj, data_x, data_context, data_y, llm, batch_size=20, sampl
         detailed_report_string = classification_report(y_true, y_pred, digits=4, zero_division=0)
         valid_ratio = len(y_pred) / len(y_pred_all)
         adjusted_score = f1_macro * valid_ratio
-        print(f"Adjusted F1 Macro Score: {adjusted_score:.4f}")
+        print(f"⭐ Adjusted F1 Macro Score: {adjusted_score:.4f}")
 
         metrics = {
             'sample_size': len(y_true),
