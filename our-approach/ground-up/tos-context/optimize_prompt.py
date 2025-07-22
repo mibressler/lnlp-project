@@ -467,7 +467,6 @@ def optimize_prompt(train_x, train_context, train_y, llm, generations=50, pop_si
                 break
         
         top_k = population[:pop_size // 2]
-        print(f"Top {len(top_k)} prompts: {[p.score for p in top_k]}")
         children = []
         for _ in range(pop_size - len(top_k)):
             parent = random.choice(top_k)
