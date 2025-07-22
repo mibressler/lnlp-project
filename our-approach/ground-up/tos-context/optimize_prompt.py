@@ -55,7 +55,7 @@ INSTRUCTION_STRATEGIES_WELL_PERFORMING = [
 ]
 
 
-INSTRUCTION_STRATEGIES = [
+INSTRUCTION_STRATEGIES_ORIGINAL = [
     "Craft a concise description of the most capable expert for the task, addressing them in second person (e.g., 'You are an expert in...') to enhance precision and focus the model's response.",
     "Guide the model through step-by-step reasoning by adding a precise phrase like 'Let's think step-by-step' at the end, ensuring explanations are logical and concise while shortening unnecessary elaboration.",
     "Envision three experts collaboratively solving the problem: each briefly shares one step of thinking per round, and any who realize they're wrong exit immediately. This promotes precise, error-minimizing reasoning without verbose discussions.",
@@ -430,7 +430,7 @@ def optimize_prompt(train_x, train_context, train_y, llm, generations=50, pop_si
     base_template = get_base_template(statutory_context_enabled, contract_context_enabled)
     
     population = [Prompt(base_instr, base_template) for _ in range(pop_size)]  # Start with identical bases
-    instr_selector = BanditSelector(INSTRUCTION_STRATEGIES_WELL_PERFORMING, name="Instruction")
+    instr_selector = BanditSelector(INSTRUCTION_STRATEGIES_ORIGINAL, name="Instruction")
     template_selector = BanditSelector(TEMPLATE_STRATEGIES, name="Template")
     
     best_score = 0.0
