@@ -213,8 +213,8 @@ class OpenRouterLLM:
                     outputs.append(output)
                     
                     
-                    #print("\n=== SENT ===")
-                    #print(prompt)
+                    print("\n=== SENT ===")
+                    print(prompt)
                     #print("\n=== RECEIVED ===")
                     #print(output)
                     #print("\n=============\n")
