@@ -454,7 +454,7 @@ def optimize_prompt(train_x, train_context, train_y, llm, generations=50, pop_si
         for p, score in zip(population, scores):
             p.score = score if not np.isnan(score) else 0.0  # Handle NaN
         population.sort(key=lambda p: p.score, reverse=True)
-        print("Scores:", [p.score for p in population])
+        print("⭐⭐ Scores:", [p.score for p in population])
         
         current_best = population[0].score
         if current_best > best_score:
