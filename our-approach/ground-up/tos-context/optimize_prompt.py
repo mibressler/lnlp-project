@@ -91,6 +91,15 @@ TEMPLATE_STRATEGIES = [
     "Incorporate separators, delimiters, or formatting emphasis (e.g., bold, italics) to improve readability and highlight key sections of the template.",
     "Experimentally completely omit one or more of the placeholders <statutory_context> and <contract_context> to refine the template, potentially simplifying or enriching it while maintaining the classification task's integrity with <instruction> and <clause>.",
     "Experimentally re-add one or more of the placeholders <statutory_context> and <contract_context> to refine the template, potentially enriching it while maintaining the classification task's integrity with <instruction> and <clause>."
+    "Design the template to invoke legal reasoning for problem solving: Legal reasoining typicially involves 1) State the goal of determining the unfairness of a clause (what to assess). 2) Give a detailed definition of what could be considered an unfair clause. 3) compare the given sentence with the definition to estimate which parts of the sentence falls under that definition. 4) make a final determination based on the comparison."
+]
+
+TEMPLATE_STRATEGIES_LEGAL_REASONING = [
+    "Enhance the description of relationships between template elements, for example explaining how the statutory context provides legal foundations, the contract context offers specific background, the instruction guides the process, and the clause is the target for classification.",
+    "Reorder the template elements to optimize logical flow, for example presenting the statutory context first, followed by contract context, instruction, and clause or another arrangement that could be better.",
+    "Incorporate separators, delimiters, or formatting emphasis (e.g., bold, italics) to improve readability and highlight key sections of the template.",
+    "Experimentally completely omit one or more of the placeholders <statutory_context> and <contract_context> to refine the template, potentially simplifying or enriching it while maintaining the classification task's integrity with <instruction> and <clause>.",
+    "Experimentally re-add one or more of the placeholders <statutory_context> and <contract_context> to refine the template, potentially enriching it while maintaining the classification task's integrity with <instruction> and <clause>."
 ]
 
 PLACEHOLDER_STATUTORY_CONTEXT = (
@@ -422,7 +431,7 @@ def optimize_prompt(train_x, train_context, train_y, llm, generations=50, pop_si
     
     population = [Prompt(base_instr, base_template) for _ in range(pop_size)]  # Start with identical bases
     instr_selector = BanditSelector(INSTRUCTION_STRATEGIES_WELL_PERFORMING, name="Instruction")
-    template_selector = BanditSelector(TEMPLATE_STRATEGIES, name="Template")
+    template_selector = BanditSelector(TEMPLATE_STRATEGIES_LEGAL_REASONING, name="Template")
     
     best_score = 0.0
     no_improve_gens = 0
