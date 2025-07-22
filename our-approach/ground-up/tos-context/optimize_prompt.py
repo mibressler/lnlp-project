@@ -236,8 +236,8 @@ class OpenRouterLLM:
                     outputs.append(output)
                     
                     
-                    print("\n=== SENT ===")
-                    print(prompt)
+                    #print("\n=== SENT ===")
+                    #print(prompt)
                     #print("\n=== RECEIVED ===")
                     #print(output)
                     #print("\n=============\n")
@@ -288,6 +288,7 @@ def evaluate(prompt_obj, data_x, data_context, data_y, llm, batch_size=20, sampl
         batch_x = eval_x[i:i+batch_size]
         batch_context = eval_context[i:i+batch_size]
         formatted = [prompt_obj.join_input(x, c, statutory_enabled, contract_enabled) for x, c in zip(batch_x, batch_context)]
+        print(formatted[0])
         outputs.extend(llm.query(formatted, temperature=0.0))
 
     cleaned_outputs = [extract_answer(o) for o in outputs]
