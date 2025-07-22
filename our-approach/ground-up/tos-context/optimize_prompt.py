@@ -376,6 +376,8 @@ def mutate_instruction(parent_instr, strategy, llm):
     if strategy == "INACTION":
         return parent_instr
     prompt = META_PROMPT_INSTR_3.format(strategy=strategy, parent_instr=parent_instr)
+    print(f"Mutating instruction with strategy: {strategy}")
+    print(f"Prompt: {prompt}")
     return llm.query([prompt])[0]
 
 def mutate_template(parent_template, template_strategy, llm, statutory_enabled, contract_enabled):
@@ -386,6 +388,8 @@ def mutate_template(parent_template, template_strategy, llm, statutory_enabled, 
         prompt += "\nDo not include the <statutory_context> placeholder in the new template."
     if not contract_enabled:
         prompt += "\nDo not include the <contract_context> placeholder in the new template."
+    print(f"Mutating template with strategy: {template_strategy}")
+    print(f"Prompt: {prompt}")
     return llm.query([prompt])[0]
 
 def mutate_prompt_ga(parent, instr_selector, template_selector, llm, use_bandit_instr, use_bandit_template, statutory_enabled, contract_enabled):
