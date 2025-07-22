@@ -305,6 +305,8 @@ def evaluate(prompt_obj, data_x, data_context, data_y, llm, batch_size=20, sampl
         report = classification_report(y_true, y_pred, digits=4, zero_division=0, output_dict=True)
         support = {k: v['support'] for k, v in report.items() if k in ['0', '1']}
         detailed_report_string = classification_report(y_true, y_pred, digits=4, zero_division=0)
+        valid_ratio = len(y_pred) / len(y_pred_all)
+        adjusted_score = f1_macro * valid_ratio
 
         metrics = {
             'sample_size': len(y_true),
@@ -319,9 +321,12 @@ def evaluate(prompt_obj, data_x, data_context, data_y, llm, batch_size=20, sampl
             'classification_report': report,
             'unique_y_true': set(y_true),
             'unique_y_pred': set(y_pred),
-            'detailed_report_string': detailed_report_string
+            'detailed_report_string': detailed_report_string,
+            'adjusted_f1_macro': adjusted_score
         }
-        return f1_macro, metrics
+
+        return adjusted_score, metrics
+    
     except ValueError as e:
         logging.error(f"Metrics error: {e}")
         metrics = {
@@ -470,8 +475,8 @@ def main(generations=20, pop_size=8, train_sample_size=10, test_sample_size=100,
     
     print("\nRunning on test set...")
     test_f1, test_metrics = evaluate(best_prompt, test_data.get_x(), test_data.get_context(), test_data.get_y(), llm, sample_size=test_sample_size, statutory_enabled=statutory_context_enabled, contract_enabled=contract_context_enabled)
-    print(f"Test Macro F1: {test_f1:.4f}")
-    logging.info(f"Test Macro F1: {test_f1:.4f}")
+    print(f"Test Adjusted Macro F1: {test_f1:.4f}")
+    logging.info(f"Test Adjusted Macro F1: {test_f1:.4f}")
 
     result = {
         'best_instruction': best_prompt.instr,
