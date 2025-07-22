@@ -288,7 +288,7 @@ def evaluate(prompt_obj, data_x, data_context, data_y, llm, batch_size=20, sampl
         batch_x = eval_x[i:i+batch_size]
         batch_context = eval_context[i:i+batch_size]
         formatted = [prompt_obj.join_input(x, c, statutory_enabled, contract_enabled) for x, c in zip(batch_x, batch_context)]
-        print(f"========== Batch {i // batch_size + 1} =========")
+        print(f"---- Batch {i // batch_size + 1} ----")
         print(formatted[0])
         outputs.extend(llm.query(formatted, temperature=0.0))
 
@@ -442,7 +442,7 @@ def optimize_prompt(train_x, train_context, train_y, llm, generations=50, pop_si
     
     for gen in range(generations):
         logging.info(f"Starting generation {gen + 1}")
-        print(f"Generation {gen + 1}")
+        print(f"============ Generation {gen + 1} ============")
         
         scores_and_metrics = [evaluate(p, train_x, train_context, train_y, llm, sample_size=train_sample_size, statutory_enabled=statutory_context_enabled, contract_enabled=contract_context_enabled) for p in tqdm(population, desc="Evaluating population")]
         scores = [s[0] for s in scores_and_metrics]
