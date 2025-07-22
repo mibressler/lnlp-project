@@ -435,7 +435,7 @@ def optimize_prompt(train_x, train_context, train_y, llm, generations=50, pop_si
     
     best_score = 0.0
     no_improve_gens = 0
-    max_no_improve = 5  # Early stopping if no improvement for 5 gens
+    max_no_improve = 200  # Early stopping if no improvement for 5 gens # currently set to 200 for debugging
     
     for gen in range(generations):
         logging.info(f"Starting generation {gen + 1}")
