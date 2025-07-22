@@ -22,8 +22,8 @@ load_dotenv()
 api_key = os.getenv("OPENROUTER_API_KEY")
 
 # Set random seed for reproducibility
-random.seed(42)
-np.random.seed(42)
+#random.seed(42)
+#np.random.seed(42)
 
 # ========== Constants ============
 INSTRUCTION_STRATEGIES_WELL_PERFORMING = [
