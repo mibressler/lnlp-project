@@ -219,7 +219,7 @@ class OpenRouterLLM:
     def __init__(self, model_name):
         self.model_name = model_name
     
-    def query(self, prompts, temperature=0.5, max_tokens=256):
+    def query(self, prompts, temperature=0.7, max_tokens=256):
         outputs = []
         for prompt in prompts:
             retries = 0
