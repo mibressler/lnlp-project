@@ -69,7 +69,6 @@ INSTRUCTION_STRATEGIES_ORIGINAL = [
     "For lengthy instructions, condense to essential elements only, prioritizing clarity and brevity while preserving core objectives and never removing requirements like strictly responding with '0' for fair or '1' for unfair.",
     "Revise the prompt to invoke precise legal reasoning: 1) State the goal of assessing clause unfairness briefly; 2) Provide a concise definition of unfair clauses; 3) Compare the sentence directly to the definition, highlighting matching elements succinctly; 4) Conclude with a clear '0' (fair) or '1' (unfair) determination based on the comparison.",
     "Improve the instruction",
-    "Rewrite the instruction from scratch",
 ]
 
 INSTRUCTION_STRATEGIES_LEGAL = [
