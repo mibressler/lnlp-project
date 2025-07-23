@@ -394,7 +394,7 @@ def evaluate(prompt_obj, data_x, data_context, data_y, llm, batch_size=20, sampl
 def mutate_instruction(parent_instr, strategy, llm):
     if strategy == "INACTION":
         return parent_instr
-    prompt = META_PROMPT_INSTR_3.format(strategy=strategy, parent_instr=parent_instr)
+    prompt = META_PROMPT_INSTR_4.format(strategy=strategy, parent_instr=parent_instr)
     print(f"Mutating instruction with strategy: {strategy}")
     print(f"Prompt: {prompt}")
     return llm.query([prompt])[0]
