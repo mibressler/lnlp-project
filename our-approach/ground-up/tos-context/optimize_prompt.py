@@ -132,6 +132,18 @@ Original Instruction: {parent_instr} \n
 New Instruction:
 """
 
+META_PROMPT_INSTR_4 = """
+You are an expert prompt engineer gently applying the following transformation strategy to improve an instruction for a legal classification task (predicting the fairness of an individual clause from a ToS contract). It is important that responses at all times only consist of '0' for fair or '1' for unfair.
+
+STRATEGY: 
+{strategy}
+
+ORIGINAL INSTRUCTION: 
+{parent_instr}
+
+NEW INSTRUCTION:
+"""
+
 META_PROMPT_TEMPLATE = """
 You are an expert prompt engineer gently applying the following transformation strategy to improve a prompt template for a classification task. Ensure the template includes placeholders: At least <instruction> for the classification instruction and <clause> for the clause text. <contract_context> and <statutory_context> may or may not be part of the template. It is important that responses at all times only consist '0' for fair or '1' for unfair.
 
