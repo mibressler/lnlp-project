@@ -67,7 +67,9 @@ INSTRUCTION_STRATEGIES_ORIGINAL = [
     "Refine the prompt's description to be more specific and concise, eliminating ambiguities to help the model execute instructions accurately and efficiently.",
     "Add a neutral directive like 'Base your response on logical reasoning only, avoiding opinions or biases' to foster unbiased, precise inferences focused on analysis.",
     "For lengthy instructions, condense to essential elements only, prioritizing clarity and brevity while preserving core objectives and never removing requirements like strictly responding with '0' for fair or '1' for unfair.",
-    "Revise the prompt to invoke precise legal reasoning: 1) State the goal of assessing clause unfairness briefly; 2) Provide a concise definition of unfair clauses; 3) Compare the sentence directly to the definition, highlighting matching elements succinctly; 4) Conclude with a clear '0' (fair) or '1' (unfair) determination based on the comparison."
+    "Revise the prompt to invoke precise legal reasoning: 1) State the goal of assessing clause unfairness briefly; 2) Provide a concise definition of unfair clauses; 3) Compare the sentence directly to the definition, highlighting matching elements succinctly; 4) Conclude with a clear '0' (fair) or '1' (unfair) determination based on the comparison.",
+    "Improve the instruction",
+    "Rewrite the instruction from scratch",
 ]
 
 INSTRUCTION_STRATEGIES_LEGAL = [
@@ -82,7 +84,7 @@ INSTRUCTION_STRATEGIES_LEGAL = [
     "Refine the instruction to be highly specific and concise, incorporating legal criteria like 'significant imbalance' and 'good faith,' while eliminating ambiguities and preserving the strict binary response requirement.",
     "Add a directive for unbiased, logic-based analysis (e.g., 'Base your classification solely on legal facts and Directive 93/13, avoiding any personal opinions'), minimizing biases and emphasizing careful clause-definition comparison.",
     "Condense lengthy instructions to essentials, integrating a structured legal reasoning framework: state the unfairness assessment goal, define unfair clauses briefly, compare the clause, and determine '0' or '1' based on matches.",
-    "Completely rewrite the instruction from scratch, combining expert role, step-by-step analysis, and legal definitions into a streamlined prompt that ensures binary '0' or '1' responses with high accuracy."
+    "Completely rewrite the instruction from scratch, combining expert role, step-by-step analysis, and legal definitions into a streamlined prompt that ensures binary '0' or '1' responses with high accuracy.",
 ]
 
 TEMPLATE_STRATEGIES = [
