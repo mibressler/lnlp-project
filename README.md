@@ -1,4 +1,4 @@
-# LNLP Mid-Term
+# LNLP Seminar
 
 This repository contains various experiments and utilities used for our approach for the LNLP course. The most relevant directories are:
 
