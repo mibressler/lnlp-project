@@ -27,7 +27,7 @@ api_key = os.getenv("OPENROUTER_API_KEY")
 #np.random.seed(42)
 
 # ========== Constants ============
-INSTRUCTION_STRATEGIES_WELL_PERFORMING = [
+INSTRUCTION_STRATEGIES = [
     "Crafting an expert who is an expert at the given task, by writing a high-quality description about the most capable and suitable agent to answer the instruction in second person perspective.",
     "Explaining step-by-step how the problem should be tackled, and making sure the model explains step-by-step how it came to the answer. You can do this by adding \"Let's think step-by-step\".",
     "Imagining three different experts who are discussing the problem at hand. All experts will write down 1 step of their thinking, then share it with the group. Then all experts will go on to the next step, etc. If any expert realises they're wrong at any point then they leave.",
@@ -56,37 +56,6 @@ INSTRUCTION_STRATEGIES_WELL_PERFORMING = [
 ]
 
 
-INSTRUCTION_STRATEGIES_ORIGINAL = [
-    "Craft a concise description of the most capable expert for the task, addressing them in second person (e.g., 'You are an expert in...') to enhance precision and focus the model's response.",
-    "Guide the model through step-by-step reasoning by adding a precise phrase like 'Let's think step-by-step' at the end, ensuring explanations are logical and concise while shortening unnecessary elaboration.",
-    "Envision three experts collaboratively solving the problem: each briefly shares one step of thinking per round, and any who realize they're wrong exit immediately. This promotes precise, error-minimizing reasoning without verbose discussions.",
-    "Ensure all essential information is embedded succinctly in the prompt, adding only what's needed to clarify without altering the objective, thereby making the instruction more precise and shorter.",
-    "Append a brief phrase evoking positive emotion (e.g., 'Achieve outstanding success!') to motivate the model. Focus on: 1) Targeting encouragement or reassurance; 2) Using supportive words like 'excellent' or 'believe'; 3) Emphasizing with exclamation or capitals; 4) Boosting self-esteem via motivational cues. Keep it concise to avoid lengthening the prompt.",
-    "Add a short directive like 'Read the question again carefully' before responding, improving accuracy for complex tasks by encouraging precise comprehension without unnecessary repetition.",
-    "Specify the desired style succinctly in the prompt (e.g., 'Write in a formal tone...' or 'Use poetic language for...'), ensuring the instruction is precise and guides the model to match the style efficiently.",
-    "Instruct the model to 'Rephrase the question concisely, then respond,' promoting clearer understanding and more focused, precise answers while avoiding verbose expansions.",
-    "Refine the prompt's description to be more specific and concise, eliminating ambiguities to help the model execute instructions accurately and efficiently.",
-    "Add a neutral directive like 'Base your response on logical reasoning only, avoiding opinions or biases' to foster unbiased, precise inferences focused on analysis.",
-    "For lengthy instructions, condense to essential elements only, prioritizing clarity and brevity while preserving core objectives and never removing requirements like strictly responding with '0' for fair or '1' for unfair.",
-    "Revise the prompt to invoke precise legal reasoning: 1) State the goal of assessing clause unfairness briefly; 2) Provide a concise definition of unfair clauses; 3) Compare the sentence directly to the definition, highlighting matching elements succinctly; 4) Conclude with a clear '0' (fair) or '1' (unfair) determination based on the comparison.",
-    "Improve the instruction",
-]
-
-INSTRUCTION_STRATEGIES_LEGAL = [
-    "Craft a concise second-person description of a highly capable legal expert specializing in consumer contract fairness, emphasizing expertise in EU Directive 93/13 and unfair terms analysis to focus the model's response (e.g., 'You are a seasoned legal scholar in EU consumer law...').",
-    "Incorporate step-by-step legal reasoning by adding 'Let's analyze step-by-step' or similar, ensuring the model explains its thought process logically, compares the clause to unfairness definitions, and concludes with '0' or '1' while keeping explanations concise.",
-    "Envision a panel of three legal experts (e.g., a judge, a consumer rights advocate, and a contract law professor) collaboratively analyzing the clause: each shares one brief reasoning step per round, exiting if wrong, to minimize errors and promote precise classification.",
-    "Embed all essential legal information succinctly, such as key definitions from Directive 93/13 and examples of unfair terms, adding clarifications only if needed without changing the objective of binary '0' (fair) or '1' (unfair) classification.",
-    "Append a brief motivational phrase evoking confidence and precision (e.g., 'Deliver an EXCELLENT, accurate verdict!'), using positive language, emphasis, and self-esteem cues to encourage reliable outputs without extending the prompt length.",
-    "Add a directive like 'Carefully reread the clause and context before classifying' to promote thorough comprehension and accuracy in this complex legal task, enhancing response reliability.",
-    "Specify a formal, analytical legal style (e.g., 'Respond in a precise judicial tone, concluding strictly with '0' or '1''), guiding the model to produce structured, professional classifications matching legal standards.",
-    "Instruct the model to 'Concisely rephrase the clause and task, then classify,' fostering deeper understanding, focused reasoning, and elimination of ambiguities for more accurate '0' or '1' outputs.",
-    "Refine the instruction to be highly specific and concise, incorporating legal criteria like 'significant imbalance' and 'good faith,' while eliminating ambiguities and preserving the strict binary response requirement.",
-    "Add a directive for unbiased, logic-based analysis (e.g., 'Base your classification solely on legal facts and Directive 93/13, avoiding any personal opinions'), minimizing biases and emphasizing careful clause-definition comparison.",
-    "Condense lengthy instructions to essentials, integrating a structured legal reasoning framework: state the unfairness assessment goal, define unfair clauses briefly, compare the clause, and determine '0' or '1' based on matches.",
-    "Completely rewrite the instruction from scratch, combining expert role, step-by-step analysis, and legal definitions into a streamlined prompt that ensures binary '0' or '1' responses with high accuracy.",
-]
-
 TEMPLATE_STRATEGIES = [
     "Enhance the description of relationships between template elements, for example explaining how the statutory context provides legal foundations, the contract context offers specific background, the instruction guides the process, and the clause is the target for classification.",
     "Reorder the template elements to optimize logical flow, for example presenting the statutory context first, followed by contract context, instruction, and clause or another arrangement that could be better.",
@@ -96,20 +65,11 @@ TEMPLATE_STRATEGIES = [
     "Improve the prompt template",
 ]
 
-TEMPLATE_STRATEGIES_LEGAL_REASONING = [
-    "Enhance the description of relationships between template elements, for example explaining how the statutory context provides legal foundations, the contract context offers specific background, the instruction guides the process, and the clause is the target for classification.",
-    "Reorder the template elements to optimize logical flow, for example presenting the statutory context first, followed by contract context, instruction, and clause or another arrangement that could be better.",
-    "Incorporate separators, delimiters, or formatting emphasis (e.g., bold, italics) to improve readability and highlight key sections of the template.",
-    "Experimentally completely omit one or more of the placeholders <statutory_context> and <contract_context> to refine the template, potentially simplifying or enriching it while maintaining the classification task's integrity with <instruction> and <clause>.",
-    "Experimentally re-add one or more of the placeholders <statutory_context> and <contract_context> to refine the template, potentially enriching it while maintaining the classification task's integrity with <instruction> and <clause>.",
-    "Design the template to invoke legal reasoning for problem solving: Legal reasoining typicially involves 1) State the goal of determining the unfairness of a clause (what to assess). 2) Give a detailed definition of what could be considered an unfair clause. 3) compare the given sentence with the definition to estimate which parts of the sentence falls under that definition. 4) make a final determination based on the comparison."
-]
-
-PLACEHOLDER_STATUTORY_CONTEXT = (
-    "According to art. 3 of the Directive 93/13 on Unfair Terms in Consumer Contracts, a contractual term is unfair if: 1) it has not been individually negotiated; and 2) contrary to the requirement of good faith, it causes a significant imbalance in the parties' rights and obligations, to the detriment of the consumer. This general definition is further specified in the Annex to the Directive, containing an indicative and non-exhaustive list of the terms which may be regarded as unfair, as well as in a few dozen judgments of the Court of Justice of the EU (Micklitz and Reich 2014). Examples of unfair clauses encompass taking jurisdiction away from the consumer, limiting liability for damages on health and/or gross negligence, imposing obligatory arbitration in a country different from consumer's residence, etc. Loos and Luzak (2016) identified five categories of potentially unfair clauses often appearing in the terms of online services: 1) establishing jurisdiction for disputes in a country different than consumer's residence; 2) choice of a foreign law governing the contract; 3) limitation of liability; 4) the provider's right to unilaterally terminate the contract/access to the service; and 5) the provider's right to unilaterally modify the contract/the service. Our research has identified three additional categories: 6) requiring a consumer to undertake arbitration before the court proceedings can commence; 7) the provider retaining the right to unilaterally remove consumer content from the service, including in-app purchases; 8) having a consumer accept the agreement simply by using the service, not only without reading it, but even without having to click on 'I agree/I accept.'"
+STATUTORY_CONTEXT = (
+    "According to art. 3 of the Directive 93/13 on Unfair Terms in Consumer Contracts, a contractual term is unfair if: 1) it has not been individually negotiated; and 2) contrary to the requirement of good faith, it causes a significant imbalance in the parties' rights and obligations, to the detriment of the consumer. This general definition is further specified in the Annex to the Directive, containing an indicative and non-exhaustive list of the terms which may be regarded as unfair, as well as in a few dozen judgments of the Court of Justice of the EU. Examples of unfair clauses encompass taking jurisdiction away from the consumer, limiting liability for damages on health and/or gross negligence, imposing obligatory arbitration in a country different from consumer's residence, etc. Loos and Luzak (2016) identified five categories of potentially unfair clauses often appearing in the terms of online services: 1) establishing jurisdiction for disputes in a country different than consumer's residence; 2) choice of a foreign law governing the contract; 3) limitation of liability; 4) the provider's right to unilaterally terminate the contract/access to the service; and 5) the provider's right to unilaterally modify the contract/the service. Research has identified three additional categories: 6) requiring a consumer to undertake arbitration before the court proceedings can commence; 7) the provider retaining the right to unilaterally remove consumer content from the service, including in-app purchases; 8) having a consumer accept the agreement simply by using the service, not only without reading it, but even without having to click on 'I agree/I accept.'"
 )
 
-META_PROMPT_INSTR = """
+META_PROMPT_FOR_INSTRUCTION_MUTATON = """
 Imagine yourself as an expert in prompting techniques for LLMs. Your expertise is broad and deep. Your job is to reformulate instructions with precision, optimizing for accurate responses in a legal classification task. The reformulated instruction MUST ensure responses are strictly '0' for fair or '1' for unfair.
 
 Available technique: {strategy}
@@ -119,33 +79,7 @@ Reformulate the below instruction using the technique. Include ALL original info
 Original Instruction: {parent_instr}
 """
 
-META_PROMPT_INSTR_2 = """
-You are an expert prompt engineer gently applying the following transformation strategy to improve an instruction for a classification task. It is important that responses at all times only consist '0' for fair or '1' for unfair.\n
-Strategy: {strategy} \n
-Original Instruction: {parent_instr} \n
-New Instruction:
-"""
-
-META_PROMPT_INSTR_3 = """
-You are an expert prompt engineer gently applying the following transformation strategy to improve an instruction for a legal classification task (predicting the fairness of an individual clause from a ToS contract). It is important that responses at all times only consist of '0' for fair or '1' for unfair.\n
-Strategy: {strategy} \n
-Original Instruction: {parent_instr} \n
-New Instruction:
-"""
-
-META_PROMPT_INSTR_4 = """
-You are an expert prompt engineer gently applying the following transformation strategy to improve an instruction for a legal classification task (predicting the fairness of an individual clause from a ToS contract). It is important that responses at all times only consist of '0' for fair or '1' for unfair.
-
-STRATEGY: 
-{strategy}
-
-ORIGINAL INSTRUCTION: 
-{parent_instr}
-
-NEW INSTRUCTION:
-"""
-
-META_PROMPT_TEMPLATE = """
+META_PROMPT_FOR_TEMPLATE_MUTATION = """
 You are an expert prompt engineer gently applying the following transformation strategy to improve a prompt template for a classification task. Ensure the template includes placeholders: At least <instruction> for the classification instruction and <clause> for the clause text. <contract_context> and <statutory_context> may or may not be part of the template. It is important that responses at all times only consist '0' for fair or '1' for unfair.
 
 Strategy: {strategy}
@@ -153,25 +87,6 @@ Strategy: {strategy}
 Original Template: {parent_template}
 
 New Template:
-"""
-
-META_PROMPT_TEMPLATE_2 = """
-You are an expert prompt engineer gently applying the following transformation strategy to improve a prompt template for a classification task. Ensure the template includes placeholders: At least <instruction> for the classification instruction and <clause> for the clause text. <contract_context> and <statutory_context> may or may not be part of the template. It is important that the template does not interfere with the model responding only with '0' for fair and '1' for unfair for the classification task the template is used for. Please ONLY RETURN THE NEW TEMPLATE.\n
-Strategy: {strategy} \n
-Original Template: {parent_template} \n
-New Template:
-"""
-
-META_PROMPT_TEMPLATE_3 = """
-You are an expert prompt engineer gently applying the following transformation strategy to improve a prompt template for a legal classification task (predicting the fairness of an individual clause from a ToS contract). Ensure the template includes the placeholders: At least <instruction> for the classification instruction and <clause> for the clause text. <contract_context> and <statutory_context> may or may not be part of the template. All placeholders in brackets automatically get replaced by the actual data. It is important that the template does not interfere with the model responding only with '0' for fair and '1' for unfair for the classification task the template is used for. Please ONLY RETURN THE NEW TEMPLATE.
-
-STRATEGY:
-{strategy} 
-
-ORIGIGNAL TEMPLATE:
-{parent_template}
-
-NEW TEMPLATE:
 """
 
 BASE_INSTR_CORE = "Classify the following clause from a Terms of Service contract as fair (0) or unfair (1)"
