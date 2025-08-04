@@ -528,6 +528,50 @@ def optimize_prompt(train_x, train_context, train_y, llm, generations=50, pop_si
         mean_prob = template_selector.alphas[i] / (template_selector.alphas[i] + template_selector.betas[i])
         print(f"Strategy {i} ({strat[:50]}...): Pulls={total_pulls}, Successes={successes}, Est. Success Prob={mean_prob:.4f}")
     
+    # Generate PNG graphs for slidedeck
+    import matplotlib.pyplot as plt
+
+    def generate_strategy_graph(selector, title, filename):
+        data = []
+        for i, strat in enumerate(selector.strategies):
+            total_pulls = selector.alphas[i] + selector.betas[i] - 2
+            successes = selector.alphas[i] - 1
+            mean_prob = selector.alphas[i] / (selector.alphas[i] + selector.betas[i])
+            data.append((strat[:50], total_pulls, successes, mean_prob))
+        
+        # Sort by Est. Success Prob descending
+        data.sort(key=lambda x: x[3], reverse=True)
+        
+        labels = [d[0] for d in data]
+        pulls = [d[1] for d in data]
+        successes = [d[2] for d in data]
+        probs = [d[3] for d in data]
+        
+        x = np.arange(len(labels))  # Label locations
+        width = 0.25  # Bar width
+        
+        fig, ax1 = plt.subplots(figsize=(12, 8))
+        ax1.bar(x - width, pulls, width, label='Pulls', color='tab:blue')
+        ax1.bar(x, successes, width, label='Successes', color='tab:green')
+        ax1.set_ylabel('Counts', fontsize=12)
+        ax1.set_xticks(x)
+        ax1.set_xticklabels(labels, rotation=45, ha='right', fontsize=10)
+        ax1.legend(loc='upper left')
+        
+        ax2 = ax1.twinx()
+        ax2.plot(x + width/2, probs, label='Est. Success Prob', color='tab:red', marker='o', linewidth=2)
+        ax2.set_ylabel('Est. Success Prob', fontsize=12)
+        ax2.legend(loc='upper right')
+        
+        plt.title(title, fontsize=14)
+        plt.tight_layout()
+        plt.savefig(filename)
+        plt.close()
+        print(f"Saved graph to {filename}")
+
+    generate_strategy_graph(instr_selector, 'Instruction Strategy Impact', 'instruction_strategy_impact.png')
+    generate_strategy_graph(template_selector, 'Template Strategy Impact', 'template_strategy_impact.png')
+    
     return best_prompt
 
 # ========== Main ============
