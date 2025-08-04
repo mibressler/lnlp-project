@@ -512,8 +512,8 @@ def optimize_prompt(train_x, train_context, train_y, llm, generations=50, pop_si
         plt.close()
         print(f"Saved graph to {filename}")
 
-    generate_strategy_graph(instr_selector, 'Instruction Strategy Impact', f'instruction_strategy_impact_{timestamp}.png')
-    generate_strategy_graph(template_selector, 'Template Strategy Impact', f'template_strategy_impact_{timestamp}.png')
+    generate_strategy_graph(instr_selector, 'Instruction Strategy Impact', f'pngs/instruction_strategy_impact_{timestamp}.png')
+    generate_strategy_graph(template_selector, 'Template Strategy Impact', f'pngs/template_strategy_impact_{timestamp}.png')
     
     # Generate PNG for incremental improvement in adjusted macro F1 over generations
     from collections import defaultdict
@@ -548,7 +548,7 @@ def optimize_prompt(train_x, train_context, train_y, llm, generations=50, pop_si
     ax.set_title('Evolution of Prompt Scores over Generations')
     ax.legend()
     plt.tight_layout()
-    plt.savefig(f'prompt_evolution_{timestamp}.png')
+    plt.savefig(f'pngs/prompt_evolution_{timestamp}.png')
     plt.close()
     print(f"Saved prompt evolution graph to prompt_evolution_{timestamp}.png")
     
