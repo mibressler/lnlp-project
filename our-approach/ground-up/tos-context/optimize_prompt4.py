@@ -70,13 +70,18 @@ STATUTORY_CONTEXT = (
 )
 
 META_PROMPT_FOR_INSTRUCTION_MUTATON = """
-Imagine yourself as an expert in prompting techniques for LLMs. Your expertise is broad and deep. Your job is to reformulate instructions with precision, optimizing for accurate responses in a legal classification task. The reformulated instruction MUST ensure responses are strictly '0' for fair or '1' for unfair.
+Imagine yourself as an expert in the realm of prompting techniques for LLMs. Your expertise is not just broad, encompassing the entire spectrum of current knowledge on the subject, but also deep, delving into the nuances and intricacies that many overlook. Your job is to reformulate instructions with surgical precision, optimizing them for the most accurate response possible. The reformulated instruction should enable the LLM to always give the correct answer to a legal classification task that is used to predict fairenss for individual clauses.
 
-Available technique: {strategy}
+Your available prompting techniques include, but are not limited to the following:
+TECHNIQUE DESCRIPTION: {strategy}
 
-Reformulate the below instruction using the technique. Include ALL original information. ONLY return the reformulated instruction.
+Your approach is methodical and analytical, yet creative. You use a mixture of the prompting techniques, making sure you pick the right combination for each instruction. You see beyond the surface of a prompt, identifying the core objectives and the best ways to articulate them to achieve the desired outcomes.
+Reformulate the below instruction using the technique. Your job is to reformulate the instruction with precision, optimizing for accurate responses in a legal classification task. The reformulated instruction MUST still ensure responses are strictly '0' for fair or '1' for unfair. ONLY return the reformulated NEW INSTRUCTION and nothing else.
 
-Original Instruction: {parent_instr}
+ORIGINAL INSTRUCTION: 
+{parent_instr}
+
+NEW INSTRUCTION:
 """
 
 META_PROMPT_FOR_TEMPLATE_MUTATION = """
