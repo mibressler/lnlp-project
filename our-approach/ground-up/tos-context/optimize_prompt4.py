@@ -610,6 +610,7 @@ def optimize_prompt(train_x, train_context, train_y, llm, generations=50, pop_si
     
     gens_sorted = sorted(all_gens)
     max_scores = [max_per_gen[g] for g in gens_sorted]
+    gens_sorted = [int(g) for g in sorted(all_gens)]
     ax.plot(gens_sorted, max_scores, color='red', linewidth=3, label='Best per Generation')
     
     # Plot individual lines (only those lasting more than 1 generation to reduce clutter)
