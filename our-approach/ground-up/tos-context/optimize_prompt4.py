@@ -39,16 +39,8 @@ INSTRUCTION_STRATEGIES = [
     "Make the description of the given prompt more specific. This makes it easier for Large Language Models to correctly execute prompt instructions.",
     "To allow Large Language Models to make logical and unbiased inferences, add phrases to a given prompt that instruct it to remove opinionated content. This helps the model concentrate on providing responses based on careful analysis and logical reasoning, minimizing biases.",
     "If a given prompt has long instructions, make it shorter by condensing it to only the essential parts. Never completely remove the instruction to strictly respond with '0' for fair or '1' for unfair.",
-    "Edit the prompt instruction to invoke legal reasoning for problem solving: 1) State the goal of determining the unfairness of a clause. 2) Give a detailed definition of what could be considered an unfair clause. 3) compare the given sentence with the definition to estimate which parts of the sentence falls under that definition. 4) make a final determination based on the comparison."
-    "Craft a concise description of the most capable expert for the task, addressing them in second person (e.g., 'You are an expert in...') to enhance precision and focus the model's response.",
-    "Guide the model through step-by-step reasoning by adding a precise phrase like 'Let's think step-by-step' at the end, ensuring explanations are logical and concise while shortening unnecessary elaboration.",
-    "Envision three experts collaboratively solving the problem: each briefly shares one step of thinking per round, and any who realize they're wrong exit immediately. This promotes precise, error-minimizing reasoning without verbose discussions.",
-    "Ensure all essential information is embedded succinctly in the prompt, adding only what's needed to clarify without altering the objective, thereby making the instruction more precise.",
-    "Add a neutral directive like 'Base your response on logical reasoning only, avoiding opinions or biases' to foster unbiased, precise inferences focused on analysis.",
-    "For lengthy instructions, condense to essential elements only, prioritizing clarity and brevity while preserving core objectives and never removing requirements like strictly responding with '0' for fair or '1' for unfair.",
     "Revise the prompt to invoke precise legal reasoning: 1) State the goal of assessing clause unfairness briefly; 2) Provide a concise definition of unfair clauses; 3) Compare the sentence directly to the definition, highlighting matching elements succinctly; 4) Conclude with a clear '0' (fair) or '1' (unfair) determination based on the comparison."
-    "Completely rewrite the instruction from scratch"
-    "Come up with a novel idea to improve the instruction"
+    "Improve the instruction"
 ]
 
 
@@ -56,7 +48,7 @@ TEMPLATE_STRATEGIES = [
     "Enhance the description of relationships between template elements, for example explaining how the statutory context provides legal foundations, the contract context offers specific background, the instruction guides the process, and the clause is the target for classification.",
     "Reorder the template elements to optimize logical flow, for example presenting the statutory context first, followed by contract context, instruction, and clause or another arrangement that could be better.",
     "Incorporate separators, delimiters, or formatting emphasis (e.g., bold, italics) to improve readability and highlight key sections of the template.",
-    "Experimentally completely omit one or more of the placeholders <statutory_context> and <contract_context> to refine the template, potentially simplifying or enriching it while maintaining the classification task's integrity with <instruction> and <clause>.",
+    "Experimentally completely omit one or more of the placeholders <statutory_context> and <contract_context> to refine the template, potentially simplifying it while maintaining the classification task's integrity with <instruction> and <clause>.",
     "Experimentally re-add one or more of the placeholders <statutory_context> and <contract_context> to refine the template, potentially enriching it while maintaining the classification task's integrity with <instruction> and <clause>.",
     "Improve the prompt template",
 ]
@@ -558,7 +550,7 @@ def optimize_prompt(train_x, train_context, train_y, llm, generations=50, pop_si
 def main(generations=20, pop_size=8, train_sample_size=10, test_sample_size=100, model_name="google/gemini-2.5-flash-lite-preview-06-17", use_bandit_instr=True, use_bandit_template=True, statutory_context_enabled=True, contract_context_enabled=True):
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     base_dir = os.path.dirname(os.path.abspath(__file__))
-    train_data = Data.load(os.path.join(base_dir, "train_unskewed.tsv"))
+    train_data = Data.load(os.path.join(base_dir, "train.tsv"))
     test_data = Data.load(os.path.join(base_dir, "test.tsv"))
     
     llm = OpenRouterLLM(model_name)
