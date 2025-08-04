@@ -12,6 +12,7 @@ import csv
 import scipy.stats as stats
 import logging  
 import json  
+from datetime import datetime
 
 csv.field_size_limit(10_000_000)
 
@@ -451,7 +452,7 @@ def get_base_template(statutory_enabled, contract_enabled):
         base_template += BASE_TEMPLATE_CONTRACT
     return base_template
 
-def optimize_prompt(train_x, train_context, train_y, llm, generations=50, pop_size=10, train_sample_size=50, use_bandit_instr=True, use_bandit_template=True, statutory_context_enabled=True, contract_context_enabled=True):
+def optimize_prompt(train_x, train_context, train_y, llm, generations=50, pop_size=10, train_sample_size=50, use_bandit_instr=True, use_bandit_template=True, statutory_context_enabled=True, contract_context_enabled=True, timestamp=""):
     base_instr = get_base_instr(statutory_context_enabled, contract_context_enabled)
     base_template = get_base_template(statutory_context_enabled, contract_context_enabled)
     
@@ -525,9 +526,9 @@ def optimize_prompt(train_x, train_context, train_y, llm, generations=50, pop_si
     
     best_prompt = max(population, key=lambda p: p.score)
     # Save best prompt to file
-    with open("best_prompt.json", "w") as f:
+    with open(f"best_prompt_{timestamp}.json", "w") as f:
         json.dump({"instr": best_prompt.instr, "template": best_prompt.template}, f)
-    logging.info("Best prompt saved to best_prompt.json")
+    logging.info(f"Best prompt saved to best_prompt_{timestamp}.json")
     
     logging.info(f"Best Instruction: {best_prompt.instr}")
     logging.info(f"Best Template: {best_prompt.template}")
@@ -591,8 +592,8 @@ def optimize_prompt(train_x, train_context, train_y, llm, generations=50, pop_si
         plt.close()
         print(f"Saved graph to {filename}")
 
-    generate_strategy_graph(instr_selector, 'Instruction Strategy Impact', 'instruction_strategy_impact.png')
-    generate_strategy_graph(template_selector, 'Template Strategy Impact', 'template_strategy_impact.png')
+    generate_strategy_graph(instr_selector, 'Instruction Strategy Impact', f'instruction_strategy_impact_{timestamp}.png')
+    generate_strategy_graph(template_selector, 'Template Strategy Impact', f'template_strategy_impact_{timestamp}.png')
     
     # Generate PNG for incremental improvement in adjusted macro F1 over generations
     from collections import defaultdict
@@ -625,20 +626,21 @@ def optimize_prompt(train_x, train_context, train_y, llm, generations=50, pop_si
     ax.set_title('Evolution of Prompt Scores over Generations')
     ax.legend()
     plt.tight_layout()
-    plt.savefig('prompt_evolution.png')
+    plt.savefig(f'prompt_evolution_{timestamp}.png')
     plt.close()
-    print("Saved prompt evolution graph to prompt_evolution.png")
+    print(f"Saved prompt evolution graph to prompt_evolution_{timestamp}.png")
     
     return best_prompt
 
 # ========== Main ============
 def main(generations=20, pop_size=8, train_sample_size=10, test_sample_size=100, model_name="google/gemini-2.5-flash-lite-preview-06-17", use_bandit_instr=True, use_bandit_template=True, statutory_context_enabled=True, contract_context_enabled=True):
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     base_dir = os.path.dirname(os.path.abspath(__file__))
     train_data = Data.load(os.path.join(base_dir, "train_unskewed.tsv"))
     test_data = Data.load(os.path.join(base_dir, "test.tsv"))
     
     llm = OpenRouterLLM(model_name)
-    best_prompt = optimize_prompt(train_data.get_x(), train_data.get_context(), train_data.get_y(), llm, generations, pop_size, train_sample_size, use_bandit_instr, use_bandit_template, statutory_context_enabled, contract_context_enabled)
+    best_prompt = optimize_prompt(train_data.get_x(), train_data.get_context(), train_data.get_y(), llm, generations, pop_size, train_sample_size, use_bandit_instr, use_bandit_template, statutory_context_enabled, contract_context_enabled, timestamp)
     
     print("\nRunning on test set...")
     test_f1, test_metrics = evaluate(best_prompt, test_data.get_x(), test_data.get_context(), test_data.get_y(), llm, sample_size=test_sample_size, statutory_enabled=statutory_context_enabled, contract_enabled=contract_context_enabled)
