@@ -463,6 +463,12 @@ def optimize_prompt(train_x, train_context, train_y, llm, generations=50, pop_si
     no_improve_gens = 0
     max_no_improve = 500  # Early stopping if no improvement for 5 gens # currently set to 200 for debugging
     
+    prompt_id_counter = 0
+    score_history = {}
+    for p in population:
+        p.id = prompt_id_counter
+        prompt_id_counter += 1
+    
     for gen in range(generations):
         logging.info(f"Starting generation {gen + 1}")
         print(f"============ Generation {gen + 1} ============")
@@ -472,6 +478,16 @@ def optimize_prompt(train_x, train_context, train_y, llm, generations=50, pop_si
         # We don't need train metrics for return, just for scoring
         for p, score in zip(population, scores):
             p.score = score if not np.isnan(score) else 0.0  # Handle NaN
+        
+        # Append scores for current population
+        for p in population:
+            if not hasattr(p, 'id'):
+                p.id = prompt_id_counter
+                prompt_id_counter += 1
+            if p.id not in score_history:
+                score_history[p.id] = []
+            score_history[p.id].append((gen + 1, p.score))
+        
         population.sort(key=lambda p: p.score, reverse=True)
         print("⭐⭐ Scores:", [p.score for p in population])
         
@@ -490,8 +506,14 @@ def optimize_prompt(train_x, train_context, train_y, llm, generations=50, pop_si
         for _ in range(pop_size - len(top_k)):
             parent = random.choice(top_k)
             child = mutate_prompt_ga(parent, instr_selector, template_selector, llm, use_bandit_instr, use_bandit_template, statutory_context_enabled, contract_context_enabled)
+            child.id = prompt_id_counter
+            prompt_id_counter += 1
             child_score, _ = evaluate(child, train_x, train_context, train_y, llm, sample_size=train_sample_size, statutory_enabled=statutory_context_enabled, contract_enabled=contract_context_enabled)
-            child.score = child_score
+            child.score = child_score if not np.isnan(child_score) else 0.0
+            # Append score for child
+            if child.id not in score_history:
+                score_history[child.id] = []
+            score_history[child.id].append((gen + 1, child.score))
             
             parent_max = max(p.score for p in top_k)
             reward = 1 if child.score > parent_max else 0
@@ -571,6 +593,41 @@ def optimize_prompt(train_x, train_context, train_y, llm, generations=50, pop_si
 
     generate_strategy_graph(instr_selector, 'Instruction Strategy Impact', 'instruction_strategy_impact.png')
     generate_strategy_graph(template_selector, 'Template Strategy Impact', 'template_strategy_impact.png')
+    
+    # Generate PNG for incremental improvement in adjusted macro F1 over generations
+    from collections import defaultdict
+    fig, ax = plt.subplots(figsize=(10, 6))
+    
+    # Compute max per gen
+    max_per_gen = defaultdict(float)
+    all_gens = set()
+    for pid, data in score_history.items():
+        for g, s in data:
+            all_gens.add(g)
+            if s > max_per_gen[g]:
+                max_per_gen[g] = s
+    
+    gens_sorted = sorted(all_gens)
+    max_scores = [max_per_gen[g] for g in gens_sorted]
+    ax.plot(gens_sorted, max_scores, color='red', linewidth=3, label='Best per Generation')
+    
+    # Plot individual lines (only those lasting more than 1 generation to reduce clutter)
+    num_lines = len(score_history)
+    colors = plt.cm.viridis(np.linspace(0, 1, num_lines))
+    for i, (pid, data) in enumerate(score_history.items()):
+        if len(data) > 1:
+            data = sorted(data)
+            gens, scores = zip(*data)
+            ax.plot(gens, scores, color=colors[i], alpha=0.3, linewidth=1)
+    
+    ax.set_xlabel('Generation')
+    ax.set_ylabel('Adjusted Macro F1')
+    ax.set_title('Evolution of Prompt Scores over Generations')
+    ax.legend()
+    plt.tight_layout()
+    plt.savefig('prompt_evolution.png')
+    plt.close()
+    print("Saved prompt evolution graph to prompt_evolution.png")
     
     return best_prompt
 
