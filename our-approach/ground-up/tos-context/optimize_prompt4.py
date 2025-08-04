@@ -82,16 +82,16 @@ NEW INSTRUCTION:
 
 META_PROMPT_FOR_TEMPLATE_MUTATION = """
 You are an expert prompt engineer gently applying the following transformation strategy to improve a prompt template for a classification task. 
-The prompt template consists of placeholders for an instruction, a clause, and optionally a statutory context and a contract context and possibly text between the placeholders. The goal is to ensure that the template is optimized for the classification task of determining whether a clause is fair (0) or unfair (1). The prompt template should always instrcut the model to only respond with the digits '0' (fair) or '1' (unfair).
-All bracketed placeholders are automatically replaced with the corresponding content when the prompt template is used. ONLY return the reformulated NEW TEMPLATE and nothing else.
+The prompt template consists of placeholders for an instruction, a clause, and optionally a statutory context and a contract context and possibly text between the placeholders. The goal is to ensure that the template is optimized for the classification task of determining whether a clause is fair (0) or unfair (1). The prompt template should also always include the directive to only respond with the digits '0' (fair) or '1' (unfair) and nothing else.
+All bracketed placeholders are automatically replaced with the corresponding content when the prompt template is used. ONLY return the reformulated NEW PROMPT TEMPLATE and nothing else.
 
 STRATEGY: 
 {strategy}
 
-ORIGINAL TEMPLATE: 
+ORIGINAL PROMPT TEMPLATE: 
 {parent_template}
 
-NEW TEMPLATE:
+NEW PROMPT TEMPLATE:
 """
 
 BASE_INSTR_CORE = "Classify the following clause from a Terms of Service contract as fair (0) or unfair (1)"
