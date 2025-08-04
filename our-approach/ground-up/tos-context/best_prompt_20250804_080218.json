@@ -1,1 +1,0 @@
-{"instr": "Classify the clause: 0 (fair) or 1 (unfair).", "template": "```\nAt least <instruction>\nHere is the clause to classify: <clause>\n<statutory_context>\n<contract_context>\nYour task is to classify this clause as either fair or unfair.\nRespond with '0' if the clause is fair, and '1' if the clause is unfair.\n```"}

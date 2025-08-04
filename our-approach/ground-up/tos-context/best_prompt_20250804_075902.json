@@ -1,1 +1,0 @@
-{"instr": "Classify the following clause from a Terms of Service contract as fair (0) or unfair (1) using the statutory context and contract context for better understanding. Respond only with '0' or '1'.", "template": "Instruction: <instruction>\nClause: <clause>\nStatutory Context: <statutory_context>\nContract Context: <contract_context>"}
