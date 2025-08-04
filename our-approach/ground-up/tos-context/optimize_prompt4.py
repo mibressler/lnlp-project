@@ -126,7 +126,7 @@ class Prompt:
         self.template_arm = None  # Track both arms
     
     def join_input(self, text, context, statutory_enabled, contract_enabled):
-        statutory = PLACEHOLDER_STATUTORY_CONTEXT if statutory_enabled else ''
+        statutory = STATUTORY_CONTEXT if statutory_enabled else ''
         contract = context if contract_enabled else ''
         return self.template.replace("<instruction>", self.instr).replace("<clause>", text).replace("<contract_context>", contract).replace("<statutory_context>", statutory)
 
@@ -310,7 +310,7 @@ def evaluate(prompt_obj, data_x, data_context, data_y, llm, batch_size=20, sampl
 def mutate_instruction(parent_instr, strategy, llm):
     if strategy == "INACTION":
         return parent_instr
-    prompt = META_PROMPT_INSTR_4.format(strategy=strategy, parent_instr=parent_instr)
+    prompt = META_PROMPT_FOR_INSTRUCTION_MUTATON.format(strategy=strategy, parent_instr=parent_instr)
     print(f"Mutating instruction with strategy: {strategy}")
     print(f"Prompt: {prompt}")
     return llm.query([prompt])[0]
@@ -318,7 +318,7 @@ def mutate_instruction(parent_instr, strategy, llm):
 def mutate_template(parent_template, template_strategy, llm, statutory_enabled, contract_enabled):
     if template_strategy == "INACTION":
         return parent_template
-    prompt = META_PROMPT_TEMPLATE_3.format(strategy=template_strategy, parent_template=parent_template)
+    prompt = META_PROMPT_FOR_TEMPLATE_MUTATION.format(strategy=template_strategy, parent_template=parent_template)
     if not statutory_enabled:
         prompt += "\nDo not include the <statutory_context> placeholder in the new template."
     if not contract_enabled:
@@ -372,7 +372,7 @@ def optimize_prompt(train_x, train_context, train_y, llm, generations=50, pop_si
     base_template = get_base_template(statutory_context_enabled, contract_context_enabled)
     
     population = [Prompt(base_instr, base_template) for _ in range(pop_size)]  # Start with identical bases
-    instr_selector = BanditSelector(INSTRUCTION_STRATEGIES_ORIGINAL, name="Instruction")
+    instr_selector = BanditSelector(INSTRUCTION_STRATEGIES, name="Instruction")
     template_selector = BanditSelector(TEMPLATE_STRATEGIES, name="Template")
     
     best_score = 0.0
