@@ -8,3 +8,4 @@ matplotlib
 nbconvert
 jupyter
 ipykernel
+joblib

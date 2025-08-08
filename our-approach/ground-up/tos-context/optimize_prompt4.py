@@ -13,6 +13,7 @@ import scipy.stats as stats
 import logging  
 import json  
 from datetime import datetime
+from joblib import Parallel, delayed
 
 csv.field_size_limit(10_000_000)
 
@@ -151,41 +152,45 @@ class OpenRouterLLM:
     def __init__(self, model_name):
         self.model_name = model_name
     
+    def _query_single(self, prompt, temperature=0.7, max_tokens=256):
+        """Helper to query a single prompt with retries."""
+        retries = 0
+        while retries < 3:
+            try:
+                client = openai.OpenAI(base_url="https://openrouter.ai/api/v1", api_key=api_key)
+                response = client.chat.completions.create(
+                    model=self.model_name,
+                    messages=[{"role": "user", "content": prompt}],
+                    temperature=temperature,
+                    max_tokens=max_tokens,
+                )
+                output = response.choices[0].message.content.strip()
+                
+                #print("\n=== SENT ===")
+                #print(prompt)
+                #print("\n=== RECEIVED ===")
+                #print(output)
+                #print("\n=============\n")
+                
+                return output
+            except openai.OpenAIError as e:  # More specific exception handling
+                logging.error(f"OpenAI API error: {e}")
+                time.sleep(2 ** retries)
+                retries += 1
+            except Exception as e:
+                logging.error(f"Unexpected error: {e}")
+                time.sleep(2 ** retries)
+                retries += 1
+        else:
+            logging.warning("Max retries exceeded for prompt.")
+            return ""  # Fallback empty response
+    
     def query(self, prompts, temperature=0.7, max_tokens=256):
-        outputs = []
-        for prompt in prompts:
-            retries = 0
-            while retries < 3:
-                try:
-                    client = openai.OpenAI(base_url="https://openrouter.ai/api/v1", api_key=api_key)
-                    response = client.chat.completions.create(
-                        model=self.model_name,
-                        messages=[{"role": "user", "content": prompt}],
-                        temperature=temperature,
-                        max_tokens=max_tokens,
-                    )
-                    output = response.choices[0].message.content.strip()
-                    outputs.append(output)
-                    
-                    
-                    #print("\n=== SENT ===")
-                    #print(prompt)
-                    #print("\n=== RECEIVED ===")
-                    #print(output)
-                    #print("\n=============\n")
-                    
-                    break
-                except openai.OpenAIError as e:  # More specific exception handling
-                    logging.error(f"OpenAI API error: {e}")
-                    time.sleep(2 ** retries)
-                    retries += 1
-                except Exception as e:
-                    logging.error(f"Unexpected error: {e}")
-                    time.sleep(2 ** retries)
-                    retries += 1
-            else:
-                logging.warning("Max retries exceeded for prompt.")
-                outputs.append("")  # Fallback empty response
+        # Parallelize queries across prompts using up to 64 cores (or available CPUs)
+        n_jobs = min(64, len(prompts), os.cpu_count())  # Don't over-parallelize if few prompts
+        outputs = Parallel(n_jobs=n_jobs)(
+            delayed(self._query_single)(prompt, temperature, max_tokens) for prompt in prompts
+        )
         return outputs
 
 # ========== Functions ============
